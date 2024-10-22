@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>10&nbsp; Visualizing Word Frequencies with Graphs and Word Clouds – Basic AI Programming</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./11.Text_Representation.html" rel="next">
+<link href="./09.Preprocessing.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./10.Word_Cloud.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualizing Word Frequencies with Graphs and Word Clouds</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Basic AI Programming</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01.setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Setting Up Environment</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02.intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Constants and Variables in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03.control.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Control Structures in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04.function.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Functions and Packages in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05.pandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Analysis in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06.arithmetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Basic Arithmetic Operations in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07.Regular_Expression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regular Expressions (RegEx) in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08.Custom_Corpus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Building a Custom Corpus</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09.Preprocessing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Text Preprocessing</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10.Word_Cloud.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualizing Word Frequencies with Graphs and Word Clouds</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11.Text_Representation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Text Representation Based on Counts</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12.Word_Embedding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Word Embedding and Relational Similarity</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13.NLP_toolkit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Word Embedding Activities</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A.assignments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Assignment #01</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#gutenberg-text-analysis" id="toc-gutenberg-text-analysis" class="nav-link active" data-scroll-target="#gutenberg-text-analysis"><span class="header-section-number">10.1</span> Gutenberg Text Analysis</a>
+  <ul class="collapse">
+  <li><a href="#gutenberg-example-of-selected-books" id="toc-gutenberg-example-of-selected-books" class="nav-link" data-scroll-target="#gutenberg-example-of-selected-books"><span class="header-section-number">10.1.1</span> (Gutenberg) Example of Selected Books:</a></li>
+  <li><a href="#gutenberg-load-the-text-of-txt" id="toc-gutenberg-load-the-text-of-txt" class="nav-link" data-scroll-target="#gutenberg-load-the-text-of-txt"><span class="header-section-number">10.1.2</span> (Gutenberg) Load the text of <code>txt</code>:</a></li>
+  <li><a href="#tokenize" id="toc-tokenize" class="nav-link" data-scroll-target="#tokenize"><span class="header-section-number">10.1.3</span> Tokenize</a></li>
+  <li><a href="#gutenberg-tokenize-the-selected-txt" id="toc-gutenberg-tokenize-the-selected-txt" class="nav-link" data-scroll-target="#gutenberg-tokenize-the-selected-txt"><span class="header-section-number">10.1.4</span> (Gutenberg) Tokenize the selected <code>txt</code>:</a></li>
+  </ul></li>
+  <li><a href="#what-is-stopwords" id="toc-what-is-stopwords" class="nav-link" data-scroll-target="#what-is-stopwords"><span class="header-section-number">10.2</span> What is Stopwords?</a>
+  <ul class="collapse">
+  <li><a href="#why-remove-stopwords" id="toc-why-remove-stopwords" class="nav-link" data-scroll-target="#why-remove-stopwords"><span class="header-section-number">10.2.1</span> Why Remove Stopwords?</a></li>
+  <li><a href="#common-examples-of-stopwords" id="toc-common-examples-of-stopwords" class="nav-link" data-scroll-target="#common-examples-of-stopwords"><span class="header-section-number">10.2.2</span> Common Examples of Stopwords:</a></li>
+  <li><a href="#example-of-stopwords-in-python-using-nltk" id="toc-example-of-stopwords-in-python-using-nltk" class="nav-link" data-scroll-target="#example-of-stopwords-in-python-using-nltk"><span class="header-section-number">10.2.3</span> Example of Stopwords in Python Using NLTK:</a></li>
+  <li><a href="#when-not-to-remove-stopwords" id="toc-when-not-to-remove-stopwords" class="nav-link" data-scroll-target="#when-not-to-remove-stopwords"><span class="header-section-number">10.2.4</span> When Not to Remove Stopwords:</a></li>
+  <li><a href="#stopwords-in-other-nlp-libraries" id="toc-stopwords-in-other-nlp-libraries" class="nav-link" data-scroll-target="#stopwords-in-other-nlp-libraries"><span class="header-section-number">10.2.5</span> Stopwords in Other NLP Libraries:</a></li>
+  <li><a href="#gutenberg-word-frequency-count-of-the-selected-txt" id="toc-gutenberg-word-frequency-count-of-the-selected-txt" class="nav-link" data-scroll-target="#gutenberg-word-frequency-count-of-the-selected-txt"><span class="header-section-number">10.2.6</span> (Gutenberg) Word Frequency Count of the selected <code>txt</code>:</a></li>
+  <li><a href="#gutenberg-word-frequency-count-of-the-selected-txt-with-part-of-speech-pos" id="toc-gutenberg-word-frequency-count-of-the-selected-txt-with-part-of-speech-pos" class="nav-link" data-scroll-target="#gutenberg-word-frequency-count-of-the-selected-txt-with-part-of-speech-pos"><span class="header-section-number">10.2.7</span> (Gutenberg) Word Frequency Count of the selected <code>txt</code> with Part-of-Speech (POS):</a></li>
+  </ul></li>
+  <li><a href="#visualization" id="toc-visualization" class="nav-link" data-scroll-target="#visualization"><span class="header-section-number">10.3</span> Visualization</a>
+  <ul class="collapse">
+  <li><a href="#bar-plot" id="toc-bar-plot" class="nav-link" data-scroll-target="#bar-plot"><span class="header-section-number">10.3.1</span> <strong>Bar Plot</strong></a></li>
+  <li><a href="#word-cloud" id="toc-word-cloud" class="nav-link" data-scroll-target="#word-cloud"><span class="header-section-number">10.3.2</span> <strong>Word Cloud</strong></a></li>
+  <li><a href="#example-1-visualize-word-frequencies-using-a-bar-plot" id="toc-example-1-visualize-word-frequencies-using-a-bar-plot" class="nav-link" data-scroll-target="#example-1-visualize-word-frequencies-using-a-bar-plot"><span class="header-section-number">10.3.3</span> Example 1: Visualize Word Frequencies Using a Bar Plot</a></li>
+  <li><a href="#example-in-action" id="toc-example-in-action" class="nav-link" data-scroll-target="#example-in-action"><span class="header-section-number">10.3.4</span> Example in Action:</a></li>
+  <li><a href="#example-2-visualize-word-frequencies-using-a-word-cloud" id="toc-example-2-visualize-word-frequencies-using-a-word-cloud" class="nav-link" data-scroll-target="#example-2-visualize-word-frequencies-using-a-word-cloud"><span class="header-section-number">10.3.5</span> Example 2: Visualize Word Frequencies Using a Word Cloud</a></li>
+  <li><a href="#choosing-the-right-visualization" id="toc-choosing-the-right-visualization" class="nav-link" data-scroll-target="#choosing-the-right-visualization"><span class="header-section-number">10.3.6</span> Choosing the Right Visualization:</a></li>
+  <li><a href="#gutenberg-frequency-curve" id="toc-gutenberg-frequency-curve" class="nav-link" data-scroll-target="#gutenberg-frequency-curve"><span class="header-section-number">10.3.7</span> (Gutenberg) Frequency Curve:</a></li>
+  <li><a href="#zipfs-law-curve-or-zipfian-distribution." id="toc-zipfs-law-curve-or-zipfian-distribution." class="nav-link" data-scroll-target="#zipfs-law-curve-or-zipfian-distribution."><span class="header-section-number">10.3.8</span> <strong>Zipf’s Law curve</strong> or <strong>Zipfian distribution</strong>.</a></li>
+  <li><a href="#gutenberg-bar-plot" id="toc-gutenberg-bar-plot" class="nav-link" data-scroll-target="#gutenberg-bar-plot"><span class="header-section-number">10.3.9</span> (Gutenberg) Bar Plot:</a></li>
+  <li><a href="#gutenberg-word-cloud" id="toc-gutenberg-word-cloud" class="nav-link" data-scroll-target="#gutenberg-word-cloud"><span class="header-section-number">10.3.10</span> (Gutenberg) Word Cloud:</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualizing Word Frequencies with Graphs and Word Clouds</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="gutenberg-text-analysis" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="gutenberg-text-analysis"><span class="header-section-number">10.1</span> Gutenberg Text Analysis</h2>
+<p>The code provided is meant to download and display the names of books from the Gutenberg corpus using the NLTK (Natural Language Toolkit) library.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np      <span class="co"># Import the numpy library, used for numerical operations and array handling</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd     <span class="co"># Import the pandas library, used for data manipulation and analysis</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nltk             <span class="co"># Import the nltk library, used for natural language processing (NLP) tasks</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'gutenberg'</span>)    <span class="co"># Download the 'gutenberg' corpus, a collection of literary texts</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>books_names <span class="op">=</span> nltk.corpus.gutenberg.fileids()  <span class="co"># Get a list of available book file IDs (names of the books)</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>books_names   <span class="co"># Display the list of book names</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In the code below, you’re selecting 5 books from the <strong>Gutenberg corpus</strong> using the <code>books_idx</code> list. Each index in <code>books_idx</code> corresponds to a specific book in <code>books_names</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>books_idx <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="op">-</span><span class="dv">5</span>, <span class="op">-</span><span class="dv">1</span>]     <span class="co"># List of indices to select specific books from the books_names list</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>selected_books <span class="op">=</span> []               <span class="co"># Initialize an empty list to store selected books</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> idx <span class="kw">in</span> books_idx:             <span class="co"># Loop through each index in books_idx</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    selected_books.append(books_names[idx])  <span class="co"># Append the book name at the given index to the selected_books list</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(selected_books)             <span class="co"># Print the list of selected book names</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="gutenberg-example-of-selected-books" class="level3" data-number="10.1.1">
+<h3 data-number="10.1.1" class="anchored" data-anchor-id="gutenberg-example-of-selected-books"><span class="header-section-number">10.1.1</span> (Gutenberg) Example of Selected Books:</h3>
+<p>If the <code>books_names</code> list is the following:</p>
+<pre><code>['austen-emma.txt', 'austen-persuasion.txt', 'austen-sense.txt', 'bible-kjv.txt', 'blake-poems.txt', 'bryant-stories.txt', 'burgess-busterbrown.txt', 'carroll-alice.txt', 'chesterton-ball.txt', 'chesterton-brown.txt', 'chesterton-thursday.txt', 'edgeworth-parents.txt', 'melville-moby_dick.txt', 'milton-paradise.txt', 'shakespeare-caesar.txt', 'shakespeare-hamlet.txt', 'shakespeare-macbeth.txt', 'whitman-leaves.txt']</code></pre>
+<p>The indices <code>[1, 3, 5, -5, -1]</code> correspond to: - <strong>1</strong>: <code>'austen-persuasion.txt'</code> - <strong>3</strong>: <code>'bible-kjv.txt'</code> - <strong>5</strong>: <code>'bryant-stories.txt</code> - <strong>-5</strong>: <code>'milton-paradise.txt'</code> - <strong>-1</strong>: <code>'whitman-leaves.txt'</code></p>
+<p>So, <code>selected_books</code> will contain:</p>
+<pre><code>['austen-persuasion.txt', 'bible-kjv.txt', 'bryant-stories.txt', 'milton-paradise.txt', 'whitman-leaves.txt']</code></pre>
+<p>Save the selected texts to my local drive.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nltk</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure the required corpus is available</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'gutenberg'</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample selected_books for demonstration, in case corpus access is not available</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>selected_books <span class="op">=</span> [<span class="st">'austen-persuasion.txt'</span>, <span class="st">'bible-kjv.txt'</span>, <span class="st">'chesterton-ball.txt'</span>, <span class="st">'melville-moby_dick.txt'</span>, <span class="st">'whitman-leaves.txt'</span>]</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the folder name where the files will be saved</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>folder_name <span class="op">=</span> <span class="st">"/mnt/data/selected_books_texts"</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the folder if it doesn't exist</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> os.path.exists(folder_name):</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    os.makedirs(folder_name)  <span class="co"># Create the subfolder</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate through each selected book and save its content to a file in the subfolder</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> book <span class="kw">in</span> selected_books:</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get the full text of the book using nltk.corpus.gutenberg.raw() function</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    book_text <span class="op">=</span> nltk.corpus.gutenberg.raw(book)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a file name for each book by removing ".txt" from the file id</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    file_name <span class="op">=</span> book.replace(<span class="st">'.txt'</span>, <span class="st">''</span>) <span class="op">+</span> <span class="st">'_content.txt'</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Define the full path to save the file in the subfolder</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    full_path <span class="op">=</span> os.path.join(folder_name, file_name)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Write the book content to a text file in the subfolder</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(full_path, <span class="st">'w'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>        <span class="bu">file</span>.write(book_text)  <span class="co"># Write the full text of the book to the file</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Displaying the directory path where the books are saved</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>folder_name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="gutenberg-load-the-text-of-txt" class="level3" data-number="10.1.2">
+<h3 data-number="10.1.2" class="anchored" data-anchor-id="gutenberg-load-the-text-of-txt"><span class="header-section-number">10.1.2</span> (Gutenberg) Load the text of <code>txt</code>:</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the text of "austen-persuasion.txt"</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>doc_austen <span class="op">=</span> nltk.corpus.gutenberg.raw(<span class="st">'austen-persuasion.txt'</span>)  <span class="co"># Use nltk.corpus.gutenberg.raw() to get the full text</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the number of characters in the text</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'#Num of characters used:'</span>, <span class="bu">len</span>(doc_austen))  <span class="co"># Print the total number of characters in the book</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Print a sample of the first 100 characters</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'#Text sample:'</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(doc_austen[:<span class="dv">100</span>])  <span class="co"># Print the first 100 characters of the book</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Output</strong>:</p>
+<p>```</p>
+<p><img src="images/clipboard-1914696718.png" class="img-fluid"></p>
+<p>```</p>
+</section>
+<section id="tokenize" class="level3" data-number="10.1.3">
+<h3 data-number="10.1.3" class="anchored" data-anchor-id="tokenize"><span class="header-section-number">10.1.3</span> Tokenize</h3>
+<p><strong>Tokenization</strong> is a fundamental step in <strong>Natural Language Processing (NLP)</strong> that involves splitting text into smaller units, known as <strong>tokens</strong>. These tokens could be words, phrases, sentences, or even characters, depending on the type of tokenization applied.</p>
+<p>Tokenization is a crucial preprocessing step for text analysis because it breaks down raw text into manageable pieces that can be analyzed or manipulated. It allows algorithms to understand and process text data effectively. For example, tokenization helps convert a text document into a form that can be used for tasks like text classification, sentiment analysis, machine translation, etc.</p>
+<section id="types-of-tokenization" class="level4" data-number="10.1.3.1">
+<h4 data-number="10.1.3.1" class="anchored" data-anchor-id="types-of-tokenization"><span class="header-section-number">10.1.3.1</span> Types of Tokenization:</h4>
+<ol type="1">
+<li><strong>Word Tokenization</strong>:
+<ul>
+<li>Splits the text into individual words.</li>
+<li>Example:
+<ul>
+<li>Input: <code>"The cat sat on the mat."</code></li>
+<li>Output: <code>['The', 'cat', 'sat', 'on', 'the', 'mat']</code></li>
+</ul></li>
+</ul></li>
+<li><strong>Sentence Tokenization</strong>:
+<ul>
+<li>Splits the text into sentences.</li>
+<li>Example:
+<ul>
+<li>Input: <code>"The cat sat on the mat. It was happy."</code></li>
+<li>Output: <code>['The cat sat on the mat.', 'It was happy.']</code></li>
+</ul></li>
+</ul></li>
+<li><strong>Character Tokenization</strong>:
+<ul>
+<li>Splits the text into individual characters.</li>
+<li>Example:
+<ul>
+<li>Input: <code>"cat"</code></li>
+<li>Output: <code>['c', 'a', 't']</code></li>
+</ul></li>
+</ul></li>
+<li><strong>Subword Tokenization</strong>:
+<ul>
+<li>Splits words into smaller units, useful in languages where words are made up of many parts (like in morphologically rich languages). Models like <strong>BPE (Byte Pair Encoding)</strong> or <strong>WordPiece</strong> use subword tokenization.</li>
+<li>Example:
+<ul>
+<li>Input: <code>"unhappiness"</code></li>
+<li>Output: <code>['un', 'happi', 'ness']</code></li>
+</ul></li>
+</ul></li>
+</ol>
+</section>
+<section id="example-of-tokenization-in-python-using-nltk" class="level4" data-number="10.1.3.2">
+<h4 data-number="10.1.3.2" class="anchored" data-anchor-id="example-of-tokenization-in-python-using-nltk"><span class="header-section-number">10.1.3.2</span> Example of Tokenization in Python Using NLTK:</h4>
+<p>The <strong>NLTK (Natural Language Toolkit)</strong> provides functions to tokenize text easily.</p>
+<p><strong>Word Tokenization</strong> Example:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nltk</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.tokenize <span class="im">import</span> word_tokenize</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Example sentence</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"The cat sat on the mat."</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Tokenize the sentence into words</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>tokens <span class="op">=</span> word_tokenize(text)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tokens)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Output</strong>:</p>
+<pre><code>['The', 'cat', 'sat', 'on', 'the', 'mat', '.']</code></pre>
+<p><strong>Sentence Tokenization</strong> Example:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.tokenize <span class="im">import</span> sent_tokenize</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Example paragraph</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"The cat sat on the mat. It was happy."</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Tokenize the text into sentences</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>sentences <span class="op">=</span> sent_tokenize(text)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sentences)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Output</strong>:</p>
+<pre><code>['The cat sat on the mat.', 'It was happy.']</code></pre>
+</section>
+<section id="applications-of-tokenization" class="level4" data-number="10.1.3.3">
+<h4 data-number="10.1.3.3" class="anchored" data-anchor-id="applications-of-tokenization"><span class="header-section-number">10.1.3.3</span> Applications of Tokenization:</h4>
+<ul>
+<li><strong>Text Classification</strong>: Breaking down text into words to feed into a machine learning model.</li>
+<li><strong>Machine Translation</strong>: Splitting input and output sentences to translate between languages.</li>
+<li><strong>Information Retrieval</strong>: Indexing tokens (words) to help retrieve documents based on search queries.</li>
+<li><strong>Text Analysis</strong>: Tokenized text allows algorithms to count word frequencies, perform sentiment analysis, and more.</li>
+</ul>
+</section>
+</section>
+<section id="gutenberg-tokenize-the-selected-txt" class="level3" data-number="10.1.4">
+<h3 data-number="10.1.4" class="anchored" data-anchor-id="gutenberg-tokenize-the-selected-txt"><span class="header-section-number">10.1.4</span> (Gutenberg) Tokenize the selected <code>txt</code>:</h3>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.tokenize <span class="im">import</span> word_tokenize  <span class="co"># Import the word_tokenize function from NLTK</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Tokenize the doc_alice text (assuming doc_alice contains the raw text of "Alice in Wonderland")</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>tokens_austen <span class="op">=</span> word_tokenize(doc_austen)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the number of tokens generated after tokenization</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'#Num of tokens used:'</span>, <span class="bu">len</span>(tokens_austen))</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Print a sample of the first 20 tokens</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'#Token sample:'</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tokens_austen[:<span class="dv">20</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Output</strong>:</p>
+<p><img src="images/clipboard-2658421458.png" class="img-fluid"></p>
+<p>The following pattern captures words with 3 or more alphanumeric characters or apostrophes.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.tokenize <span class="im">import</span> RegexpTokenizer  <span class="co"># Import the RegexpTokenizer from NLTK</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the tokenizer with a regular expression pattern</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> RegexpTokenizer(<span class="vs">r"[\w']{3,}"</span>)  <span class="co"># This pattern captures words with 3 or more alphanumeric characters or apostrophes</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Tokenize the text (converted to lowercase) using the RegexpTokenizer</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>reg_tokens_austen <span class="op">=</span> tokenizer.tokenize(doc_austen.lower())  <span class="co"># Convert text to lowercase before tokenization</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the number of tokens after Regexp tokenization</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'#Num of tokens with RegexpTokenizer:'</span>, <span class="bu">len</span>(reg_tokens_austen))</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Print a sample of the first 20 tokens</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'#Token sample:'</span>)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(reg_tokens_austen[:<span class="dv">20</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Output</strong>:</p>
+<p><img src="images/clipboard-2710745208.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="what-is-stopwords" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="what-is-stopwords"><span class="header-section-number">10.2</span> What is Stopwords?</h2>
+<p><strong>Stopwords</strong> are common words in a language that are often filtered out before processing natural language text. These words carry very little semantic meaning and are often omitted during tasks such as text mining, search indexing, and information retrieval. The goal of removing stopwords is to reduce the noise and focus on the more meaningful words that contribute to the context or content of the text.</p>
+<section id="why-remove-stopwords" class="level3" data-number="10.2.1">
+<h3 data-number="10.2.1" class="anchored" data-anchor-id="why-remove-stopwords"><span class="header-section-number">10.2.1</span> Why Remove Stopwords?</h3>
+<p>Stopwords such as “the”, “is”, “in”, “and”, “on”, etc., are very frequent in most texts but don’t carry significant meaning by themselves. Removing them can:</p>
+<ul>
+<li><p><strong>Reduce text size</strong>: Fewer words mean faster processing, which can improve the efficiency of algorithms.</p></li>
+<li><p><strong>Improve focus</strong>: Removing common, non-informative words helps focus on the important terms that can provide insights.</p></li>
+<li><p><strong>Reduce dimensionality</strong>: When working with techniques like TF-IDF, vectorization, or word embeddings, removing stopwords helps lower the dimensionality of the data.</p></li>
+</ul>
+</section>
+<section id="common-examples-of-stopwords" class="level3" data-number="10.2.2">
+<h3 data-number="10.2.2" class="anchored" data-anchor-id="common-examples-of-stopwords"><span class="header-section-number">10.2.2</span> Common Examples of Stopwords:</h3>
+<ul>
+<li>English stopwords: <code>"the", "is", "in", "at", "on", "and", "a", "an", "but", "or", "so", "if", "then"</code>, etc.</li>
+<li>Stopwords vary by language. Each language has its own set of stopwords based on the common, non-essential words in that language.</li>
+</ul>
+</section>
+<section id="example-of-stopwords-in-python-using-nltk" class="level3" data-number="10.2.3">
+<h3 data-number="10.2.3" class="anchored" data-anchor-id="example-of-stopwords-in-python-using-nltk"><span class="header-section-number">10.2.3</span> Example of Stopwords in Python Using NLTK:</h3>
+<p>The <strong>NLTK</strong> library provides a built-in list of stopwords for various languages. Here’s how you can use them:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nltk</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.corpus <span class="im">import</span> stopwords</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the stopwords dataset</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'stopwords'</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the list of English stopwords</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>stop_words <span class="op">=</span> <span class="bu">set</span>(stopwords.words(<span class="st">'english'</span>))</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Example sentence</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"The cat sat on the mat and the dog lay beside it."</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Tokenize the text into words</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.tokenize <span class="im">import</span> word_tokenize</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>words <span class="op">=</span> word_tokenize(text)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter out the stopwords</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>filtered_words <span class="op">=</span> [word <span class="cf">for</span> word <span class="kw">in</span> words <span class="cf">if</span> word.lower() <span class="kw">not</span> <span class="kw">in</span> stop_words]</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Original Words:"</span>, words)</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Filtered Words (without stopwords):"</span>, filtered_words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Output:</strong></p>
+<pre><code>Original Words: ['The', 'cat', 'sat', 'on', 'the', 'mat', 'and', 'the', 'dog', 'lay', 'beside', 'it', '.']
+Filtered Words (without stopwords): ['cat', 'sat', 'mat', 'dog', 'lay', 'beside', '.']</code></pre>
+<p>As you can see, common words like “the”, “on”, “and”, “it” have been removed, leaving only the more meaningful words.</p>
+</section>
+<section id="when-not-to-remove-stopwords" class="level3" data-number="10.2.4">
+<h3 data-number="10.2.4" class="anchored" data-anchor-id="when-not-to-remove-stopwords"><span class="header-section-number">10.2.4</span> When Not to Remove Stopwords:</h3>
+<p>While stopwords are typically removed for most NLP tasks, there are cases where you might want to retain them, such as:</p>
+<ul>
+<li><p><strong>Sentiment Analysis</strong>: Words like “not”, “is”, “but” can change the sentiment of a sentence.</p></li>
+<li><p><strong>Language Modeling</strong>: For tasks like speech generation, translation, or conversational agents, removing stopwords might lose important grammatical structure.</p></li>
+</ul>
+</section>
+<section id="stopwords-in-other-nlp-libraries" class="level3" data-number="10.2.5">
+<h3 data-number="10.2.5" class="anchored" data-anchor-id="stopwords-in-other-nlp-libraries"><span class="header-section-number">10.2.5</span> Stopwords in Other NLP Libraries:</h3>
+<p>In addition to NLTK, stopwords are also supported in other libraries like <strong>spaCy</strong> and <strong>Scikit-learn</strong>.</p>
+<section id="stopwords-in-spacy" class="level4" data-number="10.2.5.1">
+<h4 data-number="10.2.5.1" class="anchored" data-anchor-id="stopwords-in-spacy"><span class="header-section-number">10.2.5.1</span> Stopwords in spaCy:</h4>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> spacy</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spacy.lang.en.stop_words <span class="im">import</span> STOP_WORDS</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load English model</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>nlp <span class="op">=</span> spacy.load(<span class="st">"en_core_web_sm"</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of using spaCy stopwords</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(STOP_WORDS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.corpus <span class="im">import</span> stopwords  <span class="co"># Import the stopwords list from NLTK</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the set of English stopwords (commonly excluded words like 'the', 'is', etc.)</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>english_stops <span class="op">=</span> <span class="bu">set</span>(stopwords.words(<span class="st">'english'</span>))  <span class="co"># Convert to set for faster lookup</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter out stopwords from the list of tokens using list comprehension</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>result_austen <span class="op">=</span> [word <span class="cf">for</span> word <span class="kw">in</span> reg_tokens_austen <span class="cf">if</span> word <span class="kw">not</span> <span class="kw">in</span> english_stops]</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the number of tokens after stopword elimination</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'#Num of tokens after stopword elimination:'</span>, <span class="bu">len</span>(result_austen))</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Print a sample of the first 20 tokens after removing stopwords</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'#Token sample:'</span>)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result_austen[:<span class="dv">20</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Output:</strong></p>
+<p><img src="images/clipboard-3845114207.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="gutenberg-word-frequency-count-of-the-selected-txt" class="level3" data-number="10.2.6">
+<h3 data-number="10.2.6" class="anchored" data-anchor-id="gutenberg-word-frequency-count-of-the-selected-txt"><span class="header-section-number">10.2.6</span> (Gutenberg) Word Frequency Count of the selected <code>txt</code>:</h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize an empty dictionary to store word counts</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>austen_word_count <span class="op">=</span> <span class="bu">dict</span>()</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Count the frequency of each word in result_alice</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> word <span class="kw">in</span> result_austen:</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    austen_word_count[word] <span class="op">=</span> austen_word_count.get(word, <span class="dv">0</span>) <span class="op">+</span> <span class="dv">1</span>  <span class="co"># Increment the count for each word</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the total number of unique words used</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'#Num of used words:'</span>, <span class="bu">len</span>(austen_word_count))</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort the dictionary by word frequency in descending order</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>sorted_word_count <span class="op">=</span> <span class="bu">sorted</span>(austen_word_count, key<span class="op">=</span>austen_word_count.get, reverse<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the top 20 most frequent words</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"#Top 20 high frequency words:"</span>)</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> key <span class="kw">in</span> sorted_word_count[:<span class="dv">20</span>]:  <span class="co"># Loop through the top 20 most frequent words</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span><span class="bu">repr</span>(key)<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>austen_word_count[key]<span class="sc">}</span><span class="ss">'</span>, end<span class="op">=</span><span class="st">', '</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Output:</strong></p>
+<p><img src="images/clipboard-2287919233.png" class="img-fluid"></p>
+</section>
+<section id="gutenberg-word-frequency-count-of-the-selected-txt-with-part-of-speech-pos" class="level3" data-number="10.2.7">
+<h3 data-number="10.2.7" class="anchored" data-anchor-id="gutenberg-word-frequency-count-of-the-selected-txt-with-part-of-speech-pos"><span class="header-section-number">10.2.7</span> (Gutenberg) Word Frequency Count of the selected <code>txt</code> with Part-of-Speech (POS):</h3>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the set of part-of-speech (POS) tags we are interested in</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>my_tag_set <span class="op">=</span> [<span class="st">'NN'</span>, <span class="st">'VB'</span>, <span class="st">'VBD'</span>, <span class="st">'JJ'</span>]  <span class="co"># NN: Nouns, VB: Verbs (base), VBD: Verbs (past), JJ: Adjectives</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter words based on their POS tags</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>my_words <span class="op">=</span> [word <span class="cf">for</span> word, tag <span class="kw">in</span> nltk.pos_tag(result_austen) <span class="cf">if</span> tag <span class="kw">in</span> my_tag_set]</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize an empty dictionary to store word counts</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>austen_word_count <span class="op">=</span> <span class="bu">dict</span>()</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Count the frequency of each filtered word</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> word <span class="kw">in</span> my_words:</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    austen_word_count[word] <span class="op">=</span> austen_word_count.get(word, <span class="dv">0</span>) <span class="op">+</span> <span class="dv">1</span>  <span class="co"># Increment the count for each word</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the total number of unique words used after filtering by POS tags</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'#Num of used words:'</span>, <span class="bu">len</span>(austen_word_count))</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort the dictionary by word frequency in descending order</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>sorted_word_count <span class="op">=</span> <span class="bu">sorted</span>(austen_word_count, key<span class="op">=</span>austen_word_count.get, reverse<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the top 20 most frequent words</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"#Top 20 high frequency words:"</span>)</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> key <span class="kw">in</span> sorted_word_count[:<span class="dv">20</span>]:  <span class="co"># Loop through the top 20 most frequent words</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span><span class="bu">repr</span>(key)<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>austen_word_count[key]<span class="sc">}</span><span class="ss">'</span>, end<span class="op">=</span><span class="st">', '</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Output:</strong></p>
+<p><img src="images/clipboard-2617749992.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="visualization" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="visualization"><span class="header-section-number">10.3</span> Visualization</h2>
+<p>Visualizing word frequencies can help you understand the most common words in a text and gain insights into the text data. Here are some common methods to visualize word frequencies:</p>
+<section id="bar-plot" class="level3" data-number="10.3.1">
+<h3 data-number="10.3.1" class="anchored" data-anchor-id="bar-plot"><span class="header-section-number">10.3.1</span> <strong>Bar Plot</strong></h3>
+<p>A bar plot is a simple and effective way to visualize word frequencies. The most frequent words can be shown on the x-axis, and their frequencies on the y-axis.</p>
+</section>
+<section id="word-cloud" class="level3" data-number="10.3.2">
+<h3 data-number="10.3.2" class="anchored" data-anchor-id="word-cloud"><span class="header-section-number">10.3.2</span> <strong>Word Cloud</strong></h3>
+<p>A word cloud represents words with varying font sizes depending on their frequencies. Words that appear more frequently are displayed larger, while less frequent words are smaller.</p>
+<hr>
+</section>
+<section id="example-1-visualize-word-frequencies-using-a-bar-plot" class="level3" data-number="10.3.3">
+<h3 data-number="10.3.3" class="anchored" data-anchor-id="example-1-visualize-word-frequencies-using-a-bar-plot"><span class="header-section-number">10.3.3</span> Example 1: Visualize Word Frequencies Using a Bar Plot</h3>
+<p>You can use the <code>matplotlib</code> and <code>seaborn</code> libraries to create a bar plot showing the most frequent words.</p>
+<section id="steps" class="level4" data-number="10.3.3.1">
+<h4 data-number="10.3.3.1" class="anchored" data-anchor-id="steps"><span class="header-section-number">10.3.3.1</span> Steps:</h4>
+<ol type="1">
+<li>Count the word frequencies.</li>
+<li>Sort the word frequencies in descending order.</li>
+<li>Plot the top N most frequent words.</li>
+</ol>
+</section>
+<section id="code-example" class="level4" data-number="10.3.3.2">
+<h4 data-number="10.3.3.2" class="anchored" data-anchor-id="code-example"><span class="header-section-number">10.3.3.2</span> Code Example:</h4>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Example word count dictionary (can be your `austen_word_count`)</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>word_frequencies <span class="op">=</span> {<span class="st">"the"</span>: <span class="dv">50</span>, <span class="st">"cat"</span>: <span class="dv">10</span>, <span class="st">"sat"</span>: <span class="dv">8</span>, <span class="st">"on"</span>: <span class="dv">20</span>, <span class="st">"mat"</span>: <span class="dv">5</span>}</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to a list of tuples and sort by frequency (descending)</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>sorted_words <span class="op">=</span> <span class="bu">sorted</span>(word_frequencies.items(), key<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="dv">1</span>], reverse<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Get top N most frequent words</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>top_words <span class="op">=</span> sorted_words[:<span class="dv">5</span>]  <span class="co"># Top 5 most frequent words</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Separate words and frequencies for plotting</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>words, counts <span class="op">=</span> <span class="bu">zip</span>(<span class="op">*</span>top_words)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a bar plot</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>sns.barplot(x<span class="op">=</span><span class="bu">list</span>(words), y<span class="op">=</span><span class="bu">list</span>(counts), palette<span class="op">=</span><span class="st">"viridis"</span>)</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Top 5 Most Frequent Words"</span>)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Frequency"</span>)</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Words"</span>)</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="explanation" class="level4" data-number="10.3.3.3">
+<h4 data-number="10.3.3.3" class="anchored" data-anchor-id="explanation"><span class="header-section-number">10.3.3.3</span> Explanation:</h4>
+<p>Let’s break down the line of code in detail:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>sorted_words <span class="op">=</span> <span class="bu">sorted</span>(word_frequencies.items(), key<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="dv">1</span>], reverse<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong><code>word_frequencies.items()</code></strong></p>
+<p><code>word_frequencies</code> is a dictionary that stores the words as keys and their frequencies as values. For example, the dictionary might look like this:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>word_frequencies <span class="op">=</span> {</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"the"</span>: <span class="dv">50</span>,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"cat"</span>: <span class="dv">10</span>,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"sat"</span>: <span class="dv">8</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"on"</span>: <span class="dv">20</span>,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"mat"</span>: <span class="dv">5</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <strong><code>.items()</code></strong> method is used to get the items of the dictionary. When you call <code>.items()</code> on a dictionary, it returns a <strong>view object</strong> that contains a list of <strong>key-value pairs</strong> (tuples). Each tuple contains a word and its corresponding frequency.</p>
+<p>For example:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>word_frequencies.items()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Output:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>[(<span class="st">'the'</span>, <span class="dv">50</span>), (<span class="st">'cat'</span>, <span class="dv">10</span>), (<span class="st">'sat'</span>, <span class="dv">8</span>), (<span class="st">'on'</span>, <span class="dv">20</span>), (<span class="st">'mat'</span>, <span class="dv">5</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>So, <code>word_frequencies.items()</code> returns the following list of tuples:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>[(<span class="st">'the'</span>, <span class="dv">50</span>), (<span class="st">'cat'</span>, <span class="dv">10</span>), (<span class="st">'sat'</span>, <span class="dv">8</span>), (<span class="st">'on'</span>, <span class="dv">20</span>), (<span class="st">'mat'</span>, <span class="dv">5</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong><code>sorted(..., key=lambda x: x[1], reverse=True)</code></strong></p>
+<p>This part of the code is responsible for sorting the word-frequency pairs based on the frequency values.</p>
+<p><strong><code>sorted()</code> Function:</strong></p>
+<p>The <strong><code>sorted()</code></strong> function takes an iterable (in this case, the list of word-frequency pairs) and returns a new sorted list. By default, <code>sorted()</code> sorts items in ascending order. However, it allows for customization through two important arguments:</p>
+<ul>
+<li><strong><code>key</code></strong>: This defines a function that will be applied to each item to extract a comparison key for sorting. In this case, we want to sort the tuples by their <strong>frequency</strong> (the second item in each tuple, <code>x[1]</code>).</li>
+<li><strong><code>reverse</code></strong>: If set to <code>True</code>, this will sort the list in <strong>descending</strong> order instead of the default ascending order.</li>
+</ul>
+<p><strong><code>key=lambda x: x[1]</code></strong></p>
+<ul>
+<li>The <strong><code>key</code></strong> argument allows us to specify a custom sorting criterion. In this case, we use a <strong>lambda function</strong> (<code>lambda x: x[1]</code>) to tell Python how to sort the list.</li>
+<li>A <strong>lambda function</strong> is an anonymous, short function that is often used for small operations that are only needed temporarily.</li>
+</ul>
+<p><strong><code>lambda x: x[1]</code></strong> means: - For each tuple in the list (e.g., <code>('the', 50)</code>), treat <code>x</code> as the tuple. - <code>x[1]</code> refers to the second element of the tuple, which is the <strong>frequency</strong> in this case.</p>
+<p>So, when the sorting process happens, the sorted function will compare the second element of each tuple (i.e., the frequencies) to determine the order.</p>
+<p><strong><code>reverse=True</code></strong></p>
+<ul>
+<li>This tells the <code>sorted()</code> function to sort the list in <strong>descending order</strong>. By default, sorting is done in ascending order (smallest to largest), but <code>reverse=True</code> reverses that order, sorting from the highest frequency to the lowest.</li>
+</ul>
+<hr>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>words, counts <span class="op">=</span> <span class="bu">zip</span>(<span class="op">*</span>top_words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong><code>zip(*top_words)</code></strong>:</p>
+<ul>
+<li><p>- <strong><code>zip()</code></strong> is a Python built-in function that takes multiple iterables (like lists, tuples, etc.) and returns an iterator of tuples, where each tuple contains elements from the provided iterables at corresponding positions.</p></li>
+<li><p>- In this case, the <code>*</code> operator is called the <strong>unpacking operator</strong> (also known as the splat operator). It unpacks the list of tuples (<code>top_words</code>) so that each tuple in the list is treated as a separate argument to the <code>zip()</code> function.</p></li>
+</ul>
+<p>Let’s see what happens step by step:</p>
+<ul>
+<li><p><strong><code>top_words</code></strong> is:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>[(<span class="st">'the'</span>, <span class="dv">50</span>), (<span class="st">'on'</span>, <span class="dv">20</span>), (<span class="st">'cat'</span>, <span class="dv">10</span>), (<span class="st">'sat'</span>, <span class="dv">8</span>), (<span class="st">'mat'</span>, <span class="dv">5</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>The <code>*top_words</code> unpacks the list of tuples into separate arguments. The <code>zip()</code> function will receive each tuple separately, as if you passed:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="bu">zip</span>((<span class="st">'the'</span>, <span class="dv">50</span>), (<span class="st">'on'</span>, <span class="dv">20</span>), (<span class="st">'cat'</span>, <span class="dv">10</span>), (<span class="st">'sat'</span>, <span class="dv">8</span>), (<span class="st">'mat'</span>, <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Now, <code>zip()</code> will combine the first elements of each tuple into one iterable, and the second elements into another iterable:</p>
+<ul>
+<li>It takes the first element of each tuple (words) and groups them together: <code>('the', 'on', 'cat', 'sat', 'mat')</code>.</li>
+<li>It takes the second element of each tuple (counts) and groups them together: <code>(50, 20, 10, 8, 5)</code>.</li>
+</ul></li>
+</ul>
+<p>So, <strong><code>zip(*top_words)</code></strong> effectively separates the words and their frequencies into two separate iterables.</p>
+<p><strong><code>words, counts = zip(*top_words)</code></strong>:</p>
+<ul>
+<li><code>words</code> and <code>counts</code> are assigned the result of <code>zip(*top_words)</code>.
+<ul>
+<li><code>words</code> will contain the tuple with all the words: <code>('the', 'on', 'cat', 'sat', 'mat')</code>.</li>
+<li><code>counts</code> will contain the tuple with all the word frequencies: <code>(50, 20, 10, 8, 5)</code>.</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="example-in-action" class="level3" data-number="10.3.4">
+<h3 data-number="10.3.4" class="anchored" data-anchor-id="example-in-action"><span class="header-section-number">10.3.4</span> Example in Action:</h3>
+<p>Let’s say you have the following <code>top_words</code>:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>top_words <span class="op">=</span> [(<span class="st">'the'</span>, <span class="dv">50</span>), (<span class="st">'on'</span>, <span class="dv">20</span>), (<span class="st">'cat'</span>, <span class="dv">10</span>), (<span class="st">'sat'</span>, <span class="dv">8</span>), (<span class="st">'mat'</span>, <span class="dv">5</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When you apply the line:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>words, counts <span class="op">=</span> <span class="bu">zip</span>(<span class="op">*</span>top_words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here’s what happens:</p>
+<ol type="1">
+<li><strong>Unpacking</strong> <code>top_words</code>:
+<ul>
+<li>The <code>*</code> unpacks the list into separate tuples:
+<ul>
+<li><code>('the', 50)</code></li>
+<li><code>('on', 20)</code></li>
+<li><code>('cat', 10)</code></li>
+<li><code>('sat', 8)</code></li>
+<li><code>('mat', 5)</code></li>
+</ul></li>
+</ul></li>
+<li><strong><code>zip()</code></strong> function groups elements:
+<ul>
+<li>Groups the first elements of all tuples (the words): <code>('the', 'on', 'cat', 'sat', 'mat')</code></li>
+<li>Groups the second elements of all tuples (the frequencies): <code>(50, 20, 10, 8, 5)</code></li>
+</ul></li>
+<li><strong>Assigning the results</strong>:
+<ul>
+<li><code>words</code> will contain: <code>('the', 'on', 'cat', 'sat', 'mat')</code></li>
+<li><code>counts</code> will contain: <code>(50, 20, 10, 8, 5)</code></li>
+</ul></li>
+</ol>
+<p>Now, you have two separate sequences (words and their corresponding frequencies), which can be used for plotting or further processing.</p>
+<hr>
+</section>
+<section id="example-2-visualize-word-frequencies-using-a-word-cloud" class="level3" data-number="10.3.5">
+<h3 data-number="10.3.5" class="anchored" data-anchor-id="example-2-visualize-word-frequencies-using-a-word-cloud"><span class="header-section-number">10.3.5</span> Example 2: Visualize Word Frequencies Using a Word Cloud</h3>
+<p>The <code>wordcloud</code> library can be used to generate word clouds. You can adjust the appearance by changing parameters such as the background color, maximum number of words, etc.</p>
+<section id="code-example-1" class="level4" data-number="10.3.5.1">
+<h4 data-number="10.3.5.1" class="anchored" data-anchor-id="code-example-1"><span class="header-section-number">10.3.5.1</span> Code Example:</h4>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> wordcloud <span class="im">import</span> WordCloud</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Example word count dictionary (can be your `austen_word_count`)</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>word_frequencies <span class="op">=</span> {<span class="st">"the"</span>: <span class="dv">50</span>, <span class="st">"cat"</span>: <span class="dv">10</span>, <span class="st">"sat"</span>: <span class="dv">8</span>, <span class="st">"on"</span>: <span class="dv">20</span>, <span class="st">"mat"</span>: <span class="dv">5</span>}</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a word cloud object</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>wordcloud <span class="op">=</span> WordCloud(width<span class="op">=</span><span class="dv">800</span>, height<span class="op">=</span><span class="dv">400</span>, background_color<span class="op">=</span><span class="st">"white"</span>).generate_from_frequencies(word_frequencies)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the word cloud</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>plt.imshow(wordcloud, interpolation<span class="op">=</span><span class="st">"bilinear"</span>)</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)  <span class="co"># No axes, just the word cloud</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="explanation-1" class="level4" data-number="10.3.5.2">
+<h4 data-number="10.3.5.2" class="anchored" data-anchor-id="explanation-1"><span class="header-section-number">10.3.5.2</span> Explanation:</h4>
+<ul>
+<li>The <code>WordCloud()</code> object is created using the word frequencies.</li>
+<li>The <code>generate_from_frequencies()</code> method is used to pass the word frequencies into the word cloud.</li>
+<li>The plot is displayed with <code>matplotlib</code>, and the axes are turned off for a cleaner look.</li>
+</ul>
+</section>
+<section id="output" class="level4" data-number="10.3.5.3">
+<h4 data-number="10.3.5.3" class="anchored" data-anchor-id="output"><span class="header-section-number">10.3.5.3</span> Output:</h4>
+<p><img src="images/clipboard-346614319.png" class="img-fluid" width="475"></p>
+<hr>
+</section>
+</section>
+<section id="choosing-the-right-visualization" class="level3" data-number="10.3.6">
+<h3 data-number="10.3.6" class="anchored" data-anchor-id="choosing-the-right-visualization"><span class="header-section-number">10.3.6</span> Choosing the Right Visualization:</h3>
+<ul>
+<li><strong>Bar Plot</strong>: Best when you want to compare the exact counts of the most frequent words.</li>
+<li><strong>Word Cloud</strong>: Provides a more artistic and immediate visual representation but doesn’t allow for easy comparison of exact counts.</li>
+</ul>
+</section>
+<section id="gutenberg-frequency-curve" class="level3" data-number="10.3.7">
+<h3 data-number="10.3.7" class="anchored" data-anchor-id="gutenberg-frequency-curve"><span class="header-section-number">10.3.7</span> (Gutenberg) Frequency Curve:</h3>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt  <span class="co"># Import the matplotlib library for plotting</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># %matplotlib inline  # Ensure plots appear inline in notebooks (if using Jupyter)</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the frequencies of the words in the sorted word list</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> [austen_word_count[key] <span class="cf">for</span> key <span class="kw">in</span> sorted_word_count]  <span class="co"># Get the frequencies of sorted words</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the word frequencies</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>plt.plot(w)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the plot</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Output:</strong></p>
+<p><img src="images/clipboard-3847159382.png" class="img-fluid" width="444"></p>
+</section>
+<section id="zipfs-law-curve-or-zipfian-distribution." class="level3" data-number="10.3.8">
+<h3 data-number="10.3.8" class="anchored" data-anchor-id="zipfs-law-curve-or-zipfian-distribution."><span class="header-section-number">10.3.8</span> <strong>Zipf’s Law curve</strong> or <strong>Zipfian distribution</strong>.</h3>
+<section id="zipfs-law" class="level4" data-number="10.3.8.1">
+<h4 data-number="10.3.8.1" class="anchored" data-anchor-id="zipfs-law"><span class="header-section-number">10.3.8.1</span> Zipf’s Law:</h4>
+<p>Zipf’s Law states that in a corpus of natural language text, the frequency of any word is inversely proportional to its rank in the frequency table. In simpler terms:</p>
+<ul>
+<li>The most frequent word occurs twice as often as the second most frequent word, three times as often as the third most frequent word, and so on.</li>
+</ul>
+</section>
+<section id="key-characteristics" class="level4" data-number="10.3.8.2">
+<h4 data-number="10.3.8.2" class="anchored" data-anchor-id="key-characteristics"><span class="header-section-number">10.3.8.2</span> Key Characteristics:</h4>
+<ul>
+<li>The x-axis typically represents the <strong>rank</strong> of words in terms of frequency (with the most frequent word ranked 1).</li>
+<li>The y-axis represents the <strong>frequency</strong> of those words.</li>
+<li>The curve shows a steep drop for the highest frequency words, followed by a long tail of lower frequency words, which is characteristic of <strong>power-law distributions</strong>.</li>
+</ul>
+<p>* What is <em><strong>power-law distribution</strong>?</em><br>
+<a href="https://alcera.wpcomstaging.com/2016/09/14/another-powerful-idea-the-power-law/" class="uri">https://alcera.wpcomstaging.com/2016/09/14/another-powerful-idea-the-power-law/</a></p>
+</section>
+<section id="why-does-it-matter" class="level4" data-number="10.3.8.3">
+<h4 data-number="10.3.8.3" class="anchored" data-anchor-id="why-does-it-matter"><span class="header-section-number">10.3.8.3</span> Why Does It Matter?</h4>
+<p>Zipf’s law highlights the natural imbalance in word usage: a few words (like “the”, “is”, “and”) are used very frequently, while the majority of words in a language are used infrequently. This insight is crucial for tasks like:</p>
+<ul>
+<li><p><strong>Stopword removal</strong>: Removing extremely common words that provide little unique information.</p></li>
+<li><p><strong>Vocabulary management</strong>: Determining which words to prioritize when building language models.</p></li>
+</ul>
+</section>
+</section>
+<section id="gutenberg-bar-plot" class="level3" data-number="10.3.9">
+<h3 data-number="10.3.9" class="anchored" data-anchor-id="gutenberg-bar-plot"><span class="header-section-number">10.3.9</span> (Gutenberg) Bar Plot:</h3>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt  <span class="co"># Ensure matplotlib is imported</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the top 20 most frequent words</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> sorted_word_count[:<span class="dv">20</span>]  <span class="co"># Select the top 20 words based on frequency</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the frequencies of the top 20 words</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> [austen_word_count[key] <span class="cf">for</span> key <span class="kw">in</span> n]  <span class="co"># Get the frequency values for the top 20 words</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the bar chart</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>plt.bar(<span class="bu">range</span>(<span class="bu">len</span>(n)), w, tick_label<span class="op">=</span>n)  <span class="co"># Create a bar chart; 'tick_label' adds the word labels</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Rotate the x-axis labels by 45 degrees</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the plot</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Output:</strong></p>
+<p><img src="images/clipboard-1018710544.png" class="img-fluid"></p>
+</section>
+<section id="gutenberg-word-cloud" class="level3" data-number="10.3.10">
+<h3 data-number="10.3.10" class="anchored" data-anchor-id="gutenberg-word-cloud"><span class="header-section-number">10.3.10</span> (Gutenberg) Word Cloud:</h3>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> wordcloud <span class="im">import</span> WordCloud</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt  <span class="co"># Import matplotlib for displaying the word cloud</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a word cloud image from the raw text</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>wordcloud <span class="op">=</span> WordCloud().generate(doc_austen)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Turn off the axis lines and labels</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the word cloud image using matplotlib</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>plt.imshow(wordcloud, interpolation<span class="op">=</span><span class="st">'bilinear'</span>)</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the plot</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Output:</strong></p>
+<p><img src="images/clipboard-932367868.png" class="img-fluid"></p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>wordcloud <span class="op">=</span> WordCloud(max_font_size<span class="op">=</span><span class="dv">60</span>).generate_from_frequencies(austen_word_count)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>plt.figure()</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>plt.imshow(wordcloud, interpolation<span class="op">=</span><span class="st">"bilinear"</span>)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Output:</p>
+<p><img src="images/clipboard-1798389316.png" class="img-fluid"></p>
+<p><strong>With mask image:</strong></p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np  <span class="co"># Import numpy to handle arrays</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image  <span class="co"># Import PIL for image processing</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> wordcloud <span class="im">import</span> WordCloud  <span class="co"># Import the WordCloud class for generating word clouds</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt  <span class="co"># Import matplotlib for displaying the word cloud</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the mask image (used as the background shape for the word cloud)</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>austen_mask <span class="op">=</span> np.array(Image.<span class="bu">open</span>(<span class="st">"cloud.png"</span>))  <span class="co"># Convert the image to a numpy array</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a word cloud object with customization options</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>wc <span class="op">=</span> WordCloud(</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>    background_color<span class="op">=</span><span class="st">"white"</span>,  <span class="co"># Set the background color of the word cloud</span></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>    max_words<span class="op">=</span><span class="dv">30</span>,  <span class="co"># Maximum number of words to display</span></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>    mask<span class="op">=</span>austen_mask,  <span class="co"># Use the mask image to shape the word cloud</span></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>    contour_width<span class="op">=</span><span class="dv">3</span>,  <span class="co"># Set the width of the outline of the mask</span></span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>    contour_color<span class="op">=</span><span class="st">'steelblue'</span>  <span class="co"># Set the color of the contour/outline</span></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the word cloud using the word frequencies from alice_word_count</span></span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>wc.generate_from_frequencies(austen_word_count)</span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the generated word cloud to a file</span></span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>wc.to_file(<span class="st">"cloud_output.png"</span>)  <span class="co"># Save the output as "cloud_output.png"</span></span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the word cloud using matplotlib</span></span>
+<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>plt.figure()  <span class="co"># Create a new figure</span></span>
+<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)  <span class="co"># Turn off axis lines and labels</span></span>
+<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a>plt.imshow(wc, interpolation<span class="op">=</span><span class="st">'bilinear'</span>)  <span class="co"># Display the word cloud</span></span>
+<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a>plt.show()  <span class="co"># Show the word cloud</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Output:</strong></p>
+<p><img src="images/clipboard-3348199555.png" class="img-fluid"></p>
+<p>End.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./09.Preprocessing.html" class="pagination-link" aria-label="Text Preprocessing">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Text Preprocessing</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./11.Text_Representation.html" class="pagination-link" aria-label="Text Representation Based on Counts">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Text Representation Based on Counts</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

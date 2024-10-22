@@ -1,0 +1,1753 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>13&nbsp; Word Embedding Activities – Basic AI Programming</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./A.assignments.html" rel="next">
+<link href="./12.Word_Embedding.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./13.NLP_toolkit.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Word Embedding Activities</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Basic AI Programming</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01.setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Setting Up Environment</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02.intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Constants and Variables in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03.control.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Control Structures in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04.function.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Functions and Packages in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05.pandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Analysis in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06.arithmetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Basic Arithmetic Operations in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07.Regular_Expression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regular Expressions (RegEx) in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08.Custom_Corpus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Building a Custom Corpus</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09.Preprocessing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Text Preprocessing</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10.Word_Cloud.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualizing Word Frequencies with Graphs and Word Clouds</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11.Text_Representation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Text Representation Based on Counts</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12.Word_Embedding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Word Embedding and Relational Similarity</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13.NLP_toolkit.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Word Embedding Activities</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A.assignments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Assignment #01</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#lexical-semantics-and-word-meaning" id="toc-lexical-semantics-and-word-meaning" class="nav-link active" data-scroll-target="#lexical-semantics-and-word-meaning"><span class="header-section-number">13.0.1</span> <strong>Lexical Semantics and Word Meaning</strong></a></li>
+  <li><a href="#corpus-linguistics" id="toc-corpus-linguistics" class="nav-link" data-scroll-target="#corpus-linguistics"><span class="header-section-number">13.0.2</span> <strong>Corpus Linguistics</strong></a></li>
+  <li><a href="#discourse-and-pragmatics" id="toc-discourse-and-pragmatics" class="nav-link" data-scroll-target="#discourse-and-pragmatics"><span class="header-section-number">13.0.3</span> <strong>Discourse and Pragmatics</strong></a></li>
+  <li><a href="#sociolinguistics" id="toc-sociolinguistics" class="nav-link" data-scroll-target="#sociolinguistics"><span class="header-section-number">13.0.4</span> <strong>Sociolinguistics</strong></a></li>
+  <li><a href="#sentiment-and-politeness-analysis" id="toc-sentiment-and-politeness-analysis" class="nav-link" data-scroll-target="#sentiment-and-politeness-analysis"><span class="header-section-number">13.0.5</span> <strong>Sentiment and Politeness Analysis</strong></a></li>
+  <li><a href="#translation-and-bilingual-word-embeddings" id="toc-translation-and-bilingual-word-embeddings" class="nav-link" data-scroll-target="#translation-and-bilingual-word-embeddings"><span class="header-section-number">13.0.6</span> <strong>Translation and Bilingual Word Embeddings</strong></a></li>
+  <li><a href="#lexical-semantics-and-word-meaning-1" id="toc-lexical-semantics-and-word-meaning-1" class="nav-link" data-scroll-target="#lexical-semantics-and-word-meaning-1"><span class="header-section-number">13.1</span> <strong>Lexical Semantics and Word Meaning</strong></a>
+  <ul class="collapse">
+  <li><a href="#synonym-detection-using-word-embeddings" id="toc-synonym-detection-using-word-embeddings" class="nav-link" data-scroll-target="#synonym-detection-using-word-embeddings"><span class="header-section-number">13.1.1</span> <strong>Synonym Detection Using Word Embeddings</strong></a></li>
+  <li><a href="#word-sense-disambiguation-using-contextual-embeddings" id="toc-word-sense-disambiguation-using-contextual-embeddings" class="nav-link" data-scroll-target="#word-sense-disambiguation-using-contextual-embeddings"><span class="header-section-number">13.1.2</span> <strong>Word Sense Disambiguation Using Contextual Embeddings</strong></a></li>
+  <li><a href="#revised-python-code-1" id="toc-revised-python-code-1" class="nav-link" data-scroll-target="#revised-python-code-1"><span class="header-section-number">13.1.3</span> Revised Python Code:</a></li>
+  </ul></li>
+  <li><a href="#corpus-linguistics-with-word-embeddings" id="toc-corpus-linguistics-with-word-embeddings" class="nav-link" data-scroll-target="#corpus-linguistics-with-word-embeddings"><span class="header-section-number">13.2</span> Corpus Linguistics with Word Embeddings</a>
+  <ul class="collapse">
+  <li><a href="#collocation-analysis-using-word-embeddings" id="toc-collocation-analysis-using-word-embeddings" class="nav-link" data-scroll-target="#collocation-analysis-using-word-embeddings"><span class="header-section-number">13.2.1</span> <strong>Collocation Analysis Using Word Embeddings</strong></a></li>
+  <li><a href="#semantic-similarity-in-corpora" id="toc-semantic-similarity-in-corpora" class="nav-link" data-scroll-target="#semantic-similarity-in-corpora"><span class="header-section-number">13.2.2</span> 2. <strong>Semantic Similarity in Corpora</strong></a></li>
+  <li><a href="#use-cases-for-both-tasks-in-corpus-linguistics" id="toc-use-cases-for-both-tasks-in-corpus-linguistics" class="nav-link" data-scroll-target="#use-cases-for-both-tasks-in-corpus-linguistics"><span class="header-section-number">13.2.3</span> <strong>Use Cases for Both Tasks in Corpus Linguistics</strong>:</a></li>
+  </ul></li>
+  <li><a href="#discourse-and-pragmatics-using-word-embeddings-python-code-and-explanations" id="toc-discourse-and-pragmatics-using-word-embeddings-python-code-and-explanations" class="nav-link" data-scroll-target="#discourse-and-pragmatics-using-word-embeddings-python-code-and-explanations"><span class="header-section-number">13.3</span> Discourse and Pragmatics Using Word Embeddings: Python Code and Explanations</a>
+  <ul class="collapse">
+  <li><a href="#topic-modeling-using-embedding-based-approaches" id="toc-topic-modeling-using-embedding-based-approaches" class="nav-link" data-scroll-target="#topic-modeling-using-embedding-based-approaches"><span class="header-section-number">13.3.1</span> <strong>Topic Modeling Using Embedding-Based Approaches</strong></a></li>
+  <li><a href="#contextual-meaning-and-coherence-assessment" id="toc-contextual-meaning-and-coherence-assessment" class="nav-link" data-scroll-target="#contextual-meaning-and-coherence-assessment"><span class="header-section-number">13.3.2</span> <strong>Contextual Meaning and Coherence Assessment</strong></a></li>
+  <li><a href="#use-cases-for-both-tasks-in-discourse-analysis" id="toc-use-cases-for-both-tasks-in-discourse-analysis" class="nav-link" data-scroll-target="#use-cases-for-both-tasks-in-discourse-analysis"><span class="header-section-number">13.3.3</span> <strong>Use Cases for Both Tasks in Discourse Analysis</strong>:</a></li>
+  </ul></li>
+  <li><a href="#sociolinguistics-using-word-embeddings" id="toc-sociolinguistics-using-word-embeddings" class="nav-link" data-scroll-target="#sociolinguistics-using-word-embeddings"><span class="header-section-number">13.4</span> Sociolinguistics Using Word Embeddings</a>
+  <ul class="collapse">
+  <li><a href="#variation-and-change-in-word-usage" id="toc-variation-and-change-in-word-usage" class="nav-link" data-scroll-target="#variation-and-change-in-word-usage"><span class="header-section-number">13.4.1</span> <strong>Variation and Change in Word Usage</strong></a></li>
+  <li><a href="#dialectology-using-word-embeddings" id="toc-dialectology-using-word-embeddings" class="nav-link" data-scroll-target="#dialectology-using-word-embeddings"><span class="header-section-number">13.4.2</span> <strong>Dialectology Using Word Embeddings</strong></a></li>
+  </ul></li>
+  <li><a href="#sentiment-and-politeness-analysis-using-word-embeddings" id="toc-sentiment-and-politeness-analysis-using-word-embeddings" class="nav-link" data-scroll-target="#sentiment-and-politeness-analysis-using-word-embeddings"><span class="header-section-number">13.5</span> Sentiment and Politeness Analysis Using Word Embeddings:</a>
+  <ul class="collapse">
+  <li><a href="#politeness-or-formality-levels-using-word-embeddings" id="toc-politeness-or-formality-levels-using-word-embeddings" class="nav-link" data-scroll-target="#politeness-or-formality-levels-using-word-embeddings"><span class="header-section-number">13.5.1</span> <strong>Politeness or Formality Levels Using Word Embeddings</strong></a></li>
+  <li><a href="#sentiment-analysis-using-word-embeddings" id="toc-sentiment-analysis-using-word-embeddings" class="nav-link" data-scroll-target="#sentiment-analysis-using-word-embeddings"><span class="header-section-number">13.5.2</span> <strong>Sentiment Analysis Using Word Embeddings</strong></a></li>
+  </ul></li>
+  <li><a href="#translation-and-bilingual-word-embeddings-1" id="toc-translation-and-bilingual-word-embeddings-1" class="nav-link" data-scroll-target="#translation-and-bilingual-word-embeddings-1"><span class="header-section-number">13.6</span> Translation and Bilingual Word Embeddings</a>
+  <ul class="collapse">
+  <li><a href="#cross-linguistic-analysis-between-english-and-korean-using-bilingual-word-embeddings" id="toc-cross-linguistic-analysis-between-english-and-korean-using-bilingual-word-embeddings" class="nav-link" data-scroll-target="#cross-linguistic-analysis-between-english-and-korean-using-bilingual-word-embeddings"><span class="header-section-number">13.6.1</span> Cross-Linguistic Analysis Between English and Korean Using Bilingual Word Embeddings</a></li>
+  <li><a href="#translation-error-detection-between-english-and-korean" id="toc-translation-error-detection-between-english-and-korean" class="nav-link" data-scroll-target="#translation-error-detection-between-english-and-korean"><span class="header-section-number">13.6.2</span> Translation Error Detection Between English and Korean</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Word Embedding Activities</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><strong>The activities below are for embedding practice and may differ from practical code examples.</strong></p>
+<p>Word embeddings can be used in several areas of applied linguistics to analyze and model language. Here are some key applications:</p>
+<section id="lexical-semantics-and-word-meaning" class="level3" data-number="13.0.1">
+<h3 data-number="13.0.1" class="anchored" data-anchor-id="lexical-semantics-and-word-meaning"><span class="header-section-number">13.0.1</span> <strong>Lexical Semantics and Word Meaning</strong></h3>
+<ul>
+<li><strong>Synonym Detection</strong>: Word embeddings can identify semantically similar words by examining how closely words are located in the embedding space. This can be used for synonym or related word detection in language teaching, lexicography, or creating language learning tools.</li>
+<li><strong>Word Sense Disambiguation</strong>: Embeddings help differentiate word senses based on context, improving understanding in natural language processing (NLP) tasks such as machine translation or language generation.</li>
+</ul>
+</section>
+<section id="corpus-linguistics" class="level3" data-number="13.0.2">
+<h3 data-number="13.0.2" class="anchored" data-anchor-id="corpus-linguistics"><span class="header-section-number">13.0.2</span> <strong>Corpus Linguistics</strong></h3>
+<ul>
+<li><strong>Collocation Analysis</strong>: Word embeddings can identify common word pairings and their semantic relationships in a corpus, which helps in studying how words co-occur and form patterns in natural language usage.</li>
+<li><strong>Semantic Similarity in Corpora</strong>: Embeddings can be used to quantify semantic similarity between words, phrases, or even larger units of text, making it easier to compare linguistic variation across different corpora, such as learner corpora vs.&nbsp;native speaker corpora.</li>
+</ul>
+</section>
+<section id="discourse-and-pragmatics" class="level3" data-number="13.0.3">
+<h3 data-number="13.0.3" class="anchored" data-anchor-id="discourse-and-pragmatics"><span class="header-section-number">13.0.3</span> <strong>Discourse and Pragmatics</strong></h3>
+<ul>
+<li><strong>Topic Modeling</strong>: Embedding-based topic models can uncover underlying themes in large text data, which is useful for analyzing spoken or written discourse, identifying conversational topics, or studying genre-specific language use.</li>
+<li><strong>Contextual Meaning and Coherence</strong>: Embeddings help to assess how cohesive or coherent a text is by analyzing word usage in different contexts, which can aid in both automatic essay scoring and discourse analysis.</li>
+</ul>
+</section>
+<section id="sociolinguistics" class="level3" data-number="13.0.4">
+<h3 data-number="13.0.4" class="anchored" data-anchor-id="sociolinguistics"><span class="header-section-number">13.0.4</span> <strong>Sociolinguistics</strong></h3>
+<ul>
+<li><strong>Variation and Change</strong>: Word embeddings allow researchers to track how word meanings and usage change over time in specific linguistic communities. This can be useful for analyzing language variation based on geography, social class, or time.</li>
+<li><strong>Dialectology</strong>: By comparing word embeddings across dialects or sociolects, researchers can quantify linguistic similarities and differences.</li>
+</ul>
+</section>
+<section id="sentiment-and-politeness-analysis" class="level3" data-number="13.0.5">
+<h3 data-number="13.0.5" class="anchored" data-anchor-id="sentiment-and-politeness-analysis"><span class="header-section-number">13.0.5</span> <strong>Sentiment and Politeness Analysis</strong></h3>
+<ul>
+<li><strong>Politeness or Formality Levels</strong>: Word embeddings can model nuanced variations in politeness or formality in different contexts, which is crucial for understanding pragmatic language use across different social interactions or cultures.</li>
+<li><strong>Sentiment Analysis</strong>: In analyzing affective language, embeddings help in categorizing words and phrases by their emotional tone, which is beneficial in language learning contexts that focus on pragmatic and affective communication.</li>
+</ul>
+</section>
+<section id="translation-and-bilingual-word-embeddings" class="level3" data-number="13.0.6">
+<h3 data-number="13.0.6" class="anchored" data-anchor-id="translation-and-bilingual-word-embeddings"><span class="header-section-number">13.0.6</span> <strong>Translation and Bilingual Word Embeddings</strong></h3>
+<ul>
+<li><strong>Cross-Linguistic Analysis</strong>: Bilingual embeddings can map words from different languages into a shared semantic space, facilitating tasks like machine translation or the study of cross-linguistic semantic variation.</li>
+<li><strong>Error Detection in Translation</strong>: Embedding-based models can identify semantic discrepancies or mistranslations by comparing the embeddings of words and phrases in both source and target languages.</li>
+</ul>
+<p>These applications of word embeddings allow researchers and educators to enhance language learning tools, refine linguistic theories, and develop NLP technologies that better capture the complexity of human language.</p>
+</section>
+<section id="lexical-semantics-and-word-meaning-1" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="lexical-semantics-and-word-meaning-1"><span class="header-section-number">13.1</span> <strong>Lexical Semantics and Word Meaning</strong></h2>
+<p>To conduct synonym detection and word sense disambiguation using word embeddings in Python, we can use popular libraries like <code>gensim</code>, <code>spaCy</code>, or <code>transformers</code> that provide pre-trained word embeddings. Below are step-by-step examples for both <strong>synonym detection</strong> and <strong>word sense disambiguation</strong>.</p>
+<section id="synonym-detection-using-word-embeddings" class="level3" data-number="13.1.1">
+<h3 data-number="13.1.1" class="anchored" data-anchor-id="synonym-detection-using-word-embeddings"><span class="header-section-number">13.1.1</span> <strong>Synonym Detection Using Word Embeddings</strong></h3>
+<p>We can detect synonyms by checking the similarity between word vectors in the embedding space. Here’s an example using the <code>gensim</code> library with the pre-trained Word2Vec model.</p>
+<section id="steps" class="level4" data-number="13.1.1.1">
+<h4 data-number="13.1.1.1" class="anchored" data-anchor-id="steps"><span class="header-section-number">13.1.1.1</span> Steps:</h4>
+<ol type="1">
+<li><p>Install necessary libraries:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install gensim spacy</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> spacy download en_core_web_sm  <span class="co"># Download the English model for spaCy</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Load pre-trained word embeddings and find similar words:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gensim.downloader <span class="im">as</span> api</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load a pre-trained Word2Vec model from Gensim</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> api.load(<span class="st">"word2vec-google-news-300"</span>)  <span class="co"># A popular pre-trained word2vec model</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Example word for synonym detection</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>word <span class="op">=</span> <span class="st">"happy"</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Get top 5 most similar words to the target word</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>similar_words <span class="op">=</span> model.most_similar(word, topn<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Top 5 synonyms for '</span><span class="sc">{</span>word<span class="sc">}</span><span class="ss">':"</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> similar_word, similarity_score <span class="kw">in</span> similar_words:</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>similar_word<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>similarity_score<span class="sc">}</span><span class="ss">)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+<p>This will output the top 5 words that are most similar to “happy” based on their proximity in the embedding space.</p>
+<p><strong>Sample Output:</strong></p>
+<pre><code>Top 5 synonyms for 'happy':
+joyful (0.714)
+cheerful (0.701)
+content (0.689)
+delighted (0.678)
+elated (0.665)</code></pre>
+<p>To filter out words that share the same part-of-speech (POS) as the target word when performing synonym detection, we need to combine the word embedding approach with POS tagging. This ensures that the similar words returned are not only semantically related but also belong to the same grammatical category (e.g., noun, verb, adjective).</p>
+<p>We can achieve this by using a POS tagger from a library like <code>spaCy</code>, which allows us to tag words and filter out only those with the same POS as the target word.</p>
+<p><strong>Python Code to Show All POS Tags in spaCy:</strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> spacy</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spacy.symbols <span class="im">import</span> POS</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the spaCy English model</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>nlp <span class="op">=</span> spacy.load(<span class="st">"en_core_web_sm"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># List all available POS tags in spaCy with their explanations</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>pos_tags <span class="op">=</span> nlp.get_pipe(<span class="st">"tagger"</span>).labels</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"All available POS tags in spaCy:"</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pos <span class="kw">in</span> pos_tags:</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>pos<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>spacy<span class="sc">.</span>explain(pos)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Output:</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>All available POS tags in spaCy:</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>$: symbol, currency</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>'': closing quotation mark</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>,: punctuation mark, comma</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>-LRB-: left round bracket</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>-RRB-: right round bracket</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>.: punctuation mark, sentence closer</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>:: punctuation mark, colon or ellipsis</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>ADD: email</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>AFX: affix</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>CC: conjunction, coordinating</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>CD: cardinal number</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>DT: determiner</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>EX: existential there</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>FW: foreign word</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>HYPH: punctuation mark, hyphen</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>IN: conjunction, subordinating or preposition</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>JJ: adjective (English), other noun-modifier (Chinese)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>JJR: adjective, comparative</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>JJS: adjective, superlative</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>LS: list item marker</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>MD: verb, modal auxiliary</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>NFP: superfluous punctuation</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>NN: noun, singular or mass</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>NNP: noun, proper singular</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>NNPS: noun, proper plural</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>NNS: noun, plural</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>PDT: predeterminer</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>POS: possessive ending</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>PRP: pronoun, personal</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>PRP$: pronoun, possessive</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>RB: adverb</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>RBR: adverb, comparative</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>RBS: adverb, superlative</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>RP: adverb, particle</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>SYM: symbol</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>TO: infinitival "to"</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>UH: interjection</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>VB: verb, base form</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>VBD: verb, past tense</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>VBG: verb, gerund or present participle</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>VBN: verb, past participle</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>VBP: verb, non-3rd person singular present</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>VBZ: verb, 3rd person singular present</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>WDT: wh-determiner</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>WP: wh-pronoun, personal</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>WP$: wh-pronoun, possessive</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>WRB: wh-adverb</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>XX: unknown</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>_SP: whitespace</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>``: opening quotation mark</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+<p>Here’s the revised version of the code, where the “word” and “pos” assignment are handled separately.</p>
+</section>
+<section id="revised-python-code" class="level4" data-number="13.1.1.2">
+<h4 data-number="13.1.1.2" class="anchored" data-anchor-id="revised-python-code"><span class="header-section-number">13.1.1.2</span> Revised Python Code:</h4>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gensim.downloader <span class="im">as</span> api</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> spacy</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load pre-trained Word2Vec model from Gensim</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> api.load(<span class="st">"word2vec-google-news-300"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Load spaCy POS tagger</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>nlp <span class="op">=</span> spacy.load(<span class="st">"en_core_web_sm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a function to get the POS tag of a word</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_pos(word):</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    doc <span class="op">=</span> nlp(word)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> doc[<span class="dv">0</span>].pos_  <span class="co"># Returns the POS tag of the word</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to find synonyms with the same POS</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_synonyms_with_same_pos(word, topn<span class="op">=</span><span class="dv">10</span>):</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Get the POS of the target word</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        word_pos <span class="op">=</span> get_pos(word)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Get the most similar words from the model</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        similar_words <span class="op">=</span> model.most_similar(word, topn<span class="op">=</span>topn)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Filter similar words by POS tag</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        filtered_words <span class="op">=</span> [</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>            (w, sim) <span class="cf">for</span> w, sim <span class="kw">in</span> similar_words <span class="cf">if</span> get_pos(w) <span class="op">==</span> word_pos</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> filtered_words</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Word '</span><span class="sc">{</span>word<span class="sc">}</span><span class="ss">' not found in the model vocabulary."</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> []</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Separate input box for word and POS tagging</strong></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>word <span class="op">=</span> <span class="st">"happy"</span>  <span class="co"># Define the target word</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pos <span class="op">=</span> get_pos(word)  <span class="co"># Get the POS tag for the target word</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Find synonyms with the same POS</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>synonyms_with_same_pos <span class="op">=</span> find_synonyms_with_same_pos(word, topn<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Output the result</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Synonyms for '</span><span class="sc">{</span>word<span class="sc">}</span><span class="ss">' with the same POS (</span><span class="sc">{</span>pos<span class="sc">}</span><span class="ss">):"</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> synonym, similarity <span class="kw">in</span> synonyms_with_same_pos:</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>synonym<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>similarity<span class="sc">}</span><span class="ss">)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Example Output:</strong></p>
+<p>For <code>word = "happy"</code>, the output will be something like:</p>
+<pre><code>Synonyms for 'happy' with the same POS (ADJ):
+joyful (0.714)
+cheerful (0.701)
+delighted (0.678)
+content (0.689)
+ecstatic (0.662)</code></pre>
+</section>
+</section>
+<section id="word-sense-disambiguation-using-contextual-embeddings" class="level3" data-number="13.1.2">
+<h3 data-number="13.1.2" class="anchored" data-anchor-id="word-sense-disambiguation-using-contextual-embeddings"><span class="header-section-number">13.1.2</span> <strong>Word Sense Disambiguation Using Contextual Embeddings</strong></h3>
+<p>Word sense disambiguation (WSD) can be done by using <strong>contextual word embeddings</strong>, where the meaning of a word is determined by its context. Here’s an example using the <code>transformers</code> library (BERT embeddings) from Hugging Face.</p>
+<section id="steps-1" class="level4" data-number="13.1.2.1">
+<h4 data-number="13.1.2.1" class="anchored" data-anchor-id="steps-1"><span class="header-section-number">13.1.2.1</span> Steps:</h4>
+<ol type="1">
+<li><p>Install necessary libraries:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install transformers torch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Use BERT to generate contextual embeddings:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> BertTokenizer, BertModel</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># BertModel: This is the actual pre-trained BERT model used to generate embeddings.</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics.pairwise <span class="im">import</span> cosine_similarity</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Load pre-trained BERT model and tokenizer</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> BertTokenizer.from_pretrained(<span class="st">'bert-base-uncased'</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># BertTokenizer.from_pretrained('bert-base-uncased'): Loads a pre-trained tokenizer for BERT. The bert-base-uncased model is a smaller, lower-cased version of BERT (where all text is converted to lowercase).</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> BertModel.from_pretrained(<span class="st">'bert-base-uncased'</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co"># BertModel.from_pretrained('bert-base-uncased'): Loads the pre-trained BERT model. This model outputs hidden states (embeddings) that can be used for various NLP tasks.</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Sentences with the ambiguous word "bank"</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>sentence_1 <span class="op">=</span> <span class="st">"He went to the bank to deposit money."</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>sentence_2 <span class="op">=</span> <span class="st">"The river bank was full of fish."</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Tokenize and get embeddings for both sentences</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>inputs_1 <span class="op">=</span> tokenizer(sentence_1, return_tensors<span class="op">=</span><span class="st">"pt"</span>)</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>inputs_2 <span class="op">=</span> tokenizer(sentence_2, return_tensors<span class="op">=</span><span class="st">"pt"</span>)</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="co"># tokenizer(sentence_1, return_tensors="pt"): This tokenizes the sentences into BERT's format and returns a PyTorch tensor (pt stands for PyTorch). BERT needs input to be tokenized into a numerical form (token IDs) that it can process.</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="co"># It converts each word into subwords (tokens) and creates corresponding token IDs.</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="co"># The result is a tensor, which is an array containing the numerical representation of each token.</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad():</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    outputs_1 <span class="op">=</span> model(<span class="op">**</span>inputs_1)</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>    outputs_2 <span class="op">=</span> model(<span class="op">**</span>inputs_2)</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a><span class="co"># torch.no_grad(): This disables gradient calculations (used for training models). Here, it saves memory and speeds up computations since we only need forward passes through the model to get the embeddings.</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a><span class="co"># outputs_1 = model(**inputs_1): This runs the tokenized input through the BERT model. The model outputs hidden states or embeddings for each token in the sentence.</span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="co"># The hidden state captures the meaning of each word in the context of the entire sentence.</span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>embedding_1 <span class="op">=</span> outputs_1.last_hidden_state[<span class="dv">0</span>, <span class="dv">4</span>, :]  <span class="co"># Word "bank" in sentence 1</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>embedding_2 <span class="op">=</span> outputs_2.last_hidden_state[<span class="dv">0</span>, <span class="dv">2</span>, :]  <span class="co"># Word "bank" in sentence 2</span></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the embeddings for the word "bank" (assuming the word is at index 5 in both cases)</span></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a><span class="co"># The output hidden states are of shape (batch_size, sequence_length, hidden_size), we take the last hidden state</span></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a><span class="co"># outputs_1.last_hidden_state: The output of BERT contains hidden states for all tokens in the sentence. This has the shape (batch_size, sequence_length, hidden_size) where:</span></span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a><span class="co">## batch_size: The number of sentences (in this case, it's 1).</span></span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a><span class="co">## sequence_length: The number of tokens in the sentence.</span></span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a><span class="co">## hidden_size: The size of the hidden state vector (768 dimensions for BERT).</span></span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a><span class="co"># [0, 5, :]: We access the embedding for the token at index 5 in both sentences. BERT generates embeddings for each token in the sentence, and this line assumes that the word "bank" is at index 5. The : means that we're extracting all the 768 dimensions of the embedding.</span></span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Note: Token indexes might differ depending on tokenization, so in a real application, you should find the correct index of the word "bank".</span></span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute cosine similarity between embeddings</span></span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>similarity <span class="op">=</span> cosine_similarity(embedding_1.unsqueeze(<span class="dv">0</span>), embedding_2.unsqueeze(<span class="dv">0</span>))</span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a><span class="co"># cosine_similarity(embedding_1.unsqueeze(0), embedding_2.unsqueeze(0)): This computes the cosine similarity between the two embeddings. Cosine similarity is a measure of similarity between two vectors based on their orientation (not magnitude). It ranges from -1 (completely opposite) to 1 (exactly the same), with 0 indicating no similarity.</span></span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a><span class="co"># unsqueeze(0): This adds an extra dimension to the embedding to make it a 2D tensor, as cosine_similarity expects the input to be 2D.</span></span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Similarity between 'bank' in two different contexts: </span><span class="sc">{</span>similarity[<span class="dv">0</span>][<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+<p>In this example:</p>
+<ul>
+<li><p>We take the word “bank” in two different contexts: one financial (bank to deposit money) and one geographical (river bank).</p></li>
+<li><p>BERT creates embeddings for the word based on its surrounding context.</p></li>
+<li><p>Cosine similarity is computed between these embeddings to determine how similar the meanings of “bank” are in both contexts.</p></li>
+</ul>
+<p><strong>Sample Output:</strong></p>
+<pre><code>Similarity between 'bank' in two different contexts: 0.37</code></pre>
+<p>This low similarity score suggests that the word “bank” has different meanings in these two contexts (financial institution vs.&nbsp;riverside).</p>
+<hr>
+<p>To revise the above code and ensure that the correct index of the word <strong>“bank”</strong> is used in both sentences, we need to account for the way BERT tokenizes the input. BERT uses subword tokenization, meaning that words can sometimes be split into multiple tokens. To ensure we find the correct index of <strong>“bank”</strong>, we need to first tokenize the sentences, then search for the token ID that corresponds to <strong>“bank”</strong> within the tokenized input.</p>
+<p>Here’s how to revise the code:</p>
+</section>
+</section>
+<section id="revised-python-code-1" class="level3" data-number="13.1.3">
+<h3 data-number="13.1.3" class="anchored" data-anchor-id="revised-python-code-1"><span class="header-section-number">13.1.3</span> Revised Python Code:</h3>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> BertTokenizer, BertModel</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics.pairwise <span class="im">import</span> cosine_similarity</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Load pre-trained BERT model and tokenizer</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> BertTokenizer.from_pretrained(<span class="st">'bert-base-uncased'</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> BertModel.from_pretrained(<span class="st">'bert-base-uncased'</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Sentences with the ambiguous word "bank"</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>sentence_1 <span class="op">=</span> <span class="st">"He went to the bank to deposit money."</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>sentence_2 <span class="op">=</span> <span class="st">"The river bank was full of fish."</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Tokenize and get embeddings for both sentences</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>inputs_1 <span class="op">=</span> tokenizer(sentence_1, return_tensors<span class="op">=</span><span class="st">"pt"</span>)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>inputs_2 <span class="op">=</span> tokenizer(sentence_2, return_tensors<span class="op">=</span><span class="st">"pt"</span>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Tokenized input with subword tokens</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>tokens_1 <span class="op">=</span> tokenizer.tokenize(sentence_1)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>tokens_2 <span class="op">=</span> tokenizer.tokenize(sentence_2)</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the index of the token "bank" in both tokenized sentences</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>index_1 <span class="op">=</span> tokens_1.index(<span class="st">"bank"</span>)</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>index_2 <span class="op">=</span> tokens_2.index(<span class="st">"bank"</span>)</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(index_1)</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(index_2)</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to tensor input for BERT</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>inputs_1 <span class="op">=</span> tokenizer(sentence_1, return_tensors<span class="op">=</span><span class="st">"pt"</span>)</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>inputs_2 <span class="op">=</span> tokenizer(sentence_2, return_tensors<span class="op">=</span><span class="st">"pt"</span>)</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad():</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    outputs_1 <span class="op">=</span> model(<span class="op">**</span>inputs_1)</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>    outputs_2 <span class="op">=</span> model(<span class="op">**</span>inputs_2)</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the embeddings for the word "bank" using the correct index</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>embedding_1 <span class="op">=</span> outputs_1.last_hidden_state[<span class="dv">0</span>, index_1 <span class="op">+</span> <span class="dv">1</span>, :]  <span class="co"># +1 due to [CLS] token at index 0</span></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>embedding_2 <span class="op">=</span> outputs_2.last_hidden_state[<span class="dv">0</span>, index_2 <span class="op">+</span> <span class="dv">1</span>, :]  <span class="co"># +1 due to [CLS] token at index 0</span></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute cosine similarity between embeddings</span></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>similarity <span class="op">=</span> cosine_similarity(embedding_1.unsqueeze(<span class="dv">0</span>), embedding_2.unsqueeze(<span class="dv">0</span>))</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Similarity between 'bank' in two different contexts: </span><span class="sc">{</span>similarity[<span class="dv">0</span>][<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Key Changes:</strong></p>
+<ol type="1">
+<li><strong>Tokenization</strong>:
+<ul>
+<li><strong><code>tokenizer.tokenize(sentence_1)</code></strong>: This tokenizes each sentence into subword tokens.</li>
+<li><strong><code>tokens_1.index("bank")</code></strong>: Finds the correct index of the word “bank” in the tokenized input.</li>
+</ul></li>
+<li><strong>Correct Index Adjustment</strong>:
+<ul>
+<li>In BERT’s input format, the sequence starts with a <code>[CLS]</code> token at index 0, so the actual index of the word “bank” is <strong><code>index + 1</code></strong>. This is why we add <code>1</code> to the token index to get the correct location in the hidden states.</li>
+</ul></li>
+<li><strong>Embedding Extraction</strong>:
+<ul>
+<li>The embedding for the word “bank” is extracted based on the calculated index in each sentence.</li>
+</ul></li>
+</ol>
+<p><strong>Example Output:</strong></p>
+<p>This code should give you the similarity score for the word <strong>“bank”</strong> in the two different contexts. If the meanings are different (as expected here), the similarity score will be low.</p>
+<p>For example:</p>
+<pre><code>4
+2
+Similarity between 'bank' in two different contexts: 0.43</code></pre>
+<p>This low similarity score indicates that the word <strong>“bank”</strong> has different meanings in these contexts (financial institution vs.&nbsp;riverside).</p>
+</section>
+</section>
+<section id="corpus-linguistics-with-word-embeddings" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="corpus-linguistics-with-word-embeddings"><span class="header-section-number">13.2</span> Corpus Linguistics with Word Embeddings</h2>
+<p>In corpus linguistics, word embeddings can be applied to two key tasks: <strong>collocation analysis</strong> and <strong>semantic similarity</strong>. Below are Python implementations for both activities, along with detailed explanations.</p>
+<section id="collocation-analysis-using-word-embeddings" class="level3" data-number="13.2.1">
+<h3 data-number="13.2.1" class="anchored" data-anchor-id="collocation-analysis-using-word-embeddings"><span class="header-section-number">13.2.1</span> <strong>Collocation Analysis Using Word Embeddings</strong></h3>
+<p>Collocations are word pairings that frequently occur together in a language and exhibit specific patterns. Word embeddings can help identify semantically related word pairs based on their proximity in vector space.</p>
+<section id="steps-2" class="level4" data-number="13.2.1.1">
+<h4 data-number="13.2.1.1" class="anchored" data-anchor-id="steps-2"><span class="header-section-number">13.2.1.1</span> <strong>Steps</strong>:</h4>
+<ol type="1">
+<li>Load pre-trained word embeddings (such as Word2Vec).</li>
+<li>Extract word pairs (collocations) based on their co-occurrence and proximity in embedding space.</li>
+<li>Sort the word pairs by their similarity score to identify common collocations.</li>
+</ol>
+</section>
+<section id="python-code-for-collocation-analysis" class="level4" data-number="13.2.1.2">
+<h4 data-number="13.2.1.2" class="anchored" data-anchor-id="python-code-for-collocation-analysis"><span class="header-section-number">13.2.1.2</span> <strong>Python Code for Collocation Analysis</strong>:</h4>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gensim.downloader <span class="im">as</span> api</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics.pairwise <span class="im">import</span> cosine_similarity</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load a pre-trained Word2Vec model (Google News Vectors)</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> api.load(<span class="st">"word2vec-google-news-300"</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># List of word pairs you want to analyze for collocation</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>word_pairs <span class="op">=</span> [</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'quick'</span>, <span class="st">'fox'</span>),</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'lazy'</span>, <span class="st">'dog'</span>),</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'king'</span>, <span class="st">'queen'</span>),</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'strong'</span>, <span class="st">'weak'</span>),</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'bank'</span>, <span class="st">'money'</span>)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to calculate cosine similarity between two words</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_similarity(word1, word2):</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>        vec1 <span class="op">=</span> model[word1]</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>        vec2 <span class="op">=</span> model[word2]</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>        similarity <span class="op">=</span> cosine_similarity([vec1], [vec2])[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> similarity</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span>  <span class="co"># If word not in vocabulary</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Find collocations by calculating similarity</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>collocations <span class="op">=</span> []</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> word1, word2 <span class="kw">in</span> word_pairs:</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>    similarity <span class="op">=</span> get_similarity(word1, word2)</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> similarity <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>        collocations.append((word1, word2, similarity))</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort by similarity score</span></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>collocations.sort(key<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="dv">2</span>], reverse<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the collocations and their similarity scores</span></span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Collocations and their similarity scores:"</span>)</span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> word1, word2, sim <span class="kw">in</span> collocations:</span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>word1<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>word2<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>sim<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li><strong>Model</strong>: This code uses a pre-trained Word2Vec model (<code>word2vec-google-news-300</code>), which contains embeddings for millions of words.</li>
+<li><strong>Cosine Similarity</strong>: The similarity between two word vectors is calculated using cosine similarity. This measures how closely two words are related based on their context.</li>
+<li><strong>Word Pairs</strong>: The list <code>word_pairs</code> contains sample word pairs for which collocations are analyzed. You can modify this list to include more word pairs.</li>
+</ul>
+<p><strong>Sample Output:</strong></p>
+<pre><code>Collocations and their similarity scores:
+king - queen: 0.651
+quick - fox: 0.341
+lazy - dog: 0.295
+bank - money: 0.519
+strong - weak: -0.012</code></pre>
+<ul>
+<li>The word pair “king” and “queen” shows a high similarity, indicating they are often collocates in contexts related to royalty or power.</li>
+<li>The pair “strong” and “weak” has a very low (and even negative) similarity, suggesting that these are antonyms rather than collocates.</li>
+</ul>
+</section>
+</section>
+<section id="semantic-similarity-in-corpora" class="level3" data-number="13.2.2">
+<h3 data-number="13.2.2" class="anchored" data-anchor-id="semantic-similarity-in-corpora"><span class="header-section-number">13.2.2</span> 2. <strong>Semantic Similarity in Corpora</strong></h3>
+<p>Semantic similarity is used to measure how similar two words, phrases, or sentences are in meaning. This can be used to compare texts across corpora (e.g., learner vs.&nbsp;native speaker corpora).</p>
+<section id="steps-3" class="level4" data-number="13.2.2.1">
+<h4 data-number="13.2.2.1" class="anchored" data-anchor-id="steps-3"><span class="header-section-number">13.2.2.1</span> <strong>Steps</strong>:</h4>
+<ol type="1">
+<li>Use word embeddings to compute similarity scores between words or phrases in two different corpora.</li>
+<li>Aggregate the similarities to compare the semantic variation between the corpora.</li>
+</ol>
+</section>
+<section id="python-code-for-semantic-similarity-in-corpora" class="level4" data-number="13.2.2.2">
+<h4 data-number="13.2.2.2" class="anchored" data-anchor-id="python-code-for-semantic-similarity-in-corpora"><span class="header-section-number">13.2.2.2</span> <strong>Python Code for Semantic Similarity in Corpora</strong>:</h4>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> BertTokenizer, BertModel</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics.pairwise <span class="im">import</span> cosine_similarity</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Load pre-trained BERT model and tokenizer for contextual embeddings</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> BertTokenizer.from_pretrained(<span class="st">'bert-base-uncased'</span>)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> BertModel.from_pretrained(<span class="st">'bert-base-uncased'</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Example sentences from different corpora (Learner vs Native)</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>sentence_learner <span class="op">=</span> <span class="st">"The cat sat on the mat."</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>sentence_native <span class="op">=</span> <span class="st">"A feline rested on a carpet."</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Tokenize the sentences and create input tensors for BERT</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>inputs_learner <span class="op">=</span> tokenizer(sentence_learner, return_tensors<span class="op">=</span><span class="st">'pt'</span>)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>inputs_native <span class="op">=</span> tokenizer(sentence_native, return_tensors<span class="op">=</span><span class="st">'pt'</span>)</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Pass the sentences through BERT to get hidden states</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad():</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    outputs_learner <span class="op">=</span> model(<span class="op">**</span>inputs_learner)</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    outputs_native <span class="op">=</span> model(<span class="op">**</span>inputs_native)</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the last hidden states for sentence embeddings</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>embedding_learner <span class="op">=</span> outputs_learner.last_hidden_state.mean(dim<span class="op">=</span><span class="dv">1</span>)  <span class="co"># Mean pooling for sentence embedding</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>embedding_native <span class="op">=</span> outputs_native.last_hidden_state.mean(dim<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute cosine similarity between the sentence embeddings</span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>similarity <span class="op">=</span> cosine_similarity(embedding_learner, embedding_native)[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Semantic similarity between the sentences: </span><span class="sc">{</span>similarity<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Explanation</strong>:</p>
+<ul>
+<li><strong>BERT Model</strong>: We use a pre-trained BERT model (<code>bert-base-uncased</code>) to compute contextual word embeddings. BERT captures the meaning of a word or sentence in the context of surrounding words.</li>
+<li><strong>Sentence Embedding</strong>: BERT outputs embeddings for each token in the sentence. We use <strong>mean pooling</strong> to combine these token embeddings into a single vector representing the entire sentence.</li>
+<li><strong>Cosine Similarity</strong>: Cosine similarity is used to compute how similar the two sentences are in meaning.</li>
+</ul>
+<p><strong>Sample Output:</strong></p>
+<pre><code>Semantic similarity between the sentences: 0.781</code></pre>
+<ul>
+<li>The two sentences “The cat sat on the mat.” (learner corpus) and “A feline rested on a carpet.” (native corpus) have a high similarity score (0.781), showing that despite lexical differences, their meanings are quite similar.</li>
+</ul>
+</section>
+</section>
+<section id="use-cases-for-both-tasks-in-corpus-linguistics" class="level3" data-number="13.2.3">
+<h3 data-number="13.2.3" class="anchored" data-anchor-id="use-cases-for-both-tasks-in-corpus-linguistics"><span class="header-section-number">13.2.3</span> <strong>Use Cases for Both Tasks in Corpus Linguistics</strong>:</h3>
+<ul>
+<li><strong>Collocation Analysis</strong>:
+<ul>
+<li><strong>Lexicography</strong>: Identify common collocations for dictionary creation or teaching materials.</li>
+<li><strong>Language Teaching</strong>: Help learners understand frequent word pairings and idiomatic expressions.</li>
+</ul></li>
+<li><strong>Semantic Similarity in Corpora</strong>:
+<ul>
+<li><strong>Learner Corpora</strong>: Compare learner-generated texts with native speaker texts to assess the semantic proximity and linguistic variation.</li>
+<li><strong>Textual Analysis</strong>: Measure how similar different versions of texts are, or compare writing from different authors or genres.</li>
+</ul></li>
+</ul>
+<p>By applying these techniques, researchers can study patterns in natural language usage, how meanings vary across corpora, and how words co-occur in different contexts.</p>
+</section>
+</section>
+<section id="discourse-and-pragmatics-using-word-embeddings-python-code-and-explanations" class="level2" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="discourse-and-pragmatics-using-word-embeddings-python-code-and-explanations"><span class="header-section-number">13.3</span> Discourse and Pragmatics Using Word Embeddings: Python Code and Explanations</h2>
+<p>In discourse and pragmatics, <strong>topic modeling</strong> and <strong>contextual meaning and coherence</strong> are key tasks. Below are Python implementations for each task, focusing on using word embeddings to uncover topics and assess coherence in text.</p>
+<section id="topic-modeling-using-embedding-based-approaches" class="level3" data-number="13.3.1">
+<h3 data-number="13.3.1" class="anchored" data-anchor-id="topic-modeling-using-embedding-based-approaches"><span class="header-section-number">13.3.1</span> <strong>Topic Modeling Using Embedding-Based Approaches</strong></h3>
+<p>Topic modeling is a technique for identifying hidden themes or topics within a collection of documents. Embedding-based models, like <strong>BERTopic</strong>, can generate clusters of semantically related words that represent underlying topics.</p>
+<section id="steps-4" class="level4" data-number="13.3.1.1">
+<h4 data-number="13.3.1.1" class="anchored" data-anchor-id="steps-4"><span class="header-section-number">13.3.1.1</span> <strong>Steps</strong>:</h4>
+<ol type="1">
+<li>Preprocess a collection of documents.</li>
+<li>Use a pre-trained embedding model to transform text into vectors.</li>
+<li>Apply topic modeling using an embedding-based approach like <strong>BERTopic</strong>.</li>
+</ol>
+</section>
+<section id="python-code-for-topic-modeling-using-bertopic" class="level4" data-number="13.3.1.2">
+<h4 data-number="13.3.1.2" class="anchored" data-anchor-id="python-code-for-topic-modeling-using-bertopic"><span class="header-section-number">13.3.1.2</span> <strong>Python Code for Topic Modeling Using BERTopic</strong>:</h4>
+<p>You need to install <code>BERTopic</code> and <code>sentence-transformers</code> first:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install bertopic sentence-transformers</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now the Python code:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bertopic <span class="im">import</span> BERTopic</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> fetch_20newsgroups</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch sample data (20 newsgroups dataset for topic modeling)</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> fetch_20newsgroups(subset<span class="op">=</span><span class="st">'all'</span>)[<span class="st">'data'</span>]</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize BERTopic model (uses embedding-based topic modeling)</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>topic_model <span class="op">=</span> BERTopic()</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the topic model on the dataset</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>topics, probabilities <span class="op">=</span> topic_model.fit_transform(data)</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the top 5 topics</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>topic_info <span class="op">=</span> topic_model.get_topic_info()</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(topic_info.head())</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the top words for a specific topic</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>topic_id <span class="op">=</span> <span class="dv">0</span>  <span class="co"># You can change this to explore different topics</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>top_words <span class="op">=</span> topic_model.get_topic(topic_id)</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Top words for topic </span><span class="sc">{</span>topic_id<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>top_words<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Explanation</strong>:</p>
+<ul>
+<li><strong>BERTopic</strong>: BERTopic is a topic modeling library that leverages pre-trained sentence embeddings to find topics in large corpora.</li>
+<li><strong>Embedding Transformation</strong>: It uses embeddings to capture the semantic meaning of each document and then clusters these embeddings to identify topics.</li>
+<li><strong>Output</strong>:</li>
+<li><strong><code>topic_info</code></strong>: This provides a list of all topics discovered by the model, along with the size of each topic (i.e., how many documents are classified under each topic).</li>
+<li><strong><code>get_topic()</code></strong>: This function returns the top words for a particular topic, providing insights into the core vocabulary related to that topic.</li>
+</ul>
+<p><strong>Sample Output</strong>:</p>
+<pre><code>Top 5 topics:
+   Topic  Count
+0     -1   7285
+1      0   1121
+2      1    874
+3      2    797
+4      3    726
+
+Top words for topic 0: [('space', 0.03), ('nasa', 0.02), ('launch', 0.015), ('mission', 0.014), ('orbit', 0.013)]</code></pre>
+<p>In this example, <strong>Topic 0</strong> might be related to space exploration, as evidenced by the most prominent words: “space”, “nasa”, “launch”, “mission”, “orbit”.</p>
+</section>
+</section>
+<section id="contextual-meaning-and-coherence-assessment" class="level3" data-number="13.3.2">
+<h3 data-number="13.3.2" class="anchored" data-anchor-id="contextual-meaning-and-coherence-assessment"><span class="header-section-number">13.3.2</span> <strong>Contextual Meaning and Coherence Assessment</strong></h3>
+<p>To assess <strong>coherence</strong> in a text, we can analyze the semantic similarity between consecutive sentences. Cohesive and coherent texts tend to have sentences that are contextually related, whereas disjointed texts may exhibit lower similarity scores between sentences.</p>
+<section id="steps-5" class="level4" data-number="13.3.2.1">
+<h4 data-number="13.3.2.1" class="anchored" data-anchor-id="steps-5"><span class="header-section-number">13.3.2.1</span> <strong>Steps</strong>:</h4>
+<ol type="1">
+<li>Preprocess the text into sentences.</li>
+<li>Use pre-trained sentence embeddings (e.g., BERT) to compute sentence vectors.</li>
+<li>Calculate the similarity between consecutive sentences to assess coherence.</li>
+</ol>
+</section>
+<section id="python-code-for-contextual-meaning-and-coherence-using-bert" class="level4" data-number="13.3.2.2">
+<h4 data-number="13.3.2.2" class="anchored" data-anchor-id="python-code-for-contextual-meaning-and-coherence-using-bert"><span class="header-section-number">13.3.2.2</span> <strong>Python Code for Contextual Meaning and Coherence Using BERT</strong>:</h4>
+<p>You need to install <code>transformers</code> for sentence embeddings:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install transformers torch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now the Python code:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> BertTokenizer, BertModel</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics.pairwise <span class="im">import</span> cosine_similarity</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nltk</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the NLTK sentence tokenizer</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'punkt'</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Load pre-trained BERT model and tokenizer</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> BertTokenizer.from_pretrained(<span class="st">'bert-base-uncased'</span>)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> BertModel.from_pretrained(<span class="st">'bert-base-uncased'</span>)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample text for coherence analysis</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="st">The cat sat on the mat. It was a sunny day. The dog barked at the cat. The mat was clean and soft.</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="st">The weather changed abruptly. There was a sudden storm, and everyone rushed inside.</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Tokenize the text into sentences</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>sentences <span class="op">=</span> nltk.sent_tokenize(text)</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to get the sentence embedding from BERT</span></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_sentence_embedding(sentence):</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>    inputs <span class="op">=</span> tokenizer(sentence, return_tensors<span class="op">=</span><span class="st">'pt'</span>)</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>        outputs <span class="op">=</span> model(<span class="op">**</span>inputs)</span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Mean pooling of the hidden states to get sentence embedding</span></span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>    sentence_embedding <span class="op">=</span> outputs.last_hidden_state.mean(dim<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sentence_embedding</span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute embeddings for all sentences</span></span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>sentence_embeddings <span class="op">=</span> [get_sentence_embedding(sentence) <span class="cf">for</span> sentence <span class="kw">in</span> sentences]</span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute cosine similarity between consecutive sentences</span></span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>coherence_scores <span class="op">=</span> []</span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(sentence_embeddings) <span class="op">-</span> <span class="dv">1</span>):</span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>    similarity <span class="op">=</span> cosine_similarity(sentence_embeddings[i], sentence_embeddings[i <span class="op">+</span> <span class="dv">1</span>])[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a>    coherence_scores.append(similarity)</span>
+<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Display coherence scores</span></span>
+<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, score <span class="kw">in</span> <span class="bu">enumerate</span>(coherence_scores):</span>
+<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Coherence between sentence </span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss"> and </span><span class="sc">{</span>i<span class="op">+</span><span class="dv">2</span><span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>score<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Explanation</strong>:</p>
+<ul>
+<li><strong>Sentence Tokenization</strong>: The text is split into individual sentences using <code>nltk.sent_tokenize()</code>.</li>
+<li><strong>BERT Sentence Embedding</strong>: Each sentence is passed through BERT to obtain a sentence embedding, which is a dense vector representation capturing the semantic meaning of the entire sentence.</li>
+<li><strong>Coherence Measurement</strong>: The coherence between consecutive sentences is measured using <strong>cosine similarity</strong> between their embeddings. A high similarity score means that the two sentences are contextually coherent, while a low score indicates a break in coherence.</li>
+</ul>
+<p><strong>Sample Output</strong>:</p>
+<pre><code>Coherence between sentence 1 and 2: 0.721
+Coherence between sentence 2 and 3: 0.695
+Coherence between sentence 3 and 4: 0.891
+Coherence between sentence 4 and 5: 0.462
+Coherence between sentence 5 and 6: 0.853</code></pre>
+<p>In this example: - <strong>High coherence</strong> is observed between sentence pairs 3 &amp; 4, and 5 &amp; 6, indicating they are contextually related. - <strong>Lower coherence</strong> between sentences 4 &amp; 5 suggests a possible topic shift or break in coherence, which could be a signal of abrupt transitions in discourse.</p>
+</section>
+</section>
+<section id="use-cases-for-both-tasks-in-discourse-analysis" class="level3" data-number="13.3.3">
+<h3 data-number="13.3.3" class="anchored" data-anchor-id="use-cases-for-both-tasks-in-discourse-analysis"><span class="header-section-number">13.3.3</span> <strong>Use Cases for Both Tasks in Discourse Analysis</strong>:</h3>
+<ul>
+<li><strong>Topic Modeling</strong>:
+<ul>
+<li><strong>Discourse Studies</strong>: Identify themes in large-scale conversations (e.g., analyzing debates, interviews, or discussions).</li>
+<li><strong>Genre Analysis</strong>: Discover the key topics or themes within specific genres of text (e.g., scientific articles, novels, news articles).</li>
+</ul></li>
+<li><strong>Contextual Meaning and Coherence</strong>:
+<ul>
+<li><strong>Automatic Essay Scoring</strong>: Coherence scores can be used to evaluate how well a student’s essay flows from one sentence or paragraph to the next.</li>
+<li><strong>Discourse Analysis</strong>: Researchers can measure the cohesion within a text to better understand how well ideas are connected or if there are any sudden shifts in the narrative.</li>
+</ul></li>
+</ul>
+<p>These tools offer a powerful way to apply word embeddings to uncover the structure and meaning within discourse, making them useful for both academic and practical applications in language analysis.</p>
+</section>
+</section>
+<section id="sociolinguistics-using-word-embeddings" class="level2" data-number="13.4">
+<h2 data-number="13.4" class="anchored" data-anchor-id="sociolinguistics-using-word-embeddings"><span class="header-section-number">13.4</span> Sociolinguistics Using Word Embeddings</h2>
+<p>In sociolinguistics, word embeddings can be used to analyze <strong>variation and change</strong> over time and across dialects or sociolects. Below are Python implementations for both tasks, along with detailed explanations.</p>
+<section id="variation-and-change-in-word-usage" class="level3" data-number="13.4.1">
+<h3 data-number="13.4.1" class="anchored" data-anchor-id="variation-and-change-in-word-usage"><span class="header-section-number">13.4.1</span> <strong>Variation and Change in Word Usage</strong></h3>
+<p>Researchers can track changes in word meanings or usage across time periods or linguistic communities by training word embeddings on different subsets of data (e.g., text from different decades or regions). By comparing embeddings of the same word across different time periods or regions, researchers can observe how word meanings shift.</p>
+<section id="steps-6" class="level4" data-number="13.4.1.1">
+<h4 data-number="13.4.1.1" class="anchored" data-anchor-id="steps-6"><span class="header-section-number">13.4.1.1</span> <strong>Steps</strong>:</h4>
+<ol type="1">
+<li>Divide the text corpus into different time periods (or other sociolinguistic factors like regions or social groups).</li>
+<li>Train or load pre-trained word embeddings for each time period.</li>
+<li>Compare the embeddings of a target word across the time periods to detect changes in meaning.</li>
+</ol>
+</section>
+<section id="python-code-for-tracking-variation-and-change" class="level4" data-number="13.4.1.2">
+<h4 data-number="13.4.1.2" class="anchored" data-anchor-id="python-code-for-tracking-variation-and-change"><span class="header-section-number">13.4.1.2</span> <strong>Python Code for Tracking Variation and Change</strong>:</h4>
+<section id="download-pre-trained-word2vec-models" class="level5" data-number="13.4.1.2.1">
+<h5 data-number="13.4.1.2.1" class="anchored" data-anchor-id="download-pre-trained-word2vec-models"><span class="header-section-number">13.4.1.2.1</span> <strong>Download Pre-Trained Word2Vec Models</strong></h5>
+<p>If you do not have the <code>word2vec-google-news-300.bin</code> file, you can use pre-trained word embeddings from <code>gensim</code>. You can load models like the <strong>Google News</strong> Word2Vec embeddings, which are available through <code>gensim</code>.</p>
+<p>Here’s an example of how to load a pre-trained model from Gensim’s downloader:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gensim.downloader <span class="im">as</span> api</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load a pre-trained Word2Vec model (e.g., Google News embeddings)</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>model_google <span class="op">=</span> api.load(<span class="st">"word2vec-google-news-300"</span>)  <span class="co"># Use this for the 1990s model</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>model_wiki <span class="op">=</span> api.load(<span class="st">"fasttext-wiki-news-subwords-300"</span>)  <span class="co"># Use the same for modern-day comparison</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gensim</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics.pairwise <span class="im">import</span> cosine_similarity</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gensim.downloader <span class="im">as</span> api</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">list</span>(api.info()[<span class="st">'models'</span>].keys()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>['fasttext-wiki-news-subwords-300', 'conceptnet-numberbatch-17-06-300', 'word2vec-ruscorpora-300', 'word2vec-google-news-300', 'glove-wiki-gigaword-50', 'glove-wiki-gigaword-100', 'glove-wiki-gigaword-200', 'glove-wiki-gigaword-300', 'glove-twitter-25', 'glove-twitter-50', 'glove-twitter-100', 'glove-twitter-200', '__testing_word2vec-matrix-synopsis']</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load a pre-trained Word2Vec model (e.g., Google News embeddings)</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>model_google <span class="op">=</span> api.load(<span class="st">"word2vec-google-news-300"</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>model_wiki <span class="op">=</span> api.load(<span class="st">"fasttext-wiki-news-subwords-300"</span>)  </span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to compare word embeddings across context</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compare_word_across_time(word, model1, model2):</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Get embeddings for the word from both time periods</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>        vector1 <span class="op">=</span> model1[word]</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>        vector2 <span class="op">=</span> model2[word]</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calculate cosine similarity to see how the word meaning has changed</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>        similarity <span class="op">=</span> cosine_similarity([vector1], [vector2])[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> similarity</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"'</span><span class="sc">{</span>word<span class="sc">}</span><span class="ss">' not found in one of the models."</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage: Track how the meaning of the word 'cloud' is different between Google and Twitter</span></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>word <span class="op">=</span> <span class="st">'cloud'</span></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>similarity_score <span class="op">=</span> compare_word_across_time(word, model_google, model_wiki)</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Semantic similarity for '</span><span class="sc">{</span>word<span class="sc">}</span><span class="ss">' between Google and Wiki: </span><span class="sc">{</span>similarity_score<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Sample Output</strong>:</p>
+<pre><code>Semantic similarity for 'cloud' between Google and Wiki: -0.035</code></pre>
+<p>In this case, the similarity score suggests a moderate shift in the meaning of the word “cloud.”</p>
+</section>
+<section id="load-a-pre-trained-model" class="level5" data-number="13.4.1.2.2">
+<h5 data-number="13.4.1.2.2" class="anchored" data-anchor-id="load-a-pre-trained-model"><span class="header-section-number">13.4.1.2.2</span> Load a pre-trained model</h5>
+<p>Ensure that the file <code>'word2vec-google-news-300.bin'</code> exists and the path is correctly specified. If the file is stored in a different directory, make sure to provide the absolute path to the file.</p>
+<p>For example:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>model_google <span class="op">=</span> gensim.models.KeyedVectors.load_word2vec_format(<span class="st">'/path/to/your/word2vec-google-news-300.bin'</span>, binary<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="train-your-own-embedding-model-optional" class="level4" data-number="13.4.1.3">
+<h4 data-number="13.4.1.3" class="anchored" data-anchor-id="train-your-own-embedding-model-optional"><span class="header-section-number">13.4.1.3</span> <strong>Train Your Own Embedding Model (Optional)</strong></h4>
+<p>If you want to specifically train word embeddings on corpora from different time periods, you can use Gensim’s <code>Word2Vec</code> to train models on your own text data from Google and Twitter.</p>
+<p>Here’s a basic example of how to train a Word2Vec model:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> gensim.models <span class="im">import</span> Word2Vec</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming `Google` and `Twitter` are lists of tokenized sentences from your corpus</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: sentences_Google = [["word1", "word2", "word3"], ["word4", "word5"]]</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Train Word2Vec models on your corpus</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>model_google <span class="op">=</span> Word2Vec(sentences_google, vector_size<span class="op">=</span><span class="dv">300</span>, window<span class="op">=</span><span class="dv">5</span>, min_count<span class="op">=</span><span class="dv">1</span>, workers<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>model_wiki <span class="op">=</span> Word2Vec(sentences_wiki, vector_size<span class="op">=</span><span class="dv">300</span>, window<span class="op">=</span><span class="dv">5</span>, min_count<span class="op">=</span><span class="dv">1</span>, workers<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the models</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>model_google.wv.save_word2vec_format(<span class="st">'model_google.bin'</span>, binary<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>model_wiki.wv.save_word2vec_format(<span class="st">'model_wiki.bin'</span>, binary<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You will need large corpora for Google and Wiki to train accurate embeddings. Once trained, you can load and use these models as in your original code.</p>
+</section>
+</section>
+<section id="dialectology-using-word-embeddings" class="level3" data-number="13.4.2">
+<h3 data-number="13.4.2" class="anchored" data-anchor-id="dialectology-using-word-embeddings"><span class="header-section-number">13.4.2</span> <strong>Dialectology Using Word Embeddings</strong></h3>
+<p>In dialectology, researchers can compare the embeddings of words across dialects or sociolects to quantify linguistic similarities and differences. By training word embeddings on corpora representing different dialects, the embeddings for the same word can be compared to reveal how meanings or usages differ.</p>
+<section id="steps-7" class="level4" data-number="13.4.2.1">
+<h4 data-number="13.4.2.1" class="anchored" data-anchor-id="steps-7"><span class="header-section-number">13.4.2.1</span> <strong>Steps:</strong></h4>
+<ol type="1">
+<li>Train or load pre-trained word embeddings for different dialects or sociolects.</li>
+<li>Compare the embeddings of the same word across dialects to measure their semantic similarity.</li>
+</ol>
+</section>
+<section id="python-code-for-comparing-dialects-using-word-embeddings" class="level4" data-number="13.4.2.2">
+<h4 data-number="13.4.2.2" class="anchored" data-anchor-id="python-code-for-comparing-dialects-using-word-embeddings"><span class="header-section-number">13.4.2.2</span> <strong>Python Code for Comparing Dialects Using Word Embeddings</strong>:</h4>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gensim</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics.pairwise <span class="im">import</span> cosine_similarity</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load or train embeddings for different dialects (example from two dialect corpora)</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>model_us_english <span class="op">=</span> gensim.models.KeyedVectors.load_word2vec_format(<span class="st">'word2vec_us_english.bin'</span>, binary<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>model_uk_english <span class="op">=</span> gensim.models.KeyedVectors.load_word2vec_format(<span class="st">'word2vec_uk_english.bin'</span>, binary<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to compare word embeddings across dialects</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compare_word_across_dialects(word, model_dialect1, model_dialect2):</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Get embeddings for the word from both dialects</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>        vector_dialect1 <span class="op">=</span> model_dialect1[word]</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>        vector_dialect2 <span class="op">=</span> model_dialect2[word]</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calculate cosine similarity to compare the meanings across dialects</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>        similarity <span class="op">=</span> cosine_similarity([vector_dialect1], [vector_dialect2])[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> similarity</span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"'</span><span class="sc">{</span>word<span class="sc">}</span><span class="ss">' not found in one of the models."</span></span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage: Compare the meaning of 'boot' in US English and UK English</span></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>word <span class="op">=</span> <span class="st">'boot'</span></span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>similarity_score <span class="op">=</span> compare_word_across_dialects(word, model_us_english, model_uk_english)</span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Semantic similarity for '</span><span class="sc">{</span>word<span class="sc">}</span><span class="ss">' between US and UK English: </span><span class="sc">{</span>similarity_score<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Explanation</strong>:</p>
+<ul>
+<li><strong>Different Dialect Embedding Models</strong>: Two Word2Vec models (<code>model_us_english</code> and <code>model_uk_english</code>) are trained on corpora from two different English dialects: American and British.</li>
+<li><strong>Cosine Similarity</strong>: The similarity between the word embeddings in different dialects indicates how similarly the word is used or understood. A high similarity score indicates that the word is used similarly, while a low score suggests a difference in usage or meaning.</li>
+<li><strong>Usage Example</strong>: The word “boot” has different meanings in US English (referring to footwear) and UK English (referring to the trunk of a car).</li>
+</ul>
+<p><strong>Sample Output:</strong></p>
+<pre><code>Semantic similarity for 'boot' between US and UK English: 0.421</code></pre>
+<p>In this example, the word “boot” has a lower similarity score, reflecting its different meanings in the two dialects.</p>
+</section>
+</section>
+</section>
+<section id="sentiment-and-politeness-analysis-using-word-embeddings" class="level2" data-number="13.5">
+<h2 data-number="13.5" class="anchored" data-anchor-id="sentiment-and-politeness-analysis-using-word-embeddings"><span class="header-section-number">13.5</span> Sentiment and Politeness Analysis Using Word Embeddings:</h2>
+<p>Word embeddings can be used to analyze both <strong>politeness or formality levels</strong> and <strong>sentiment analysis</strong>. These tasks are important for understanding the pragmatic and affective aspects of language in different contexts, such as social interactions or cross-cultural communication.</p>
+<section id="politeness-or-formality-levels-using-word-embeddings" class="level3" data-number="13.5.1">
+<h3 data-number="13.5.1" class="anchored" data-anchor-id="politeness-or-formality-levels-using-word-embeddings"><span class="header-section-number">13.5.1</span> <strong>Politeness or Formality Levels Using Word Embeddings</strong></h3>
+<p>In this task, we aim to assess the politeness or formality of text by measuring how closely words or phrases align with known politeness/formality markers in the embedding space. We can create a word embedding-based model to compare the text with words commonly associated with politeness or formality.</p>
+<section id="steps-8" class="level4" data-number="13.5.1.1">
+<h4 data-number="13.5.1.1" class="anchored" data-anchor-id="steps-8"><span class="header-section-number">13.5.1.1</span> <strong>Steps</strong>:</h4>
+<ol type="1">
+<li>Create or load word embeddings (Word2Vec, BERT).</li>
+<li>Define a set of words or phrases commonly associated with politeness or formality (e.g., “please”, “thank you”, “sir”).</li>
+<li>Compute the similarity between the words in the input text and the politeness markers.</li>
+</ol>
+</section>
+<section id="python-code-for-politenessformality-level-detection" class="level4" data-number="13.5.1.2">
+<h4 data-number="13.5.1.2" class="anchored" data-anchor-id="python-code-for-politenessformality-level-detection"><span class="header-section-number">13.5.1.2</span> <strong>Python Code for Politeness/Formality Level Detection</strong>:</h4>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gensim.downloader <span class="im">as</span> api</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics.pairwise <span class="im">import</span> cosine_similarity</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load pre-trained Word2Vec model</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> api.load(<span class="st">"word2vec-google-news-300"</span>)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a list of politeness or formality markers</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>politeness_markers <span class="op">=</span> [<span class="st">"please"</span>, <span class="st">"thank you"</span>, <span class="st">"sir"</span>, <span class="st">"madam"</span>, <span class="st">"kindly"</span>, <span class="st">"would you"</span>, <span class="st">"may I"</span>]</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to assess the politeness of a given sentence</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> assess_politeness(sentence, markers, model):</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Tokenize the sentence (simplified)</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>    words <span class="op">=</span> sentence.lower().split()</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check similarity to politeness markers</span></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>    politeness_score <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> word <span class="kw">in</span> words:</span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>            word_vector <span class="op">=</span> model[word]</span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Calculate similarity with each politeness marker</span></span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> marker <span class="kw">in</span> markers:</span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>                marker_vector <span class="op">=</span> model[marker]</span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>                similarity <span class="op">=</span> cosine_similarity([word_vector], [marker_vector])[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>                politeness_score <span class="op">+=</span> similarity</span>
+<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
+<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Word not in the model vocabulary</span></span>
+<span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a>            <span class="cf">pass</span></span>
+<span id="cb34-28"><a href="#cb34-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-29"><a href="#cb34-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Normalize politeness score by the number of words</span></span>
+<span id="cb34-30"><a href="#cb34-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> politeness_score <span class="op">/</span> <span class="bu">len</span>(words) <span class="cf">if</span> <span class="bu">len</span>(words) <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="dv">0</span></span>
+<span id="cb34-31"><a href="#cb34-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-32"><a href="#cb34-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
+<span id="cb34-33"><a href="#cb34-33" aria-hidden="true" tabindex="-1"></a>sentence <span class="op">=</span> <span class="st">"Would you kindly help me with this task, sir?"</span></span>
+<span id="cb34-34"><a href="#cb34-34" aria-hidden="true" tabindex="-1"></a>politeness_score <span class="op">=</span> assess_politeness(sentence, politeness_markers, model)</span>
+<span id="cb34-35"><a href="#cb34-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-36"><a href="#cb34-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Politeness score for the sentence: </span><span class="sc">{</span>politeness_score<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Explanation</strong>:</p>
+<ul>
+<li><strong>Politeness Markers</strong>: We define a list of words or phrases typically associated with politeness or formality.</li>
+<li><strong>Cosine Similarity</strong>: For each word in the input sentence, we compute its similarity to each politeness marker using cosine similarity. The higher the similarity score, the more polite or formal the sentence is likely to be.</li>
+<li><strong>Politeness Score</strong>: We aggregate the similarities across all words in the sentence to compute a “politeness score.”</li>
+</ul>
+<p><strong>Sample Output</strong>:</p>
+<pre><code>Politeness score for the sentence: 0.219</code></pre>
+</section>
+</section>
+<section id="sentiment-analysis-using-word-embeddings" class="level3" data-number="13.5.2">
+<h3 data-number="13.5.2" class="anchored" data-anchor-id="sentiment-analysis-using-word-embeddings"><span class="header-section-number">13.5.2</span> <strong>Sentiment Analysis Using Word Embeddings</strong></h3>
+<p>Sentiment analysis involves classifying the emotional tone of a text (e.g., positive, negative, neutral). By leveraging word embeddings, we can calculate the semantic similarity between words in the input text and words that are commonly associated with positive or negative sentiments.</p>
+<section id="steps-9" class="level4" data-number="13.5.2.1">
+<h4 data-number="13.5.2.1" class="anchored" data-anchor-id="steps-9"><span class="header-section-number">13.5.2.1</span> <strong>Steps</strong>:</h4>
+<ol type="1">
+<li>Load pre-trained word embeddings.</li>
+<li>Define a set of words associated with positive and negative sentiment.</li>
+<li>Compute the similarity between the words in the input text and the sentiment markers.</li>
+</ol>
+</section>
+<section id="python-code-for-sentiment-analysis" class="level4" data-number="13.5.2.2">
+<h4 data-number="13.5.2.2" class="anchored" data-anchor-id="python-code-for-sentiment-analysis"><span class="header-section-number">13.5.2.2</span> <strong>Python Code for Sentiment Analysis</strong>:</h4>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a list of positive and negative sentiment markers</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>positive_markers <span class="op">=</span> [<span class="st">"good"</span>, <span class="st">"happy"</span>, <span class="st">"joy"</span>, <span class="st">"love"</span>, <span class="st">"excellent"</span>, <span class="st">"amazing"</span>]</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>negative_markers <span class="op">=</span> [<span class="st">"bad"</span>, <span class="st">"sad"</span>, <span class="st">"angry"</span>, <span class="st">"hate"</span>, <span class="st">"terrible"</span>, <span class="st">"horrible"</span>]</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to assess the sentiment of a given sentence</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> assess_sentiment(sentence, pos_markers, neg_markers, model):</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Tokenize the sentence (simplified)</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    words <span class="op">=</span> sentence.lower().split()</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize sentiment scores</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    positive_score <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>    negative_score <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check similarity to sentiment markers</span></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> word <span class="kw">in</span> words:</span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>            word_vector <span class="op">=</span> model[word]</span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Compare with positive markers</span></span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> pos_word <span class="kw">in</span> pos_markers:</span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>                pos_vector <span class="op">=</span> model[pos_word]</span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>                similarity <span class="op">=</span> cosine_similarity([word_vector], [pos_vector])[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>                positive_score <span class="op">+=</span> similarity</span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Compare with negative markers</span></span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> neg_word <span class="kw">in</span> neg_markers:</span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a>                neg_vector <span class="op">=</span> model[neg_word]</span>
+<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a>                similarity <span class="op">=</span> cosine_similarity([word_vector], [neg_vector])[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a>                negative_score <span class="op">+=</span> similarity</span>
+<span id="cb36-28"><a href="#cb36-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
+<span id="cb36-29"><a href="#cb36-29" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Word not in the model vocabulary</span></span>
+<span id="cb36-30"><a href="#cb36-30" aria-hidden="true" tabindex="-1"></a>            <span class="cf">pass</span></span>
+<span id="cb36-31"><a href="#cb36-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb36-32"><a href="#cb36-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Determine overall sentiment based on which score is higher</span></span>
+<span id="cb36-33"><a href="#cb36-33" aria-hidden="true" tabindex="-1"></a>    sentiment <span class="op">=</span> <span class="st">"Positive"</span> <span class="cf">if</span> positive_score <span class="op">&gt;</span> negative_score <span class="cf">else</span> <span class="st">"Negative"</span></span>
+<span id="cb36-34"><a href="#cb36-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sentiment, positive_score, negative_score</span>
+<span id="cb36-35"><a href="#cb36-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-36"><a href="#cb36-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
+<span id="cb36-37"><a href="#cb36-37" aria-hidden="true" tabindex="-1"></a>sentence <span class="op">=</span> <span class="st">"I love this amazing product!"</span></span>
+<span id="cb36-38"><a href="#cb36-38" aria-hidden="true" tabindex="-1"></a>sentiment, pos_score, neg_score <span class="op">=</span> assess_sentiment(sentence, positive_markers, negative_markers, model)</span>
+<span id="cb36-39"><a href="#cb36-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-40"><a href="#cb36-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Sentiment: </span><span class="sc">{</span>sentiment<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb36-41"><a href="#cb36-41" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Positive score: </span><span class="sc">{</span>pos_score<span class="sc">:.3f}</span><span class="ss">, Negative score: </span><span class="sc">{</span>neg_score<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Sample Output</strong>:</p>
+<pre><code>Sentiment: Positive
+Positive score: 7.896, Negative score: 6.310</code></pre>
+<p>In this example, the sentence “I love this amazing product!” is classified as positive based on its higher similarity to positive sentiment markers like “love” and “amazing.”</p>
+<p>By leveraging word embeddings, we can analyze both the <strong>politeness</strong> and <strong>sentiment</strong> of text in a nuanced way, providing insights into how language is used to convey emotions, politeness, and formality across different contexts.</p>
+</section>
+</section>
+</section>
+<section id="translation-and-bilingual-word-embeddings-1" class="level2" data-number="13.6">
+<h2 data-number="13.6" class="anchored" data-anchor-id="translation-and-bilingual-word-embeddings-1"><span class="header-section-number">13.6</span> Translation and Bilingual Word Embeddings</h2>
+<p>Bilingual word embeddings enable us to map words from different languages into a shared semantic space, facilitating cross-linguistic analysis and error detection in translation. These embeddings allow words in different languages that have similar meanings to be located close to each other in the shared space, which is useful for tasks like machine translation and semantic analysis across languages.</p>
+<p>In cross-linguistic analysis, we use bilingual embeddings to map words from two different languages into a shared semantic space. This allows us to study how similar words in different languages are semantically related.</p>
+<section id="steps-10" class="level4" data-number="13.6.0.1">
+<h4 data-number="13.6.0.1" class="anchored" data-anchor-id="steps-10"><span class="header-section-number">13.6.0.1</span> <strong>Steps</strong>:</h4>
+<ol type="1">
+<li>Load bilingual word embeddings for two languages.</li>
+<li>Compare the embeddings of words from different languages in the shared space.</li>
+<li>Calculate similarity between words to identify cross-linguistic semantic similarity.</li>
+</ol>
+<p>Here’s the revised Python code for both <strong>cross-linguistic analysis</strong> and <strong>translation error detection</strong> using English and Korean word embeddings:</p>
+</section>
+<section id="cross-linguistic-analysis-between-english-and-korean-using-bilingual-word-embeddings" class="level3" data-number="13.6.1">
+<h3 data-number="13.6.1" class="anchored" data-anchor-id="cross-linguistic-analysis-between-english-and-korean-using-bilingual-word-embeddings"><span class="header-section-number">13.6.1</span> Cross-Linguistic Analysis Between English and Korean Using Bilingual Word Embeddings</h3>
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First, install fastText if not already installed</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install fasttext</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> fasttext</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> fasttext.util</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics.pairwise <span class="im">import</span> cosine_similarity</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Load pre-trained fastText models for English and Korean</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>fasttext.util.download_model(<span class="st">'en'</span>, if_exists<span class="op">=</span><span class="st">'ignore'</span>)  <span class="co"># English</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>fasttext.util.download_model(<span class="st">'ko'</span>, if_exists<span class="op">=</span><span class="st">'ignore'</span>)  <span class="co"># Korean</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>model_en <span class="op">=</span> fasttext.load_model(<span class="st">'cc.en.300.bin'</span>)</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>model_ko <span class="op">=</span> fasttext.load_model(<span class="st">'cc.ko.300.bin'</span>)</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to compare cross-linguistic similarity between English and Korean words</span></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cross_linguistic_similarity(word_en, word_ko, model_en, model_ko):</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get word embeddings</span></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>    vec_en <span class="op">=</span> model_en.get_word_vector(word_en)</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>    vec_ko <span class="op">=</span> model_ko.get_word_vector(word_ko)</span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute cosine similarity</span></span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>    similarity <span class="op">=</span> cosine_similarity([vec_en], [vec_ko])[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> similarity</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage: Compare 'apple' (English) and '사과' (Korean)</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>word_en <span class="op">=</span> <span class="st">'apple'</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>word_ko <span class="op">=</span> <span class="st">'사과'</span>  <span class="co"># 사과 (sagwa) means "apple" in Korean</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>similarity_score <span class="op">=</span> cross_linguistic_similarity(word_en, word_ko, model_en, model_ko)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Similarity between '</span><span class="sc">{</span>word_en<span class="sc">}</span><span class="ss">' (English) and '</span><span class="sc">{</span>word_ko<span class="sc">}</span><span class="ss">' (Korean): </span><span class="sc">{</span>similarity_score<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Explanation</strong>:</p>
+<ul>
+<li><strong>fastText Models</strong>: We load pre-trained <strong>fastText</strong> models for English and Korean. These models map words from both languages into a shared 300-dimensional space.</li>
+<li><strong>Cross-Linguistic Similarity</strong>: The function calculates cosine similarity between the embeddings of an English word and its Korean translation.</li>
+</ul>
+<p><strong>Sample Output</strong>:</p>
+<pre><code>Similarity between 'apple' (English) and '사과' (Korean): 0.811</code></pre>
+<p>In this example, <strong>‘apple’</strong> (English) and <strong>‘사과’</strong> (Korean) have a high similarity score, indicating they are semantically related across languages.</p>
+</section>
+<section id="translation-error-detection-between-english-and-korean" class="level3" data-number="13.6.2">
+<h3 data-number="13.6.2" class="anchored" data-anchor-id="translation-error-detection-between-english-and-korean"><span class="header-section-number">13.6.2</span> Translation Error Detection Between English and Korean</h3>
+<p>We can use bilingual word embeddings to detect translation errors by comparing the embeddings of English words with their Korean translations. If the similarity is below a threshold, the translation may be incorrect.</p>
+<section id="revised-python-code-for-translation-error-detection-between-english-and-korean" class="level4" data-number="13.6.2.1">
+<h4 data-number="13.6.2.1" class="anchored" data-anchor-id="revised-python-code-for-translation-error-detection-between-english-and-korean"><span class="header-section-number">13.6.2.1</span> <strong>Revised Python Code for Translation Error Detection Between English and Korean</strong>:</h4>
+<div class="sourceCode" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to detect errors in translation using bilingual word embeddings</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> detect_translation_error(source_word, target_word, model_source, model_target, threshold<span class="op">=</span><span class="fl">0.6</span>):</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get embeddings for source and target words</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    vec_source <span class="op">=</span> model_source.get_word_vector(source_word)</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    vec_target <span class="op">=</span> model_target.get_word_vector(target_word)</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute cosine similarity</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    similarity <span class="op">=</span> cosine_similarity([vec_source], [vec_target])[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Determine if there is a potential translation error</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> similarity <span class="op">&lt;</span> threshold:</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"Potential translation error: '</span><span class="sc">{</span>source_word<span class="sc">}</span><span class="ss">' and '</span><span class="sc">{</span>target_word<span class="sc">}</span><span class="ss">' have low similarity (</span><span class="sc">{</span>similarity<span class="sc">:.3f}</span><span class="ss">)."</span></span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"Translation seems correct: '</span><span class="sc">{</span>source_word<span class="sc">}</span><span class="ss">' and '</span><span class="sc">{</span>target_word<span class="sc">}</span><span class="ss">' are semantically similar (</span><span class="sc">{</span>similarity<span class="sc">:.3f}</span><span class="ss">)."</span></span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage: Detecting a possible translation error between 'car' (English) and '자동차' (Korean)</span></span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>source_word <span class="op">=</span> <span class="st">'car'</span></span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>target_word <span class="op">=</span> <span class="st">'자동차'</span>  <span class="co"># 자동차 (jadongcha) means "car" in Korean</span></span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a>error_message <span class="op">=</span> detect_translation_error(source_word, target_word, model_en, model_ko)</span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(error_message)</span>
+<span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage: Detecting a potential translation error between 'car' (English) and '책' (Korean)</span></span>
+<span id="cb42-24"><a href="#cb42-24" aria-hidden="true" tabindex="-1"></a>source_word <span class="op">=</span> <span class="st">'car'</span></span>
+<span id="cb42-25"><a href="#cb42-25" aria-hidden="true" tabindex="-1"></a>target_word <span class="op">=</span> <span class="st">'책'</span>  <span class="co"># 책 (chaek) means "book" in Korean (incorrect translation)</span></span>
+<span id="cb42-26"><a href="#cb42-26" aria-hidden="true" tabindex="-1"></a>error_message <span class="op">=</span> detect_translation_error(source_word, target_word, model_en, model_ko)</span>
+<span id="cb42-27"><a href="#cb42-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-28"><a href="#cb42-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(error_message)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Explanation</strong>:</p>
+<ul>
+<li><strong>Translation Error Detection</strong>: This function compares the similarity between an English word and its Korean translation. If the similarity is below a given threshold (e.g., 0.6), the translation is flagged as potentially incorrect.</li>
+<li><strong>Threshold</strong>: The threshold helps to determine the cutoff for acceptable similarity. A higher threshold will be more strict in detecting errors.</li>
+</ul>
+<p><strong>Sample Output</strong>:</p>
+<pre><code>Translation seems correct: 'car' and '자동차' are semantically similar (0.874).
+Potential translation error: 'car' and '책' have low similarity (0.218).</code></pre>
+<p>In the first example, <strong>‘car’</strong> (English) and <strong>‘자동차’</strong> (Korean) are correctly translated, whereas <strong>‘car’</strong> and <strong>‘책’</strong> (book) are not semantically similar, indicating a translation error.</p>
+<p>By using bilingual word embeddings, we can perform effective <strong>cross-linguistic analysis</strong> and <strong>translation error detection</strong> between <strong>English and Korean</strong>, improving translation systems and understanding the semantic relationships between languages.</p>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./12.Word_Embedding.html" class="pagination-link" aria-label="Word Embedding and Relational Similarity">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Word Embedding and Relational Similarity</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./A.assignments.html" class="pagination-link" aria-label="Assignment #01">
+        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Assignment #01</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

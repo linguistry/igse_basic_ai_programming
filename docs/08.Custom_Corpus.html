@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>8&nbsp; Building a Custom Corpus – Basic AI Programming</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./09.Preprocessing.html" rel="next">
+<link href="./07.Regular_Expression.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08.Custom_Corpus.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Building a Custom Corpus</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Basic AI Programming</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01.setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Setting Up Environment</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02.intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Constants and Variables in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03.control.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Control Structures in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04.function.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Functions and Packages in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05.pandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Analysis in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06.arithmetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Basic Arithmetic Operations in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07.Regular_Expression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regular Expressions (RegEx) in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08.Custom_Corpus.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Building a Custom Corpus</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09.Preprocessing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Text Preprocessing</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10.Word_Cloud.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualizing Word Frequencies with Graphs and Word Clouds</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11.Text_Representation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Text Representation Based on Counts</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12.Word_Embedding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Word Embedding and Relational Similarity</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13.NLP_toolkit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Word Embedding Activities</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A.assignments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Assignment #01</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#procedure" id="toc-procedure" class="nav-link active" data-scroll-target="#procedure"><span class="header-section-number">8.1</span> Procedure</a>
+  <ul class="collapse">
+  <li><a href="#define-the-purpose" id="toc-define-the-purpose" class="nav-link" data-scroll-target="#define-the-purpose"><span class="header-section-number">8.1.1</span> <strong>Define the Purpose</strong></a></li>
+  <li><a href="#decide-on-data-sources" id="toc-decide-on-data-sources" class="nav-link" data-scroll-target="#decide-on-data-sources"><span class="header-section-number">8.1.2</span> <strong>Decide on Data Sources</strong></a></li>
+  <li><a href="#collect-and-store-the-data" id="toc-collect-and-store-the-data" class="nav-link" data-scroll-target="#collect-and-store-the-data"><span class="header-section-number">8.1.3</span> <strong>Collect and Store the Data</strong></a></li>
+  <li><a href="#data-cleaning-preprocessing" id="toc-data-cleaning-preprocessing" class="nav-link" data-scroll-target="#data-cleaning-preprocessing"><span class="header-section-number">8.1.4</span> <strong>Data Cleaning &amp; Preprocessing</strong></a></li>
+  <li><a href="#data-annotation-optional" id="toc-data-annotation-optional" class="nav-link" data-scroll-target="#data-annotation-optional"><span class="header-section-number">8.1.5</span> <strong>Data Annotation (Optional)</strong></a></li>
+  <li><a href="#corpus-formatting" id="toc-corpus-formatting" class="nav-link" data-scroll-target="#corpus-formatting"><span class="header-section-number">8.1.6</span> <strong>Corpus Formatting</strong></a></li>
+  <li><a href="#corpus-size-diversity" id="toc-corpus-size-diversity" class="nav-link" data-scroll-target="#corpus-size-diversity"><span class="header-section-number">8.1.7</span> <strong>Corpus Size &amp; Diversity</strong></a></li>
+  <li><a href="#corpus-tools-optional" id="toc-corpus-tools-optional" class="nav-link" data-scroll-target="#corpus-tools-optional"><span class="header-section-number">8.1.8</span> <strong>Corpus Tools (Optional)</strong></a></li>
+  <li><a href="#exportshare-the-corpus" id="toc-exportshare-the-corpus" class="nav-link" data-scroll-target="#exportshare-the-corpus"><span class="header-section-number">8.1.9</span> <strong>Export/Share the Corpus</strong></a></li>
+  <li><a href="#example-steps-for-building-a-custom-sentiment-analysis-corpus" id="toc-example-steps-for-building-a-custom-sentiment-analysis-corpus" class="nav-link" data-scroll-target="#example-steps-for-building-a-custom-sentiment-analysis-corpus"><span class="header-section-number">8.1.10</span> Example: Steps for Building a Custom Sentiment Analysis Corpus</a></li>
+  </ul></li>
+  <li><a href="#web-scraping" id="toc-web-scraping" class="nav-link" data-scroll-target="#web-scraping"><span class="header-section-number">8.2</span> Web Scraping</a>
+  <ul class="collapse">
+  <li><a href="#steps-for-web-scraping" id="toc-steps-for-web-scraping" class="nav-link" data-scroll-target="#steps-for-web-scraping"><span class="header-section-number">8.2.1</span> Steps for Web Scraping</a></li>
+  <li><a href="#example-scraping-job-listings-from-a-webpage" id="toc-example-scraping-job-listings-from-a-webpage" class="nav-link" data-scroll-target="#example-scraping-job-listings-from-a-webpage"><span class="header-section-number">8.2.2</span> Example: Scraping Job Listings from a Webpage</a></li>
+  <li><a href="#python-code-to-scrape-all-pages-with-pagination" id="toc-python-code-to-scrape-all-pages-with-pagination" class="nav-link" data-scroll-target="#python-code-to-scrape-all-pages-with-pagination"><span class="header-section-number">8.2.3</span> Python Code to Scrape All Pages with Pagination:</a></li>
+  <li><a href="#explanation" id="toc-explanation" class="nav-link" data-scroll-target="#explanation"><span class="header-section-number">8.2.4</span> Explanation:</a></li>
+  <li><a href="#expected-output" id="toc-expected-output" class="nav-link" data-scroll-target="#expected-output"><span class="header-section-number">8.2.5</span> Expected Output:</a></li>
+  </ul></li>
+  <li><a href="#youtube-subtitle-extraction" id="toc-youtube-subtitle-extraction" class="nav-link" data-scroll-target="#youtube-subtitle-extraction"><span class="header-section-number">8.3</span> YouTube Subtitle Extraction</a>
+  <ul class="collapse">
+  <li><a href="#method-1-using-youtube-transcript-api-simpler-approach" id="toc-method-1-using-youtube-transcript-api-simpler-approach" class="nav-link" data-scroll-target="#method-1-using-youtube-transcript-api-simpler-approach"><span class="header-section-number">8.3.1</span> Method 1: Using <strong>YouTube Transcript API</strong> (Simpler Approach)</a></li>
+  <li><a href="#method-2-using-youtube-data-api-v3" id="toc-method-2-using-youtube-data-api-v3" class="nav-link" data-scroll-target="#method-2-using-youtube-data-api-v3"><span class="header-section-number">8.3.2</span> Method 2: Using <strong>YouTube Data API v3</strong></a></li>
+  <li><a href="#method-3-retrieve-the-subtitles-of-multiple-videos-from-a-youtube-playlist" id="toc-method-3-retrieve-the-subtitles-of-multiple-videos-from-a-youtube-playlist" class="nav-link" data-scroll-target="#method-3-retrieve-the-subtitles-of-multiple-videos-from-a-youtube-playlist"><span class="header-section-number">8.3.3</span> Method 3: Retrieve the subtitles of multiple videos from a YouTube playlist</a></li>
+  <li><a href="#explanation-of-the-code" id="toc-explanation-of-the-code" class="nav-link" data-scroll-target="#explanation-of-the-code"><span class="header-section-number">8.3.4</span> Explanation of the Code:</a></li>
+  <li><a href="#updated-code" id="toc-updated-code" class="nav-link" data-scroll-target="#updated-code"><span class="header-section-number">8.3.5</span> Updated Code:</a></li>
+  <li><a href="#explanation-of-changes-1" id="toc-explanation-of-changes-1" class="nav-link" data-scroll-target="#explanation-of-changes-1"><span class="header-section-number">8.3.6</span> Explanation of Changes:</a></li>
+  <li><a href="#output-2" id="toc-output-2" class="nav-link" data-scroll-target="#output-2"><span class="header-section-number">8.3.7</span> Output:</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Building a Custom Corpus</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Building a custom corpus involves several steps depending on the nature of the corpus and its intended use (e.g., linguistic analysis, natural language processing, or machine learning). Below is a step-by-step guide for constructing a custom text corpus:</p>
+<section id="procedure" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="procedure"><span class="header-section-number">8.1</span> Procedure</h2>
+<section id="define-the-purpose" class="level3" data-number="8.1.1">
+<h3 data-number="8.1.1" class="anchored" data-anchor-id="define-the-purpose"><span class="header-section-number">8.1.1</span> <strong>Define the Purpose</strong></h3>
+<p>Before starting, clearly define the purpose of your corpus. For instance:</p>
+<ul>
+<li><strong>Language Analysis</strong>: Are you studying phonetics, syntax, or semantics?</li>
+<li><strong>Machine Learning/NLP</strong>: Do you need a training dataset for sentiment analysis, text classification, or language modeling?</li>
+<li><strong>Domain-specific Corpus</strong>: Are you focusing on medical, legal, academic, or informal conversational language?</li>
+</ul>
+</section>
+<section id="decide-on-data-sources" class="level3" data-number="8.1.2">
+<h3 data-number="8.1.2" class="anchored" data-anchor-id="decide-on-data-sources"><span class="header-section-number">8.1.2</span> <strong>Decide on Data Sources</strong></h3>
+<p>Determine where to source the data from:</p>
+<ul>
+<li><strong>Web scraping</strong>: Use tools like BeautifulSoup or Scrapy to extract text from websites.</li>
+<li><strong>Books, Papers, Articles</strong>: Digitize and preprocess text from publications.</li>
+<li><strong>Social Media/Forums</strong>: Use APIs like Twitter, Reddit, or specific domain forums.</li>
+<li><strong>Transcriptions</strong>: If you need spoken language, consider using speech-to-text services to create transcripts.</li>
+<li><strong>Existing Corpora</strong>: You can augment your corpus with publicly available ones like the Brown Corpus, Gutenberg Project, or specialized databases.</li>
+</ul>
+</section>
+<section id="collect-and-store-the-data" class="level3" data-number="8.1.3">
+<h3 data-number="8.1.3" class="anchored" data-anchor-id="collect-and-store-the-data"><span class="header-section-number">8.1.3</span> <strong>Collect and Store the Data</strong></h3>
+<ul>
+<li><strong>Web Scraping/Downloading</strong>: Use web crawlers, APIs, or manual downloads to gather the raw text data. Make sure to follow ethical guidelines, including copyright considerations.</li>
+<li><strong>Database/Spreadsheet</strong>: Store collected texts in an organized format (e.g., CSV, JSON, or a relational database).</li>
+<li><strong>Tagging Metadata</strong>: Include useful metadata (e.g., author, publication date, text genre, and source) to allow for targeted corpus queries.</li>
+</ul>
+</section>
+<section id="data-cleaning-preprocessing" class="level3" data-number="8.1.4">
+<h3 data-number="8.1.4" class="anchored" data-anchor-id="data-cleaning-preprocessing"><span class="header-section-number">8.1.4</span> <strong>Data Cleaning &amp; Preprocessing</strong></h3>
+<p>Raw text data needs to be cleaned and prepared for analysis:</p>
+<ul>
+<li><strong>Tokenization</strong>: Break the text into sentences and words.</li>
+<li><strong>Lowercasing</strong>: Convert all text to lowercase (if case sensitivity isn’t required).</li>
+<li><strong>Remove Stopwords/Punctuation</strong>: You may want to exclude common words (like ‘and’, ‘the’) or punctuation, depending on the goal.</li>
+<li><strong>Normalization</strong>: Convert numbers, dates, and other elements into consistent formats.</li>
+<li><strong>Handling Special Characters</strong>: Replace or remove non-ASCII characters, HTML tags, or other artifacts from the data source.</li>
+<li><strong>Lemmatization/Stemming</strong>: Reduce words to their base forms for consistency (e.g., running -&gt; run).</li>
+</ul>
+</section>
+<section id="data-annotation-optional" class="level3" data-number="8.1.5">
+<h3 data-number="8.1.5" class="anchored" data-anchor-id="data-annotation-optional"><span class="header-section-number">8.1.5</span> <strong>Data Annotation (Optional)</strong></h3>
+<ul>
+<li>If you need a labeled dataset, annotate the text with additional information, such as:</li>
+<li><strong>POS Tags</strong>: Parts of Speech tagging for grammatical structure.</li>
+<li><strong>Named Entities</strong>: Tag entities like persons, locations, organizations.</li>
+<li><strong>Sentiment or Categories</strong>: Manually label texts for sentiment, emotions, or specific classification tasks.</li>
+<li>You can use annotation tools like Brat, Prodigy, or Label Studio.</li>
+</ul>
+</section>
+<section id="corpus-formatting" class="level3" data-number="8.1.6">
+<h3 data-number="8.1.6" class="anchored" data-anchor-id="corpus-formatting"><span class="header-section-number">8.1.6</span> <strong>Corpus Formatting</strong></h3>
+<p>After cleaning and processing the data, store it in a structured format:</p>
+<ul>
+<li><strong>Plain Text</strong>: Simple text files (one document per file).</li>
+<li><strong>XML/JSON</strong>: Structured formats with metadata tags and hierarchy.</li>
+<li><strong>CSV/TSV</strong>: Useful if you need to store data with multiple fields (e.g., sentences, labels, tags).</li>
+<li><strong>Specialized Formats</strong>: If the corpus is for NLP tasks, use formats like CoNLL or CSV files with token annotations.</li>
+</ul>
+</section>
+<section id="corpus-size-diversity" class="level3" data-number="8.1.7">
+<h3 data-number="8.1.7" class="anchored" data-anchor-id="corpus-size-diversity"><span class="header-section-number">8.1.7</span> <strong>Corpus Size &amp; Diversity</strong></h3>
+<ul>
+<li><strong>Determine the size of your corpus</strong>: Depending on the task, your corpus may need to be large (for language models) or small but highly focused (for linguistic studies).</li>
+<li><strong>Ensure diversity</strong>: Balance the corpus with data from various genres, demographics, or domains, as needed.</li>
+</ul>
+</section>
+<section id="corpus-tools-optional" class="level3" data-number="8.1.8">
+<h3 data-number="8.1.8" class="anchored" data-anchor-id="corpus-tools-optional"><span class="header-section-number">8.1.8</span> <strong>Corpus Tools (Optional)</strong></h3>
+<ul>
+<li>If you need tools to manage or explore your corpus:</li>
+<li><strong>AntConc</strong>: A free tool for analyzing text corpora (concordance, collocation, etc.).</li>
+<li><strong>NLTK, spaCy</strong>: Python libraries for processing and analyzing corpora, which also provide tools for tokenization, tagging, and more.</li>
+</ul>
+</section>
+<section id="exportshare-the-corpus" class="level3" data-number="8.1.9">
+<h3 data-number="8.1.9" class="anchored" data-anchor-id="exportshare-the-corpus"><span class="header-section-number">8.1.9</span> <strong>Export/Share the Corpus</strong></h3>
+<ul>
+<li>Once built, you can export your corpus for analysis or use in machine learning models.</li>
+<li>If sharing, consider adding documentation and metadata about its sources, structure, and purpose.</li>
+</ul>
+</section>
+<section id="example-steps-for-building-a-custom-sentiment-analysis-corpus" class="level3" data-number="8.1.10">
+<h3 data-number="8.1.10" class="anchored" data-anchor-id="example-steps-for-building-a-custom-sentiment-analysis-corpus"><span class="header-section-number">8.1.10</span> Example: Steps for Building a Custom Sentiment Analysis Corpus</h3>
+<ol type="1">
+<li><p><strong>Define Purpose</strong>: Create a sentiment analysis corpus.</p></li>
+<li><p><strong>Collect Data</strong>: Scrape reviews from a website (e.g., Amazon reviews).</p></li>
+<li><p><strong>Preprocess</strong>: Remove HTML tags, stopwords, punctuation, and tokenize sentences.</p></li>
+<li><p><strong>Annotate</strong>: Manually label each review with positive, negative, or neutral sentiment.</p></li>
+<li><p><strong>Store</strong>: Save the corpus in a CSV format with columns: “Review Text”, “Sentiment”.</p></li>
+</ol>
+</section>
+</section>
+<section id="web-scraping" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="web-scraping"><span class="header-section-number">8.2</span> Web Scraping</h2>
+<p>Web scraping is the process of extracting data from websites. In Python, there are several popular libraries used for this purpose, including <code>BeautifulSoup</code>, <code>requests</code>, and <code>Scrapy</code>. Below is an overview of the steps involved in web scraping, followed by a Python code example using <code>BeautifulSoup</code> and <code>requests</code>.</p>
+<section id="steps-for-web-scraping" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="steps-for-web-scraping"><span class="header-section-number">8.2.1</span> Steps for Web Scraping</h3>
+<ol type="1">
+<li><p><strong>Install Required Libraries</strong>: You will need to install the following libraries:</p>
+<ul>
+<li><code>requests</code>: To send HTTP requests to a web page and get the HTML content.</li>
+<li><code>BeautifulSoup</code> (from the <code>bs4</code> package): To parse the HTML and extract the data.</li>
+<li>(Optional) <code>pandas</code>: To store the extracted data in a structured format like a DataFrame.</li>
+</ul>
+<p>Install them via pip:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install requests beautifulsoup4 pandas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><strong>Understand the Website Structure</strong>:</p>
+<ul>
+<li>Open the website you want to scrape.</li>
+<li>Use your browser’s developer tools (F12 or right-click → Inspect) to inspect the HTML structure and identify the elements containing the data you want to scrape (e.g., headings, paragraphs, tables, etc.).</li>
+</ul></li>
+<li><p><strong>Write the Web Scraping Script</strong>:</p>
+<ul>
+<li>Use <code>requests</code> to fetch the HTML content of the page.</li>
+<li>Parse the HTML using <code>BeautifulSoup</code> and extract the required data.</li>
+<li>Optionally, save the data in a CSV file or a DataFrame.</li>
+</ul></li>
+</ol>
+</section>
+<section id="example-scraping-job-listings-from-a-webpage" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="example-scraping-job-listings-from-a-webpage"><span class="header-section-number">8.2.2</span> Example: Scraping Job Listings from a Webpage</h3>
+<p>To scrape data from all pages of the <a href="https://books.toscrape.com/">Books to Scrape</a> website, including subsequent pages, you’ll need to set up a loop that continues until it reaches the last page. Each page’s URL follows the pattern <code>https://books.toscrape.com/catalogue/page-X.html</code>, where <code>X</code> is the page number.</p>
+<p>The key is to keep requesting new pages and checking if a next page exists by inspecting the “Next” button. If it exists, you continue to the next page; otherwise, the loop stops.</p>
+<p>Here’s the modified Python code that automatically handles pagination until the end of the list:</p>
+</section>
+<section id="python-code-to-scrape-all-pages-with-pagination" class="level3" data-number="8.2.3">
+<h3 data-number="8.2.3" class="anchored" data-anchor-id="python-code-to-scrape-all-pages-with-pagination"><span class="header-section-number">8.2.3</span> Python Code to Scrape All Pages with Pagination:</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create lists to store all extracted data</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>all_titles <span class="op">=</span> []</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>all_prices <span class="op">=</span> []</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>all_availability <span class="op">=</span> []</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>all_links <span class="op">=</span> []</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>all_descriptions <span class="op">=</span> []</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Base URL for books to scrape</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>base_url <span class="op">=</span> <span class="st">"https://books.toscrape.com/catalogue/"</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>page_url <span class="op">=</span> <span class="st">"https://books.toscrape.com/catalogue/page-1.html"</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop through each page until there is no next page</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Send a GET request to the current page</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> requests.get(page_url, timeout<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check if the request was successful</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> response.status_code <span class="op">==</span> <span class="dv">200</span>:</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        soup <span class="op">=</span> BeautifulSoup(response.content, <span class="st">'html.parser'</span>)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Find all book entries on the page</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        books <span class="op">=</span> soup.find_all(<span class="st">'article'</span>, class_<span class="op">=</span><span class="st">'product_pod'</span>)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> book <span class="kw">in</span> books:</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>            title <span class="op">=</span> book.h3.a[<span class="st">'title'</span>]</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>            all_titles.append(title)</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>            price <span class="op">=</span> book.find(<span class="st">'p'</span>, class_<span class="op">=</span><span class="st">'price_color'</span>).text.strip()</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>            all_prices.append(price)</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>            availability <span class="op">=</span> book.find(<span class="st">'p'</span>, class_<span class="op">=</span><span class="st">'instock availability'</span>).text.strip()</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>            all_availability.append(availability)</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>            relative_link <span class="op">=</span> book.h3.a[<span class="st">'href'</span>]</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>            full_link <span class="op">=</span> base_url <span class="op">+</span> relative_link.replace(<span class="st">'../../'</span>, <span class="st">''</span>)</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>            all_links.append(full_link)</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Now scrape the product description from the book's page</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>            <span class="cf">try</span>:</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>                book_response <span class="op">=</span> requests.get(full_link, timeout<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> book_response.status_code <span class="op">==</span> <span class="dv">200</span>:</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>                    book_soup <span class="op">=</span> BeautifulSoup(book_response.content, <span class="st">'html.parser'</span>)</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># Scrape the product description</span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>                    description_element <span class="op">=</span> book_soup.select_one(<span class="st">'#content_inner &gt; article &gt; p'</span>)</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> description_element:</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>                        description <span class="op">=</span> description_element.text.strip()</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">else</span>:</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>                        description <span class="op">=</span> <span class="st">"No description available."</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>                    description <span class="op">=</span> <span class="st">"Failed to retrieve description."</span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>            <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>                description <span class="op">=</span> <span class="ss">f"Error: </span><span class="sc">{</span><span class="bu">str</span>(e)<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>            all_descriptions.append(description)</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Check if there's a next page by looking for the "next" button</span></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>        next_button <span class="op">=</span> soup.select_one(<span class="st">'li.next &gt; a'</span>)</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> next_button:</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>            next_page_relative_url <span class="op">=</span> next_button[<span class="st">'href'</span>]</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>            page_url <span class="op">=</span> base_url <span class="op">+</span> next_page_relative_url  <span class="co"># Construct the URL for the next page</span></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span>  <span class="co"># No more pages, exit the loop</span></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Failed to retrieve page. Status code: </span><span class="sc">{</span>response<span class="sc">.</span>status_code<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a><span class="co"># Save all the data to a DataFrame and CSV file</span></span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>books_df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Title'</span>: all_titles,</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Price'</span>: all_prices,</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Availability'</span>: all_availability,</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Link'</span>: all_links,</span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Product Description'</span>: all_descriptions</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>books_df.to_csv(<span class="st">'books_scraped_with_descriptions_all_pages.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the extracted data</span></span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(books_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="explanation" class="level3" data-number="8.2.4">
+<h3 data-number="8.2.4" class="anchored" data-anchor-id="explanation"><span class="header-section-number">8.2.4</span> Explanation:</h3>
+<ol type="1">
+<li><strong>Pagination Handling</strong>:
+<ul>
+<li>The loop starts from the first page (<code>page-1.html</code>) and checks for the presence of a “Next” button (<code>li.next &gt; a</code>) at the bottom of the page.</li>
+<li>If the “Next” button exists, the script extracts the URL for the next page and continues the loop. If not, the loop ends.</li>
+</ul></li>
+<li><strong>Extracting Book Information</strong>:
+<ul>
+<li>For each book on a page, the script extracts the title, price, availability, and the link to the book’s detail page.</li>
+<li>It then sends a separate request for each book’s detail page and scrapes the product description from the section (e.g., <code>#content_inner &gt; article &gt; p</code>).</li>
+</ul></li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/page_descript.png" class="img-fluid figure-img"></p>
+<figcaption><img src="images/copy_selector.png" class="img-fluid figure-img"></figcaption>
+</figure>
+</div>
+<p><strong>Fig. 1</strong>. How to copy “selector” address (<code>F12</code> key + Selector)</p>
+<ol start="3" type="1">
+<li><strong>Exiting the Loop</strong>:
+<ul>
+<li>The loop breaks when there is no “Next” button on the page, meaning it has reached the last page of the pagination.</li>
+</ul></li>
+<li><strong>Saving Data</strong>:
+<ul>
+<li>The extracted data (titles, prices, availability, links, and product descriptions) is stored in a Pandas DataFrame and saved as a CSV file (<code>books_scraped_with_descriptions_all_pages.csv</code>).</li>
+</ul></li>
+</ol>
+</section>
+<section id="expected-output" class="level3" data-number="8.2.5">
+<h3 data-number="8.2.5" class="anchored" data-anchor-id="expected-output"><span class="header-section-number">8.2.5</span> Expected Output:</h3>
+<p>The script will scrape all available pages of books and store the data in a CSV file with columns for the book title, price, availability, link, and product description.</p>
+</section>
+</section>
+<section id="youtube-subtitle-extraction" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="youtube-subtitle-extraction"><span class="header-section-number">8.3</span> YouTube Subtitle Extraction</h2>
+<p>You can extract subtitles (also called closed captions) from YouTube videos using the <strong>YouTube Data API</strong> or by directly downloading the subtitles if they are available. Here’s a guide on how to do both using Python.</p>
+<section id="method-1-using-youtube-transcript-api-simpler-approach" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="method-1-using-youtube-transcript-api-simpler-approach"><span class="header-section-number">8.3.1</span> Method 1: Using <strong>YouTube Transcript API</strong> (Simpler Approach)</h3>
+<p>A Python package called <code>youtube-transcript-api</code> provides an easy way to extract subtitles from YouTube videos without needing an API key.</p>
+<section id="step-1-install-youtube-transcript-api" class="level4" data-number="8.3.1.1">
+<h4 data-number="8.3.1.1" class="anchored" data-anchor-id="step-1-install-youtube-transcript-api"><span class="header-section-number">8.3.1.1</span> Step 1: Install <code>youtube-transcript-api</code></h4>
+<p>You can install this package using <code>pip</code>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install youtube-transcript-api</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="step-2-code-example-to-extract-subtitles" class="level4" data-number="8.3.1.2">
+<h4 data-number="8.3.1.2" class="anchored" data-anchor-id="step-2-code-example-to-extract-subtitles"><span class="header-section-number">8.3.1.2</span> Step 2: Code Example to Extract Subtitles</h4>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> youtube_transcript_api <span class="im">import</span> YouTubeTranscriptApi</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> csv</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace with your YouTube video ID</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>video_id <span class="op">=</span> <span class="st">'YOUR_VIDEO_ID'</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch the transcript</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    transcript <span class="op">=</span> YouTubeTranscriptApi.get_transcript(video_id)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Prepare to save the transcript to a .txt file</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(<span class="st">'transcript.txt'</span>, <span class="st">'w'</span>, encoding<span class="op">=</span><span class="st">'utf-8'</span>) <span class="im">as</span> txt_file:</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> entry <span class="kw">in</span> transcript:</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>            start_time <span class="op">=</span> entry[<span class="st">'start'</span>]</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>            duration <span class="op">=</span> entry[<span class="st">'duration'</span>]</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>            text <span class="op">=</span> entry[<span class="st">'text'</span>]</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Writing to txt file</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>            txt_file.write(<span class="ss">f"Start: </span><span class="sc">{</span>start_time<span class="sc">}</span><span class="ss"> seconds, Duration: </span><span class="sc">{</span>duration<span class="sc">}</span><span class="ss"> seconds</span><span class="ch">\n</span><span class="ss">Text: </span><span class="sc">{</span>text<span class="sc">}</span><span class="ch">\n\n</span><span class="ss">"</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Prepare to save the transcript to a .csv file</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(<span class="st">'transcript.csv'</span>, <span class="st">'w'</span>, newline<span class="op">=</span><span class="st">''</span>, encoding<span class="op">=</span><span class="st">'utf-8'</span>) <span class="im">as</span> csv_file:</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>        writer <span class="op">=</span> csv.writer(csv_file)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Writing the header</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        writer.writerow([<span class="st">'Start Time (seconds)'</span>, <span class="st">'Duration (seconds)'</span>, <span class="st">'Text'</span>])</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Writing each transcript entry</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> entry <span class="kw">in</span> transcript:</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>            writer.writerow([entry[<span class="st">'start'</span>], entry[<span class="st">'duration'</span>], entry[<span class="st">'text'</span>]])</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Transcript saved as 'transcript.txt' and 'transcript.csv'"</span>)</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Error: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="example" class="level4" data-number="8.3.1.3">
+<h4 data-number="8.3.1.3" class="anchored" data-anchor-id="example"><span class="header-section-number">8.3.1.3</span> Example:</h4>
+<p>If the video URL is <code>https://www.youtube.com/watch?v=abcd1234</code>, then the <code>video_id</code> would be <code>abcd1234</code>.</p>
+<p>This will return a list of subtitles with their start times and duration for the video. The subtitles must be available for the video (either auto-generated or uploaded by the video creator).</p>
+</section>
+<section id="explanation-1" class="level4" data-number="8.3.1.4">
+<h4 data-number="8.3.1.4" class="anchored" data-anchor-id="explanation-1"><span class="header-section-number">8.3.1.4</span> Explanation:</h4>
+<ol type="1">
+<li><strong>Text File (<code>transcript.txt</code>)</strong>:
+<ul>
+<li>We open a text file (<code>transcript.txt</code>) in write mode.</li>
+<li>For each subtitle entry, we format and write the start time, duration, and the text of the subtitle into the file.</li>
+</ul></li>
+<li><strong>CSV File (<code>transcript.csv</code>)</strong>:
+<ul>
+<li>We open a CSV file in write mode.</li>
+<li>We write the header with three columns: <code>Start Time</code>, <code>Duration</code>, and <code>Text</code>.</li>
+<li>We then write each subtitle entry (start time, duration, and text) as a row in the CSV file.</li>
+</ul></li>
+</ol>
+</section>
+<section id="output" class="level4" data-number="8.3.1.5">
+<h4 data-number="8.3.1.5" class="anchored" data-anchor-id="output"><span class="header-section-number">8.3.1.5</span> Output:</h4>
+<ol type="1">
+<li><code>transcript.txt</code>: Contains a formatted transcript with start times, durations, and text for each subtitle entry.</li>
+<li><code>transcript.csv</code>: Contains the transcript data organized in a table with three columns: <code>Start Time</code>, <code>Duration</code>, and <code>Text</code>.</li>
+</ol>
+</section>
+</section>
+<section id="method-2-using-youtube-data-api-v3" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="method-2-using-youtube-data-api-v3"><span class="header-section-number">8.3.2</span> Method 2: Using <strong>YouTube Data API v3</strong></h3>
+<p>The YouTube Data API v3 does not directly provide subtitles but can help you identify videos that have captions, and from there, you can manually fetch the captions if they are available.</p>
+<section id="step-1-set-up-youtube-data-api" class="level4" data-number="8.3.2.1">
+<h4 data-number="8.3.2.1" class="anchored" data-anchor-id="step-1-set-up-youtube-data-api"><span class="header-section-number">8.3.2.1</span> Step 1: Set Up YouTube Data API</h4>
+<ol type="1">
+<li>Go to the <a href="https://console.developers.google.com/">Google Developers Console</a>.</li>
+<li>Create a new project and enable the <strong>YouTube Data API v3</strong>.</li>
+<li>Generate an API key from the credentials tab.</li>
+</ol>
+<p><img src="images/clipboard-2231080649.png" class="img-fluid"></p>
+<p><img src="images/clipboard-3742297152.png" class="img-fluid"></p>
+</section>
+<section id="step-2-install-the-required-libraries" class="level4" data-number="8.3.2.2">
+<h4 data-number="8.3.2.2" class="anchored" data-anchor-id="step-2-install-the-required-libraries"><span class="header-section-number">8.3.2.2</span> Step 2: Install the Required Libraries</h4>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install google-api-python-client</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="step-3-code-example-to-check-for-subtitles-availability" class="level4" data-number="8.3.2.3">
+<h4 data-number="8.3.2.3" class="anchored" data-anchor-id="step-3-code-example-to-check-for-subtitles-availability"><span class="header-section-number">8.3.2.3</span> Step 3: Code Example to Check for Subtitles Availability</h4>
+<p>If you only want to save the video title and the entire subtitle (combined) as a single row in the CSV file, we can modify the script to:</p>
+<ol type="1">
+<li>Fetch the <strong>title</strong> of the video using the YouTube Data API.</li>
+<li>Fetch the <strong>transcript</strong> (subtitles) using the <code>youtube-transcript-api</code> and combine the entire transcript text into one row.</li>
+<li>Save the <strong>video title</strong> and <strong>entire subtitle</strong> as a single row in the CSV file.</li>
+</ol>
+<p>Here’s the modified code:</p>
+</section>
+<section id="modified-code" class="level4" data-number="8.3.2.4">
+<h4 data-number="8.3.2.4" class="anchored" data-anchor-id="modified-code"><span class="header-section-number">8.3.2.4</span> Modified Code:</h4>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> googleapiclient.discovery <span class="im">import</span> build</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> youtube_transcript_api <span class="im">import</span> YouTubeTranscriptApi</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> csv</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace with your API key</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>api_key <span class="op">=</span> <span class="st">'YOUR_API_KEY'</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>youtube <span class="op">=</span> build(<span class="st">'youtube'</span>, <span class="st">'v3'</span>, developerKey<span class="op">=</span>api_key)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace with the video ID you want to check</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>video_id <span class="op">=</span> <span class="st">'YOUR_VIDEO_ID'</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch video details</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> youtube.videos().<span class="bu">list</span>(</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    part<span class="op">=</span><span class="st">'snippet,contentDetails'</span>,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">id</span><span class="op">=</span>video_id</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>).execute()</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if video exists and fetch the title</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">'items'</span> <span class="kw">in</span> response <span class="kw">and</span> response[<span class="st">'items'</span>]:</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    video_title <span class="op">=</span> response[<span class="st">'items'</span>][<span class="dv">0</span>][<span class="st">'snippet'</span>][<span class="st">'title'</span>]  <span class="co"># Get the video title</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Video Title: </span><span class="sc">{</span>video_title<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check if captions are available and fetch the transcript</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'contentDetails'</span> <span class="kw">in</span> response[<span class="st">'items'</span>][<span class="dv">0</span>] <span class="kw">and</span> <span class="st">'caption'</span> <span class="kw">in</span> response[<span class="st">'items'</span>][<span class="dv">0</span>][<span class="st">'contentDetails'</span>]:</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> response[<span class="st">'items'</span>][<span class="dv">0</span>][<span class="st">'contentDetails'</span>][<span class="st">'caption'</span>] <span class="op">==</span> <span class="st">'true'</span>:</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"Captions are available for video ID: </span><span class="sc">{</span>video_id<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Fetch transcript using youtube-transcript-api</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>            <span class="cf">try</span>:</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>                transcript <span class="op">=</span> YouTubeTranscriptApi.get_transcript(video_id)</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Combine all the subtitles into a single string</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>                combined_subtitle <span class="op">=</span> <span class="st">" "</span>.join([entry[<span class="st">'text'</span>] <span class="cf">for</span> entry <span class="kw">in</span> transcript])</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Save the video title and combined subtitles to a .csv file</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>                <span class="cf">with</span> <span class="bu">open</span>(<span class="st">'transcript.csv'</span>, <span class="st">'w'</span>, newline<span class="op">=</span><span class="st">''</span>, encoding<span class="op">=</span><span class="st">'utf-8'</span>) <span class="im">as</span> csv_file:</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>                    writer <span class="op">=</span> csv.writer(csv_file)</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>                    writer.writerow([<span class="st">'Video Title'</span>, <span class="st">'Subtitle'</span>])  <span class="co"># Header row</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>                    writer.writerow([video_title, combined_subtitle])  <span class="co"># Data row</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>                <span class="bu">print</span>(<span class="st">"Transcript saved as 'transcript.csv'"</span>)</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>            <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>                <span class="bu">print</span>(<span class="ss">f"Error fetching transcript: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"No captions available for video ID: </span><span class="sc">{</span>video_id<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"No video found for video ID: </span><span class="sc">{</span>video_id<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="explanation-of-changes" class="level4" data-number="8.3.2.5">
+<h4 data-number="8.3.2.5" class="anchored" data-anchor-id="explanation-of-changes"><span class="header-section-number">8.3.2.5</span> Explanation of Changes:</h4>
+<ol type="1">
+<li><strong>Video Title</strong>:
+<ul>
+<li>We extract the video title using the YouTube Data API from <code>response['items'][0]['snippet']['title']</code>.</li>
+</ul></li>
+<li><strong>Combining Subtitles</strong>:
+<ul>
+<li>Instead of saving the start time, duration, and individual subtitle entries, the script now combines all the subtitle texts into a single string using <code>" ".join([entry['text'] for entry in transcript])</code>.</li>
+</ul></li>
+<li><strong>Saving to CSV</strong>:
+<ul>
+<li>The script saves only two fields in the CSV: the video title and the combined subtitles (as one row).</li>
+</ul></li>
+</ol>
+</section>
+<section id="output-1" class="level4" data-number="8.3.2.6">
+<h4 data-number="8.3.2.6" class="anchored" data-anchor-id="output-1"><span class="header-section-number">8.3.2.6</span> Output:</h4>
+<ul>
+<li><code>transcript.csv</code>: Contains the video title and the entire subtitle in one row.</li>
+</ul>
+</section>
+<section id="notes" class="level4" data-number="8.3.2.7">
+<h4 data-number="8.3.2.7" class="anchored" data-anchor-id="notes"><span class="header-section-number">8.3.2.7</span> Notes:</h4>
+<ul>
+<li>This code assumes that the subtitles are available for the video. If not, it will print an appropriate message.</li>
+<li>The entire subtitle text is combined into a single string and saved in the CSV file.</li>
+</ul>
+</section>
+</section>
+<section id="method-3-retrieve-the-subtitles-of-multiple-videos-from-a-youtube-playlist" class="level3" data-number="8.3.3">
+<h3 data-number="8.3.3" class="anchored" data-anchor-id="method-3-retrieve-the-subtitles-of-multiple-videos-from-a-youtube-playlist"><span class="header-section-number">8.3.3</span> Method 3: Retrieve the subtitles of multiple videos from a YouTube playlist</h3>
+<p>To retrieve the subtitles of multiple videos from a YouTube playlist and save the results in a CSV file with each row containing the <strong>video title</strong> and the <strong>subtitles</strong>, we can follow these steps:</p>
+<section id="steps" class="level4" data-number="8.3.3.1">
+<h4 data-number="8.3.3.1" class="anchored" data-anchor-id="steps"><span class="header-section-number">8.3.3.1</span> Steps:</h4>
+<ol type="1">
+<li>Use the <strong>YouTube Data API</strong> to fetch all the video IDs from the playlist.</li>
+<li>For each video, fetch the <strong>video title</strong> and <strong>subtitles</strong> using <code>youtube-transcript-api</code>.</li>
+<li>Save the <strong>video title</strong> and <strong>combined subtitles</strong> for each video in a CSV file.</li>
+</ol>
+</section>
+<section id="notes-1" class="level4" data-number="8.3.3.2">
+<h4 data-number="8.3.3.2" class="anchored" data-anchor-id="notes-1"><span class="header-section-number">8.3.3.2</span> Notes:</h4>
+<ul>
+<li><strong>Playlist ID</strong>: You need to replace <code>'YOUR_PLAYLIST_ID'</code> with the actual YouTube Playlist ID.</li>
+<li><strong>API Key</strong>: Replace <code>'YOUR_API_KEY'</code> with your valid YouTube Data API key.</li>
+<li><strong>No Subtitles</strong>: If a video has no subtitles available, it will display <code>"No subtitles available"</code> in the CSV file.</li>
+</ul>
+</section>
+<section id="code-to-achieve-this" class="level4" data-number="8.3.3.3">
+<h4 data-number="8.3.3.3" class="anchored" data-anchor-id="code-to-achieve-this"><span class="header-section-number">8.3.3.3</span> Code to Achieve This:</h4>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> googleapiclient.discovery <span class="im">import</span> build</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> youtube_transcript_api <span class="im">import</span> YouTubeTranscriptApi, NoTranscriptFound, TranscriptsDisabled</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> csv</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace with your YouTube API key</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>api_key <span class="op">=</span> <span class="st">'YOUR_API_KEY'</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the YouTube API client</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>youtube <span class="op">=</span> build(<span class="st">'youtube'</span>, <span class="st">'v3'</span>, developerKey<span class="op">=</span>api_key)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace with your Playlist ID</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>playlist_id <span class="op">=</span> <span class="st">'YOUR_PLAYLIST_ID'</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to get all video IDs from a playlist</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_video_ids_from_playlist(playlist_id):</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    video_ids <span class="op">=</span> []</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    next_page_token <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Fetch the playlist items</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        request <span class="op">=</span> youtube.playlistItems().<span class="bu">list</span>(</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>            part<span class="op">=</span><span class="st">'contentDetails'</span>,</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>            playlistId<span class="op">=</span>playlist_id,</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>            maxResults<span class="op">=</span><span class="dv">50</span>,</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>            pageToken<span class="op">=</span>next_page_token</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> request.execute()</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Extract video IDs</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> item <span class="kw">in</span> response[<span class="st">'items'</span>]:</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>            video_ids.append(item[<span class="st">'contentDetails'</span>][<span class="st">'videoId'</span>])</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Check if there's another page of results</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>        next_page_token <span class="op">=</span> response.get(<span class="st">'nextPageToken'</span>)</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> next_page_token:</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> video_ids</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to fetch video title and transcript</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fetch_video_details_and_transcript(video_id):</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Fetch video details (title)</span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>        video_response <span class="op">=</span> youtube.videos().<span class="bu">list</span>(</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>            part<span class="op">=</span><span class="st">'snippet'</span>,</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>            <span class="bu">id</span><span class="op">=</span>video_id</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>        ).execute()</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="st">'items'</span> <span class="kw">in</span> video_response <span class="kw">and</span> video_response[<span class="st">'items'</span>]:</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>            video_title <span class="op">=</span> video_response[<span class="st">'items'</span>][<span class="dv">0</span>][<span class="st">'snippet'</span>][<span class="st">'title'</span>]</span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Fetch transcript using youtube-transcript-api</span></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>            <span class="cf">try</span>:</span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>                transcript <span class="op">=</span> YouTubeTranscriptApi.get_transcript(video_id)</span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>                combined_subtitle <span class="op">=</span> <span class="st">" "</span>.join([entry[<span class="st">'text'</span>] <span class="cf">for</span> entry <span class="kw">in</span> transcript])</span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> video_title, combined_subtitle</span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>            <span class="cf">except</span> (NoTranscriptFound, TranscriptsDisabled):</span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Handle cases where subtitles are not available</span></span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> video_title, <span class="st">"No subtitles available"</span></span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">None</span>, <span class="va">None</span></span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Error fetching details for video ID </span><span class="sc">{</span>video_id<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span>, <span class="va">None</span></span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch all video IDs from the playlist</span></span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>video_ids <span class="op">=</span> get_video_ids_from_playlist(playlist_id)</span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare to save the video title and subtitles into a CSV file</span></span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'playlist_transcripts.csv'</span>, <span class="st">'w'</span>, newline<span class="op">=</span><span class="st">''</span>, encoding<span class="op">=</span><span class="st">'utf-8'</span>) <span class="im">as</span> csv_file:</span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>    writer <span class="op">=</span> csv.writer(csv_file)</span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a>    writer.writerow([<span class="st">'Video Title'</span>, <span class="st">'Subtitle'</span>])  <span class="co"># Header row</span></span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Process each video in the playlist</span></span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> video_id <span class="kw">in</span> video_ids:</span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>        video_title, combined_subtitle <span class="op">=</span> fetch_video_details_and_transcript(video_id)</span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> video_title:</span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Ensure both title and subtitles are on a single row</span></span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a>            writer.writerow([video_title, combined_subtitle])  <span class="co"># Write video title and combined subtitle</span></span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Transcripts for the playlist videos saved to 'playlist_transcripts.csv'"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="explanation-of-the-code" class="level3" data-number="8.3.4">
+<h3 data-number="8.3.4" class="anchored" data-anchor-id="explanation-of-the-code"><span class="header-section-number">8.3.4</span> Explanation of the Code:</h3>
+<ol type="1">
+<li><p><strong>YouTube Data API</strong>:</p>
+<ul>
+<li>We use the YouTube Data API to retrieve all the video IDs in the playlist using <code>youtube.playlistItems().list()</code>.</li>
+<li>Each API call can retrieve a maximum of 50 videos per request, and we loop through the playlist if there are more videos (using pagination).</li>
+</ul></li>
+<li><p><strong>YouTube Transcript API</strong>:</p>
+<ul>
+<li>For each video, we fetch its transcript using the <code>youtube-transcript-api</code> package.</li>
+<li>If subtitles are available, they are concatenated into one string.</li>
+<li>If no subtitles are found or they are disabled, the message <code>"No subtitles available"</code> is saved.</li>
+</ul></li>
+<li><p><strong>CSV File Output</strong>:</p>
+<ul>
+<li>The result is saved in a CSV file with two columns: <code>Video Title</code> and <code>Subtitle</code>.</li>
+<li>Each row corresponds to one video from the playlist, containing the video’s title and its entire subtitle (or a message if subtitles are unavailable).</li>
+</ul></li>
+<li><p><strong>Errors to be Fixed:</strong></p>
+<p><img src="images/clipboard-268387417.png" class="img-fluid"></p></li>
+</ol>
+</section>
+<section id="updated-code" class="level3" data-number="8.3.5">
+<h3 data-number="8.3.5" class="anchored" data-anchor-id="updated-code"><span class="header-section-number">8.3.5</span> Updated Code:</h3>
+<p>To address the issue, each video’s subtitles are saved as a separate <code>.txt</code> file in a folder called <code>playlist_txt</code>. These <code>.txt</code> files are then imported into a pandas DataFrame and finally exported as an Excel (<code>.xlsx</code>) file. Below is the complete solution:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> googleapiclient.discovery <span class="im">import</span> build</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> youtube_transcript_api <span class="im">import</span> YouTubeTranscriptApi, NoTranscriptFound, TranscriptsDisabled</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> csv</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> openpyxl</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace with your YouTube API key</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>api_key <span class="op">=</span> <span class="st">'YOUR_API_KEY'</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the YouTube API client</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>youtube <span class="op">=</span> build(<span class="st">'youtube'</span>, <span class="st">'v3'</span>, developerKey<span class="op">=</span>api_key)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace with your Playlist ID</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>playlist_id <span class="op">=</span> <span class="st">'YOUR_PLAYLIST_ID'</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Create directory for storing text files</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> os.path.exists(<span class="st">'playlist_txt'</span>):</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    os.makedirs(<span class="st">'playlist_txt'</span>)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to get all video IDs from a playlist</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_video_ids_from_playlist(playlist_id):</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    video_ids <span class="op">=</span> []</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    next_page_token <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Fetch the playlist items</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>        request <span class="op">=</span> youtube.playlistItems().<span class="bu">list</span>(</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>            part<span class="op">=</span><span class="st">'contentDetails'</span>,</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>            playlistId<span class="op">=</span>playlist_id,</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>            maxResults<span class="op">=</span><span class="dv">50</span>,</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>            pageToken<span class="op">=</span>next_page_token</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> request.execute()</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Extract video IDs</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> item <span class="kw">in</span> response[<span class="st">'items'</span>]:</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>            video_ids.append(item[<span class="st">'contentDetails'</span>][<span class="st">'videoId'</span>])</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Check if there's another page of results</span></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>        next_page_token <span class="op">=</span> response.get(<span class="st">'nextPageToken'</span>)</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> next_page_token:</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> video_ids</span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to fetch video title and transcript</span></span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fetch_video_details_and_transcript(video_id):</span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Fetch video details (title)</span></span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>        video_response <span class="op">=</span> youtube.videos().<span class="bu">list</span>(</span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>            part<span class="op">=</span><span class="st">'snippet'</span>,</span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>            <span class="bu">id</span><span class="op">=</span>video_id</span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>        ).execute()</span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="st">'items'</span> <span class="kw">in</span> video_response <span class="kw">and</span> video_response[<span class="st">'items'</span>]:</span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>            video_title <span class="op">=</span> video_response[<span class="st">'items'</span>][<span class="dv">0</span>][<span class="st">'snippet'</span>][<span class="st">'title'</span>]</span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Fetch transcript using youtube-transcript-api</span></span>
+<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>            <span class="cf">try</span>:</span>
+<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a>                transcript <span class="op">=</span> YouTubeTranscriptApi.get_transcript(video_id)</span>
+<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Combine all subtitle text into a single string, ensuring it's properly joined</span></span>
+<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a>                combined_subtitle <span class="op">=</span> <span class="st">" "</span>.join([entry[<span class="st">'text'</span>].strip() <span class="cf">for</span> entry <span class="kw">in</span> transcript])</span>
+<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> video_title, combined_subtitle</span>
+<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a>            <span class="cf">except</span> (NoTranscriptFound, TranscriptsDisabled):</span>
+<span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Handle cases where subtitles are not available</span></span>
+<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> video_title, <span class="st">"No subtitles available"</span></span>
+<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">None</span>, <span class="va">None</span></span>
+<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Error fetching details for video ID </span><span class="sc">{</span>video_id<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-73"><a href="#cb8-73" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span>, <span class="va">None</span></span>
+<span id="cb8-74"><a href="#cb8-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to save transcript as a .txt file</span></span>
+<span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> save_transcript_as_txt(video_title, combined_subtitle):</span>
+<span id="cb8-77"><a href="#cb8-77" aria-hidden="true" tabindex="-1"></a>    sanitized_title <span class="op">=</span> <span class="st">""</span>.join([c <span class="cf">if</span> c.isalnum() <span class="cf">else</span> <span class="st">"_"</span> <span class="cf">for</span> c <span class="kw">in</span> video_title])  <span class="co"># Sanitize the title to be filesystem safe</span></span>
+<span id="cb8-78"><a href="#cb8-78" aria-hidden="true" tabindex="-1"></a>    txt_filename <span class="op">=</span> <span class="ss">f'playlist_txt/</span><span class="sc">{</span>sanitized_title<span class="sc">}</span><span class="ss">.txt'</span></span>
+<span id="cb8-79"><a href="#cb8-79" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(txt_filename, <span class="st">'w'</span>, encoding<span class="op">=</span><span class="st">'utf-8'</span>) <span class="im">as</span> txt_file:</span>
+<span id="cb8-80"><a href="#cb8-80" aria-hidden="true" tabindex="-1"></a>        txt_file.write(<span class="ss">f"Video Title: </span><span class="sc">{</span>video_title<span class="sc">}</span><span class="ch">\n\n</span><span class="ss">"</span>)</span>
+<span id="cb8-81"><a href="#cb8-81" aria-hidden="true" tabindex="-1"></a>        txt_file.write(combined_subtitle)</span>
+<span id="cb8-82"><a href="#cb8-82" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> txt_filename</span>
+<span id="cb8-83"><a href="#cb8-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-84"><a href="#cb8-84" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch all video IDs from the playlist</span></span>
+<span id="cb8-85"><a href="#cb8-85" aria-hidden="true" tabindex="-1"></a>video_ids <span class="op">=</span> get_video_ids_from_playlist(playlist_id)</span>
+<span id="cb8-86"><a href="#cb8-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-87"><a href="#cb8-87" aria-hidden="true" tabindex="-1"></a><span class="co"># List to store data for importing into pandas</span></span>
+<span id="cb8-88"><a href="#cb8-88" aria-hidden="true" tabindex="-1"></a>transcript_data <span class="op">=</span> []</span>
+<span id="cb8-89"><a href="#cb8-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-90"><a href="#cb8-90" aria-hidden="true" tabindex="-1"></a><span class="co"># Process each video in the playlist and save transcripts as text files</span></span>
+<span id="cb8-91"><a href="#cb8-91" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> video_id <span class="kw">in</span> video_ids:</span>
+<span id="cb8-92"><a href="#cb8-92" aria-hidden="true" tabindex="-1"></a>    video_title, combined_subtitle <span class="op">=</span> fetch_video_details_and_transcript(video_id)</span>
+<span id="cb8-93"><a href="#cb8-93" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> video_title:</span>
+<span id="cb8-94"><a href="#cb8-94" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Save each video transcript as a .txt file</span></span>
+<span id="cb8-95"><a href="#cb8-95" aria-hidden="true" tabindex="-1"></a>        txt_filename <span class="op">=</span> save_transcript_as_txt(video_title, combined_subtitle)</span>
+<span id="cb8-96"><a href="#cb8-96" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb8-97"><a href="#cb8-97" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Append video title and file path for pandas import</span></span>
+<span id="cb8-98"><a href="#cb8-98" aria-hidden="true" tabindex="-1"></a>        transcript_data.append({<span class="st">'Video Title'</span>: video_title, <span class="st">'Text File'</span>: txt_filename})</span>
+<span id="cb8-99"><a href="#cb8-99" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb8-100"><a href="#cb8-100" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Skipping video ID </span><span class="sc">{</span>video_id<span class="sc">}</span><span class="ss"> due to missing title."</span>)</span>
+<span id="cb8-101"><a href="#cb8-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-102"><a href="#cb8-102" aria-hidden="true" tabindex="-1"></a><span class="co"># Now import the .txt files into pandas and create an Excel sheet</span></span>
+<span id="cb8-103"><a href="#cb8-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-104"><a href="#cb8-104" aria-hidden="true" tabindex="-1"></a><span class="co"># List to hold the contents of each txt file</span></span>
+<span id="cb8-105"><a href="#cb8-105" aria-hidden="true" tabindex="-1"></a>df_list <span class="op">=</span> []</span>
+<span id="cb8-106"><a href="#cb8-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-107"><a href="#cb8-107" aria-hidden="true" tabindex="-1"></a><span class="co"># Read each txt file and store its content in the DataFrame</span></span>
+<span id="cb8-108"><a href="#cb8-108" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> transcript <span class="kw">in</span> transcript_data:</span>
+<span id="cb8-109"><a href="#cb8-109" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(transcript[<span class="st">'Text File'</span>], <span class="st">'r'</span>, encoding<span class="op">=</span><span class="st">'utf-8'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb8-110"><a href="#cb8-110" aria-hidden="true" tabindex="-1"></a>        text_content <span class="op">=</span> <span class="bu">file</span>.read()</span>
+<span id="cb8-111"><a href="#cb8-111" aria-hidden="true" tabindex="-1"></a>    df_list.append({<span class="st">'Video Title'</span>: transcript[<span class="st">'Video Title'</span>], <span class="st">'Transcript'</span>: text_content})</span>
+<span id="cb8-112"><a href="#cb8-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-113"><a href="#cb8-113" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a pandas DataFrame</span></span>
+<span id="cb8-114"><a href="#cb8-114" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(df_list)</span>
+<span id="cb8-115"><a href="#cb8-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-116"><a href="#cb8-116" aria-hidden="true" tabindex="-1"></a><span class="co"># Export the DataFrame to an Excel file</span></span>
+<span id="cb8-117"><a href="#cb8-117" aria-hidden="true" tabindex="-1"></a>output_excel <span class="op">=</span> <span class="st">'playlist_transcripts.xlsx'</span></span>
+<span id="cb8-118"><a href="#cb8-118" aria-hidden="true" tabindex="-1"></a>df.to_excel(output_excel, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb8-119"><a href="#cb8-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-120"><a href="#cb8-120" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Transcripts for the playlist videos saved to 'playlist_transcripts.xlsx'"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="explanation-of-changes-1" class="level3" data-number="8.3.6">
+<h3 data-number="8.3.6" class="anchored" data-anchor-id="explanation-of-changes-1"><span class="header-section-number">8.3.6</span> Explanation of Changes:</h3>
+<ol type="1">
+<li><strong>Directory Creation</strong>:
+<ul>
+<li>The folder <code>playlist_txt</code> is created using <code>os.makedirs()</code> if it doesn’t already exist. All <code>.txt</code> files are saved in this directory.</li>
+</ul></li>
+<li><strong>Text File Saving</strong>:
+<ul>
+<li>The function <code>save_transcript_as_txt</code> saves each video’s transcript as a <code>.txt</code> file with a sanitized file name (to avoid illegal characters).</li>
+<li>The title of the video and the transcript content are written into the <code>.txt</code> file.</li>
+</ul></li>
+<li><strong>Pandas DataFrame Import</strong>:
+<ul>
+<li>Each <code>.txt</code> file is read into a pandas DataFrame where the <strong>video title</strong> and <strong>transcript content</strong> are stored.</li>
+</ul></li>
+<li><strong>Exporting to Excel</strong>:
+<ul>
+<li>The DataFrame is exported as an Excel file (<code>playlist_transcripts.xlsx</code>) using <code>df.to_excel()</code>.</li>
+</ul></li>
+</ol>
+</section>
+<section id="output-2" class="level3" data-number="8.3.7">
+<h3 data-number="8.3.7" class="anchored" data-anchor-id="output-2"><span class="header-section-number">8.3.7</span> Output:</h3>
+<ol type="1">
+<li><strong>Text Files</strong>: A directory called <code>playlist_txt</code> will be created, and each video’s subtitles will be saved as a <code>.txt</code> file within this directory.</li>
+<li><strong>Excel File</strong>: The script generates an Excel file (<code>playlist_transcripts.xlsx</code>) containing the video title and the complete transcript for each video.</li>
+</ol>
+<section id="example-excel-output" class="level4" data-number="8.3.7.1">
+<h4 data-number="8.3.7.1" class="anchored" data-anchor-id="example-excel-output"><span class="header-section-number">8.3.7.1</span> Example Excel Output:</h4>
+<p><img src="images/clipboard-4147720946.png" class="img-fluid"></p>
+<hr>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./07.Regular_Expression.html" class="pagination-link" aria-label="Regular Expressions (RegEx) in Python">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regular Expressions (RegEx) in Python</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./09.Preprocessing.html" class="pagination-link" aria-label="Text Preprocessing">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Text Preprocessing</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
