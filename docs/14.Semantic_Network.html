@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>14&nbsp; Semantic Network Analysis – Basic AI Programming</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./A.assignments.html" rel="next">
+<link href="./13.NLP_toolkit.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./14.Semantic_Network.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Semantic Network Analysis</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Basic AI Programming</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01.setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Setting Up Environment</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02.intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Constants and Variables in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03.control.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Control Structures in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04.function.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Functions and Packages in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05.pandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Analysis in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06.arithmetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Basic Arithmetic Operations in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07.Regular_Expression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regular Expressions (RegEx) in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08.Custom_Corpus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Building a Custom Corpus</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09.Preprocessing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Text Preprocessing</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10.Word_Cloud.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualizing Word Frequencies with Graphs and Word Clouds</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11.Text_Representation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Text Representation Based on Counts</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12.Word_Embedding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Word Embedding and Relational Similarity</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13.NLP_toolkit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Word Embedding Activities</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14.Semantic_Network.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Semantic Network Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A.assignments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Assignment #01</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">14.1</span> Overview</a>
+  <ul class="collapse">
+  <li><a href="#key-concepts-of-semantic-network-analysis" id="toc-key-concepts-of-semantic-network-analysis" class="nav-link" data-scroll-target="#key-concepts-of-semantic-network-analysis"><span class="header-section-number">14.1.1</span> Key Concepts of Semantic Network Analysis:</a></li>
+  <li><a href="#steps-in-semantic-network-analysis" id="toc-steps-in-semantic-network-analysis" class="nav-link" data-scroll-target="#steps-in-semantic-network-analysis"><span class="header-section-number">14.1.2</span> Steps in Semantic Network Analysis:</a></li>
+  </ul></li>
+  <li><a href="#components" id="toc-components" class="nav-link" data-scroll-target="#components"><span class="header-section-number">14.2</span> Components</a>
+  <ul class="collapse">
+  <li><a href="#what-is-an-adjacency-matrix" id="toc-what-is-an-adjacency-matrix" class="nav-link" data-scroll-target="#what-is-an-adjacency-matrix"><span class="header-section-number">14.2.1</span> What is an Adjacency Matrix?</a></li>
+  <li><a href="#example-of-an-adjacency-matrix" id="toc-example-of-an-adjacency-matrix" class="nav-link" data-scroll-target="#example-of-an-adjacency-matrix"><span class="header-section-number">14.2.2</span> Example of an Adjacency Matrix</a></li>
+  <li><a href="#python-code-to-create-and-display-an-adjacency-matrix" id="toc-python-code-to-create-and-display-an-adjacency-matrix" class="nav-link" data-scroll-target="#python-code-to-create-and-display-an-adjacency-matrix"><span class="header-section-number">14.2.3</span> Python Code to Create and Display an Adjacency Matrix</a></li>
+  <li><a href="#modifying-for-directed-or-weighted-graphs" id="toc-modifying-for-directed-or-weighted-graphs" class="nav-link" data-scroll-target="#modifying-for-directed-or-weighted-graphs"><span class="header-section-number">14.2.4</span> Modifying for Directed or Weighted Graphs</a></li>
+  <li><a href="#centrality-measures-in-graphs" id="toc-centrality-measures-in-graphs" class="nav-link" data-scroll-target="#centrality-measures-in-graphs"><span class="header-section-number">14.2.5</span> Centrality Measures in Graphs</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Semantic Network Analysis</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Semantic Network Analysis (SNA) is a method used to study and visualize relationships between words, concepts, or other entities based on their co-occurrences or semantic associations. It is primarily used in fields like linguistics, information science, sociology, and data analysis to explore how different terms or concepts relate to each other within a dataset, such as a collection of documents, speeches, or social media posts.</p>
+<p>The basic idea of Semantic Network Analysis is to represent the relationships between words or concepts as a network or graph.</p>
+<section id="overview" class="level2" data-number="14.1">
+<h2 data-number="14.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">14.1</span> Overview</h2>
+<section id="key-concepts-of-semantic-network-analysis" class="level3" data-number="14.1.1">
+<h3 data-number="14.1.1" class="anchored" data-anchor-id="key-concepts-of-semantic-network-analysis"><span class="header-section-number">14.1.1</span> Key Concepts of Semantic Network Analysis:</h3>
+<ol type="1">
+<li><strong>Nodes and Edges</strong>:
+<ul>
+<li>The <strong>nodes</strong> in the network represent the concepts or terms you are analyzing.</li>
+<li>The <strong>edges</strong> represent the connections between these terms. These connections can be based on co-occurrences, shared meanings, or even statistical relationships like cosine similarity in word vectors.</li>
+</ul></li>
+<li><strong>Centrality</strong>:
+<ul>
+<li>Centrality measures like <em>degree centrality</em> or <em>betweenness centrality</em> indicate which terms or concepts are most connected or important in the network. These terms can serve as key concepts or hubs that link many other terms together.</li>
+</ul></li>
+<li><strong>Communities or Clusters</strong>:
+<ul>
+<li>SNA can help identify clusters or communities within the network, revealing groups of related terms or concepts that form cohesive sub-networks. These clusters can indicate topics or themes within a set of documents.</li>
+</ul></li>
+<li><strong>Applications</strong>:
+<ul>
+<li><strong>Linguistics</strong>: It can be used to understand the structure of language and how words are related.</li>
+<li><strong>Social Media Analysis</strong>: Identifies key themes, discussions, and influencers.</li>
+<li><strong>Knowledge Management</strong>: Visualizes how knowledge is structured in documents or research articles.</li>
+</ul></li>
+</ol>
+</section>
+<section id="steps-in-semantic-network-analysis" class="level3" data-number="14.1.2">
+<h3 data-number="14.1.2" class="anchored" data-anchor-id="steps-in-semantic-network-analysis"><span class="header-section-number">14.1.2</span> Steps in Semantic Network Analysis:</h3>
+<ol type="1">
+<li><p><strong>Data Collection</strong>: You collect a dataset where relationships between concepts are apparent. This could be a corpus of text or a set of documents.</p></li>
+<li><p><strong>Text Preprocessing</strong>: This involves cleaning the text by removing stop words, punctuation, and irrelevant data. Stemming or lemmatization might also be performed to reduce words to their base forms.</p></li>
+<li><p><strong>Concept Extraction</strong>: You identify the key concepts or terms in the dataset, typically using techniques like term frequency-inverse document frequency (TF-IDF) or keyword extraction algorithms.</p></li>
+<li><p><strong>Building the Network</strong>: A co-occurrence matrix is built, where rows and columns represent words or concepts, and the cells represent the frequency with which those terms co-occur in the same context.</p></li>
+<li><p><strong>Network Visualization</strong>: You visualize the network using graph tools, where terms are represented as nodes, and their relationships (e.g., co-occurrences) are represented by edges.</p></li>
+<li><p><strong>Analysis</strong>: You can calculate network metrics (e.g., centrality, clustering) and examine sub-networks to derive insights into how terms are related and what the key concepts are.</p></li>
+</ol>
+</section>
+</section>
+<section id="components" class="level2" data-number="14.2">
+<h2 data-number="14.2" class="anchored" data-anchor-id="components"><span class="header-section-number">14.2</span> Components</h2>
+<section id="what-is-an-adjacency-matrix" class="level3" data-number="14.2.1">
+<h3 data-number="14.2.1" class="anchored" data-anchor-id="what-is-an-adjacency-matrix"><span class="header-section-number">14.2.1</span> What is an Adjacency Matrix?</h3>
+<p>An <strong>Adjacency Matrix</strong> is a matrix representation of a graph, where the rows and columns represent the nodes (vertices) of the graph, and the matrix entries indicate whether pairs of nodes are adjacent (connected by an edge). It is a common way to represent graph data in mathematics, computer science, and network theory.</p>
+<p>For a graph ( G = (V, E) ) where ( V ) is the set of vertices and ( E ) is the set of edges:</p>
+<ul>
+<li>If there is an edge between vertex ( i ) and vertex ( j ), the entry ( A[i][j] ) in the adjacency matrix is 1.</li>
+<li>If there is no edge between ( i ) and ( j ), ( A[i][j] ) is 0.</li>
+</ul>
+<section id="types-of-adjacency-matrices" class="level4" data-number="14.2.1.1">
+<h4 data-number="14.2.1.1" class="anchored" data-anchor-id="types-of-adjacency-matrices"><span class="header-section-number">14.2.1.1</span> Types of Adjacency Matrices:</h4>
+<ol type="1">
+<li><strong>For undirected graphs</strong>: The matrix is symmetric, i.e., if there is an edge between vertex ( i ) and vertex ( j ), both ( A[i][j] ) and ( A[j][i] ) are 1.</li>
+<li><strong>For directed graphs</strong>: The matrix is not necessarily symmetric. ( A[i][j] = 1 ) only if there is an edge from vertex ( i ) to vertex ( j ).</li>
+<li><strong>Weighted graphs</strong>: Instead of just 0 and 1, the entries in the matrix can represent the weight of the edges between vertices.</li>
+</ol>
+</section>
+</section>
+<section id="example-of-an-adjacency-matrix" class="level3" data-number="14.2.2">
+<h3 data-number="14.2.2" class="anchored" data-anchor-id="example-of-an-adjacency-matrix"><span class="header-section-number">14.2.2</span> Example of an Adjacency Matrix</h3>
+<p>Consider the following simple <strong>undirected graph</strong>:</p>
+<pre><code>  A -- B
+  |  /
+  C</code></pre>
+<p>The graph has three nodes: <code>A</code>, <code>B</code>, and <code>C</code>. There are edges between <code>A</code> and <code>B</code>, <code>A</code> and <code>C</code>, and <code>B</code> and <code>C</code>. The adjacency matrix for this undirected graph would be:</p>
+<pre><code>    A  B  C
+A  [0, 1, 1]
+B  [1, 0, 1]
+C  [1, 1, 0]</code></pre>
+</section>
+<section id="python-code-to-create-and-display-an-adjacency-matrix" class="level3" data-number="14.2.3">
+<h3 data-number="14.2.3" class="anchored" data-anchor-id="python-code-to-create-and-display-an-adjacency-matrix"><span class="header-section-number">14.2.3</span> Python Code to Create and Display an Adjacency Matrix</h3>
+<p>Below is a Python example to create and display an adjacency matrix using the <code>numpy</code> and <code>networkx</code> libraries.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a graph</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>G <span class="op">=</span> nx.Graph()</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Add nodes</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>G.add_nodes_from([<span class="st">'A'</span>, <span class="st">'B'</span>, <span class="st">'C'</span>])</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Add edges (undirected graph)</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>G.add_edges_from([(<span class="st">'A'</span>, <span class="st">'B'</span>), (<span class="st">'A'</span>, <span class="st">'C'</span>), (<span class="st">'B'</span>, <span class="st">'C'</span>)])</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the adjacency matrix</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>adj_matrix <span class="op">=</span> nx.adjacency_matrix(G).todense()</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the adjacency matrix</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Adjacency Matrix:"</span>)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(adj_matrix)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the graph</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>nx.draw(G, with_labels<span class="op">=</span><span class="va">True</span>, node_color<span class="op">=</span><span class="st">'skyblue'</span>, edge_color<span class="op">=</span><span class="st">'gray'</span>, node_size<span class="op">=</span><span class="dv">1500</span>, font_size<span class="op">=</span><span class="dv">16</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Output:</strong></p>
+<pre><code>Adjacency Matrix:
+[[0 1 1]
+ [1 0 1]
+ [1 1 0]]</code></pre>
+<p>And the corresponding graph visualization will show the relationships between <code>A</code>, <code>B</code>, and <code>C</code>.</p>
+<p><img src="images/clipboard-419004807.png" class="img-fluid" width="355"></p>
+</section>
+<section id="modifying-for-directed-or-weighted-graphs" class="level3" data-number="14.2.4">
+<h3 data-number="14.2.4" class="anchored" data-anchor-id="modifying-for-directed-or-weighted-graphs"><span class="header-section-number">14.2.4</span> Modifying for Directed or Weighted Graphs</h3>
+<ul>
+<li><p><strong>Directed Graph</strong>: You can use <code>nx.DiGraph()</code> instead of <code>nx.Graph()</code> to create a directed graph. In a directed graph, the edges will only be represented in one direction.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>G <span class="op">=</span> nx.DiGraph()</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>G.add_edges_from([(<span class="st">'A'</span>, <span class="st">'B'</span>), (<span class="st">'C'</span>, <span class="st">'A'</span>)])  <span class="co"># Directed edges</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the adjacency matrix</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>adj_matrix <span class="op">=</span> nx.adjacency_matrix(G).todense()</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the adjacency matrix</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Adjacency Matrix:"</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(adj_matrix)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the graph</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>nx.draw(G, with_labels<span class="op">=</span><span class="va">True</span>, node_color<span class="op">=</span><span class="st">'skyblue'</span>, edge_color<span class="op">=</span><span class="st">'gray'</span>, node_size<span class="op">=</span><span class="dv">1500</span>, font_size<span class="op">=</span><span class="dv">16</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+<p><strong>Output:</strong></p>
+<pre><code>Adjacency Matrix:
+[[0 1 0]
+ [0 0 0]
+ [1 0 0]]</code></pre>
+<p><img src="images/clipboard-361617172.png" class="img-fluid" width="433"></p>
+<ul>
+<li><p><strong>Weighted Graph</strong>: To handle weighted graphs, you can assign weights to the edges, and the adjacency matrix will reflect these weights.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a MultiGraph</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>G <span class="op">=</span> nx.MultiGraph()</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Add nodes</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>G.add_nodes_from([<span class="st">'A'</span>, <span class="st">'B'</span>, <span class="st">'C'</span>])</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Add multiple edges between nodes</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>G.add_edge(<span class="st">'A'</span>, <span class="st">'B'</span>, weight<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>G.add_edge(<span class="st">'A'</span>, <span class="st">'B'</span>, weight<span class="op">=</span><span class="dv">3</span>)  <span class="co"># Multiple edge between A and B</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>G.add_edge(<span class="st">'A'</span>, <span class="st">'C'</span>, weight<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>G.add_edge(<span class="st">'B'</span>, <span class="st">'C'</span>, weight<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the edges along with their attributes</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Edges in MultiGraph with attributes:"</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(G.edges(data<span class="op">=</span><span class="va">True</span>))</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the MultiGraph</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>pos <span class="op">=</span> nx.spring_layout(G)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>nx.draw(G, pos, with_labels<span class="op">=</span><span class="va">True</span>, node_color<span class="op">=</span><span class="st">'lightblue'</span>, node_size<span class="op">=</span><span class="dv">1500</span>, font_size<span class="op">=</span><span class="dv">16</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Create custom edge labels</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>edge_labels <span class="op">=</span> {}</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (u, v, data) <span class="kw">in</span> G.edges(data<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (u, v) <span class="kw">not</span> <span class="kw">in</span> edge_labels:</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>        edge_labels[(u, v)] <span class="op">=</span> <span class="bu">str</span>(data[<span class="st">'weight'</span>])</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>        edge_labels[(u, v)] <span class="op">+=</span> <span class="ss">f",</span><span class="sc">{</span>data[<span class="st">'weight'</span>]<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw edge labels</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>nx.draw_networkx_edge_labels(G, pos, edge_labels<span class="op">=</span>edge_labels, font_size<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"MultiGraph with Edge Weights"</span>, fontsize<span class="op">=</span><span class="dv">16</span>)</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">'off'</span>)</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In a weighted adjacency matrix, instead of <code>0</code> and <code>1</code>, the matrix values will represent the weights of the edges.</p></li>
+</ul>
+<p><strong>Output:</strong></p>
+<pre><code>Edges in MultiGraph with attributes:
+[('A', 'B', {'weight': 2}), ('A', 'B', {'weight': 3}), ('A', 'C', {'weight': 4}), ('B', 'C', {'weight': 1})]</code></pre>
+<p><img src="images/clipboard-3886832904.png" class="img-fluid" width="411"></p>
+</section>
+<section id="centrality-measures-in-graphs" class="level3" data-number="14.2.5">
+<h3 data-number="14.2.5" class="anchored" data-anchor-id="centrality-measures-in-graphs"><span class="header-section-number">14.2.5</span> Centrality Measures in Graphs</h3>
+<p>Centrality measures are important in network analysis because they help identify the most important or influential nodes in a graph. Different centrality measures capture different notions of importance based on various graph properties. Below, we’ll explore some of the most common centrality measures, including Python code to calculate each one using the <code>networkx</code> library.</p>
+<ol type="1">
+<li><strong>Degree Centrality</strong>: How many direct connections a node has.</li>
+<li><strong>Betweenness Centrality</strong>: How often a node lies on the shortest path between other nodes.</li>
+<li><strong>Closeness Centrality</strong>: How close a node is to all other nodes in the network.</li>
+<li><strong>Eigenvector Centrality</strong>: The influence of a node in the network, considering the centrality of its neighbors.</li>
+<li><strong>PageRank</strong>: A variant of eigenvector centrality that ranks nodes based on incoming links from other important nodes.</li>
+</ol>
+<section id="degree-centrality" class="level4" data-number="14.2.5.1">
+<h4 data-number="14.2.5.1" class="anchored" data-anchor-id="degree-centrality"><span class="header-section-number">14.2.5.1</span> <strong>Degree Centrality</strong></h4>
+<p><strong>Degree Centrality</strong> is the simplest form of centrality. It counts the number of edges connected to a node. In an undirected graph, this is simply the number of neighbors.</p>
+<p><img src="images/clipboard-1167603165.png" class="img-fluid" width="206"></p>
+<p>In a directed graph, it can be divided into:</p>
+<ul>
+<li><strong>In-degree centrality</strong>: The number of incoming edges.</li>
+<li><strong>Out-degree centrality</strong>: The number of outgoing edges.</li>
+</ul>
+<p><span class="math display">\[\text{Degree Centrality of node } i = \frac{\text{Number of edges connected to node } i}{\text{Total number of possible edges}}\]</span></p>
+<p><strong>Python Code for Degree Centrality:</strong></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">### Python Code for Degree Centrality:</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a sample graph (based on your data or a custom graph)</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>G <span class="op">=</span> nx.Graph()</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Add edges between nodes (example graph)</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>edges <span class="op">=</span> [</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'A'</span>, <span class="st">'B'</span>), </span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'B'</span>, <span class="st">'C'</span>), </span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'C'</span>, <span class="st">'D'</span>), (<span class="st">'C'</span>, <span class="st">'E'</span>),</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'D'</span>, <span class="st">'E'</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>G.add_edges_from(edges)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate degree centrality</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>degree_centrality <span class="op">=</span> nx.degree_centrality(G)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Degree Centrality:"</span>, degree_centrality)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the graph with node size proportional to degree centrality</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>node_size <span class="op">=</span> [v <span class="op">*</span> <span class="dv">3000</span> <span class="cf">for</span> v <span class="kw">in</span> degree_centrality.values()]</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>pos <span class="op">=</span> nx.spring_layout(G)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>nx.draw(G, pos, with_labels<span class="op">=</span><span class="va">True</span>, node_size<span class="op">=</span>node_size, node_color<span class="op">=</span><span class="st">"lightblue"</span>)</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Output:</strong></p>
+<pre><code>Degree Centrality: {'A': 0.25, 'B': 0.5, 'C': 0.75, 'D': 0.5, 'E': 0.5}</code></pre>
+<p><img src="images/clipboard-3517997872.png" class="img-fluid" width="474"></p>
+</section>
+<section id="betweenness-centrality" class="level4" data-number="14.2.5.2">
+<h4 data-number="14.2.5.2" class="anchored" data-anchor-id="betweenness-centrality"><span class="header-section-number">14.2.5.2</span> <strong>Betweenness Centrality</strong></h4>
+<p><strong>Betweenness Centrality</strong> measures the number of times a node lies on the shortest path between other nodes. Nodes with high betweenness centrality can control the flow of information in a network.</p>
+<p><span class="math display">\[\text{Betweenness Centrality of node } i = \sum{\substack{s \neq i \neq t}} \frac{\sigma_{st}(i)}{\sigma_{st}}\]</span></p>
+<p>Where:</p>
+<ul>
+<li><p><span class="math inline">\(\sigma_{st}\)</span> is the total number of shortest paths from node <span class="math inline">\(s\)</span> to node <span class="math inline">\(t\)</span>.</p></li>
+<li><p><span class="math inline">\(\sigma_{st}(i)\)</span>is the number of shortest paths that pass through node <span class="math inline">\(i\)</span>.</p></li>
+</ul>
+<p><img src="images/clipboard-342351591.png" class="img-fluid"></p>
+<p><strong>Python Code for Betweenness Centrality:</strong></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate betweenness centrality</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>betweenness_centrality <span class="op">=</span> nx.betweenness_centrality(G)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Betweenness Centrality:"</span>, betweenness_centrality)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the graph with node size proportional to betweenness centrality</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>node_size <span class="op">=</span> [v <span class="op">*</span> <span class="dv">3000</span> <span class="cf">for</span> v <span class="kw">in</span> betweenness_centrality.values()]</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>nx.draw(G, pos, with_labels<span class="op">=</span><span class="va">True</span>, node_size<span class="op">=</span>node_size, node_color<span class="op">=</span><span class="st">"lightgreen"</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Output:</strong></p>
+<pre><code>Betweenness Centrality: {'A': 0.0, 'B': 0.5, 'C': 0.6666666666666666, 'D': 0.0, 'E': 0.0}</code></pre>
+</section>
+<section id="section" class="level4" data-number="14.2.5.3">
+<h4 data-number="14.2.5.3" class="anchored" data-anchor-id="section"><span class="header-section-number">14.2.5.3</span> <img src="images/clipboard-3251890398.png" class="img-fluid" width="501"></h4>
+</section>
+<section id="closeness-centrality" class="level4" data-number="14.2.5.4">
+<h4 data-number="14.2.5.4" class="anchored" data-anchor-id="closeness-centrality"><span class="header-section-number">14.2.5.4</span> <strong>Closeness Centrality</strong></h4>
+<p><strong>Closeness Centrality</strong> measures how close a node is to all other nodes in the graph. Nodes with high closeness centrality can quickly interact with all other nodes in the network. <strong>Closeness Centrality</strong> is a centrality measure used to determine how efficiently information spreads from a given node to all other nodes in the network.</p>
+<p><span class="math display">\[\text{Closeness Centrality of node } i = \frac{\text{number of nodes - 1}}{\sum{\text{distance from node $i$ to all other nodes}}}\]</span></p>
+<p><img src="images/clipboard-1965322547.png" class="img-fluid" width="612"></p>
+<p><strong>Python Code for Closeness Centrality:</strong></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>mport networkx <span class="im">as</span> nx</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a sample graph (based on your data or a custom graph)</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>G <span class="op">=</span> nx.Graph()</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Add edges between nodes (example graph)</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>edges <span class="op">=</span> [</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'A'</span>, <span class="st">'B'</span>), </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'B'</span>, <span class="st">'C'</span>), </span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'C'</span>, <span class="st">'D'</span>), (<span class="st">'C'</span>, <span class="st">'E'</span>),</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'D'</span>, <span class="st">'E'</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>G.add_edges_from(edges)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute closeness centrality for each node</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>closeness_centrality <span class="op">=</span> nx.closeness_centrality(G)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the closeness centrality values</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> node, centrality <span class="kw">in</span> closeness_centrality.items():</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Closeness Centrality of node </span><span class="sc">{</span>node<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>centrality<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the graph with node size proportional to closeness centrality</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>node_size <span class="op">=</span> [v <span class="op">*</span> <span class="dv">3000</span> <span class="cf">for</span> v <span class="kw">in</span> closeness_centrality.values()]</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>pos <span class="op">=</span> nx.spring_layout(G)</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>nx.draw(G, pos, with_labels<span class="op">=</span><span class="va">True</span>, node_size<span class="op">=</span>node_size, node_color<span class="op">=</span><span class="st">"lightgreen"</span>)</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Output:</strong></p>
+<pre><code>Closeness Centrality of node A: 0.4444
+Closeness Centrality of node B: 0.6667
+Closeness Centrality of node C: 0.8000
+Closeness Centrality of node D: 0.5714
+Closeness Centrality of node E: 0.5714</code></pre>
+<p><img src="images/clipboard-455295560.png" class="img-fluid" width="461"></p>
+</section>
+<section id="eigenvector-centrality" class="level4" data-number="14.2.5.5">
+<h4 data-number="14.2.5.5" class="anchored" data-anchor-id="eigenvector-centrality"><span class="header-section-number">14.2.5.5</span> <strong>Eigenvector Centrality</strong></h4>
+<p><strong>Eigenvector Centrality</strong> measures the influence of a node in a network. Unlike degree centrality, which simply counts the number of connections, eigenvector centrality assigns more value to nodes that are connected to other highly connected nodes.</p>
+<p><img src="images/clipboard-2207743900.png" class="img-fluid"></p>
+<p><strong>Why Use Eigenvector Centrality?</strong></p>
+<p>Eigenvector centrality is useful when you need to consider not just how many connections a node has, but also how influential its neighbors are. It is commonly used in applications like:</p>
+<ul>
+<li><p><strong>Social Networks</strong>: Identifying influential individuals who are connected to other influential individuals.</p></li>
+<li><p><strong>Web Search Algorithms</strong>: PageRank, a variant of eigenvector centrality, is used to rank web pages based on their importance.</p></li>
+<li><p><strong>Biological Networks</strong>: Identifying key genes or proteins based on their interactions with other important molecules.</p></li>
+</ul>
+<p>For a node <span class="math inline">\(v\)</span>, the eigenvector centrality <span class="math inline">\(x_v\)</span> is given by the following equation:</p>
+<p><span class="math display">\[x_v = \frac{1}{\lambda} \sum_{u* \in N(v)}A_{vu}x_u\]</span></p>
+<p>Where:</p>
+<ul>
+<li><p><span class="math inline">\(x_v\)</span> is the eigenvector centrality of node <span class="math inline">\(v\)</span>.</p></li>
+<li><p><span class="math inline">\(\lambda\)</span> is a constant (the largest eigenvalue of the adjacency matrix).</p></li>
+<li><p><span class="math inline">\(N(v)\)</span> is the set of neighbors of node ( v ).</p></li>
+<li><p><span class="math inline">\(A_{vu}\)</span> is the adjacency matrix where <span class="math inline">\(A_{vu} = 1\)</span> if there is an edge between <span class="math inline">\(v\)</span> and <span class="math inline">\(u\)</span>, and 0 otherwise.</p></li>
+</ul>
+<p>Eigenvector centrality is a more nuanced measure of influence compared to simpler metrics like degree centrality, making it ideal for applications where connections to other influential nodes are particularly important.</p>
+<p><strong>Python Code for Eigenvector Centrality:</strong></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a sample graph</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>G <span class="op">=</span> nx.Graph()</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Add edges between nodes (example graph)</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>edges <span class="op">=</span> [</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'A'</span>, <span class="st">'C'</span>), </span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'B'</span>, <span class="st">'C'</span>), </span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'C'</span>, <span class="st">'D'</span>), </span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'D'</span>, <span class="st">'E'</span>), </span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'D'</span>, <span class="st">'F'</span>), </span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'D'</span>, <span class="st">'G'</span>)</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>G.add_edges_from(edges)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute eigenvector centrality for each node</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>eigenvector_centrality <span class="op">=</span> nx.eigenvector_centrality(G)</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the eigenvector centrality values</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> node, centrality <span class="kw">in</span> eigenvector_centrality.items():</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Eigenvector Centrality of node </span><span class="sc">{</span>node<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>centrality<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the graph with node size proportional to eigenvector centrality</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>node_size <span class="op">=</span> [v <span class="op">*</span> <span class="dv">3000</span> <span class="cf">for</span> v <span class="kw">in</span> eigenvector_centrality.values()]</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>pos <span class="op">=</span> nx.spring_layout(G)</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>nx.draw(G, pos, with_labels<span class="op">=</span><span class="va">True</span>, node_size<span class="op">=</span>node_size, node_color<span class="op">=</span><span class="st">"lightblue"</span>)</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Output:</strong></p>
+<pre><code>Eigenvector Centrality of node A: 0.2299
+Eigenvector Centrality of node C: 0.5000
+Eigenvector Centrality of node B: 0.2299
+Eigenvector Centrality of node D: 0.6280
+Eigenvector Centrality of node E: 0.2887
+Eigenvector Centrality of node F: 0.2887
+Eigenvector Centrality of node G: 0.2887</code></pre>
+<p><img src="images/clipboard-3687534277.png" class="img-fluid" width="449"></p>
+</section>
+<section id="pagerank-centrality" class="level4" data-number="14.2.5.6">
+<h4 data-number="14.2.5.6" class="anchored" data-anchor-id="pagerank-centrality"><span class="header-section-number">14.2.5.6</span> <strong>PageRank Centrality</strong></h4>
+<p><strong>PageRank</strong> is a centrality measure originally developed by Larry Page and Sergey Brin to rank web pages in Google’s search engine. It is a variant of <strong>Eigenvector Centrality</strong>, but with the addition of a damping factor, typically set to 0.85, that models the probability that a user will stop following links at any given point. This allows PageRank to rank the importance of nodes (e.g., web pages) not just based on the number of inbound links, but also based on the importance of the linking pages.</p>
+<p><strong>Why Use PageRank?</strong></p>
+<p>PageRank is a powerful measure of centrality that accounts for both the quantity and quality of connections to a node. It’s particularly useful in situations where:</p>
+<ul>
+<li><p><strong>Web Search</strong>: Ranking web pages based on the importance of the pages linking to them.</p></li>
+<li><p><strong>Citation Networks</strong>: Determining influential papers based on how often they are cited by other important papers.</p></li>
+<li><p><strong>Social Networks</strong>: Identifying influential individuals based on connections from other influential people.</p></li>
+</ul>
+<p><strong>Differences from Other Centrality Measures:</strong></p>
+<ul>
+<li><strong>Degree Centrality</strong> only counts the number of links to a node, whereas PageRank considers both the number and quality (importance) of those links.</li>
+<li><strong>Eigenvector Centrality</strong> is similar to PageRank but lacks the damping factor, which prevents dead-end nodes from absorbing all the rank.</li>
+</ul>
+<p><strong>PageRank Centrality Formula</strong></p>
+<p>The PageRank of a node <span class="math inline">\(v\)</span> is given by:</p>
+<p><span class="math display">\[PR(v) = \frac{1-d}{N} + d \sum_{u \in M(v)} \frac{PR(u)}{L(u)}\]</span></p>
+<p>Where:</p>
+<ul>
+<li><p><span class="math inline">\(PR(v)\)</span>is the PageRank of node <span class="math inline">\(v\)</span>.</p></li>
+<li><p><span class="math inline">\(d\)</span> is the <strong>damping factor</strong> (usually set to 0.85), representing the probability that a random walker will continue following links.</p></li>
+<li><p><span class="math inline">\(N\)</span> is the total number of nodes in the graph.</p></li>
+<li><p><span class="math inline">\(M(v)\)</span> is the set of nodes that link to node <span class="math inline">\(v\)</span> (inbound links).</p></li>
+<li><p><span class="math inline">\(PR(u)\)</span> is the PageRank of node <span class="math inline">\(u\)</span>, which links to <span class="math inline">\(v\)</span>.</p></li>
+<li><p><span class="math inline">\(L(u)\)</span> is the number of outbound links from node <span class="math inline">\(u\)</span>.</p></li>
+</ul>
+<p>The PageRank algorithm is an iterative process, where the initial PageRank values are distributed equally across all nodes. It then updates these values based on the formula above until the values converge (i.e., until they stop changing significantly).</p>
+<p><strong>Detailed Explanation of Components:</strong></p>
+<ol type="1">
+<li><p><strong>Damping Factor</strong> <span class="math inline">\(d\)</span>: This factor accounts for the possibility that a random surfer on the network (or web) will jump to a random page rather than following links. Typically, <span class="math inline">\(d\)</span> is set to 0.85, meaning there’s an 85% chance the surfer will follow links and a 15% chance they will jump to a random page.</p></li>
+<li><p><strong>Term</strong> <span class="math display">\[\frac{1-d}{N}\]</span>: This is the probability that the random surfer jumps to any node randomly. It distributes a small amount of rank equally to all nodes to prevent dead ends (i.e., nodes with no outbound links) from absorbing all the rank.</p></li>
+<li><p><strong>Summation Term</strong> <span class="math display">\[\sum_{u \in M(v)} \frac{PR(u)}{L(u)}\]</span>: This term gives the contribution of the rank from each node <span class="math inline">\(u\)</span> that links to <span class="math inline">\(v\)</span>. The rank from node <span class="math inline">\(u\)</span> is divided by the number of outbound links from <span class="math inline">\(u\)</span>, so the more links <span class="math inline">\(u\)</span> has, the less rank it passes to each linked node.</p></li>
+</ol>
+<p><strong>Python Code for PageRank</strong></p>
+<p>Using the <code>networkx</code> library, we can easily compute PageRank for a graph. Below is a Python implementation:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a directed graph (since PageRank works on directed graphs)</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>G <span class="op">=</span> nx.DiGraph()</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Add edges (this is a simple example, you can add any structure you want)</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>edges <span class="op">=</span> [</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'A'</span>, <span class="st">'B'</span>), </span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'B'</span>, <span class="st">'C'</span>), </span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'C'</span>, <span class="st">'A'</span>), </span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'A'</span>, <span class="st">'D'</span>), </span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'D'</span>, <span class="st">'C'</span>), </span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'E'</span>, <span class="st">'D'</span>), </span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'F'</span>, <span class="st">'D'</span>), </span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'E'</span>, <span class="st">'F'</span>), </span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'F'</span>, <span class="st">'E'</span>)</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>G.add_edges_from(edges)</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute PageRank</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>pagerank <span class="op">=</span> nx.pagerank(G, alpha<span class="op">=</span><span class="fl">0.85</span>)  <span class="co"># Damping factor alpha=0.85</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the PageRank values</span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> node, rank <span class="kw">in</span> pagerank.items():</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"PageRank of node </span><span class="sc">{</span>node<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>rank<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the graph with node size proportional to PageRank</span></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>node_size <span class="op">=</span> [v <span class="op">*</span> <span class="dv">3000</span> <span class="cf">for</span> v <span class="kw">in</span> pagerank.values()]</span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>pos <span class="op">=</span> nx.spring_layout(G)</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>nx.draw(G, pos, with_labels<span class="op">=</span><span class="va">True</span>, node_size<span class="op">=</span>node_size, node_color<span class="op">=</span><span class="st">"lightblue"</span>, arrows<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Output:</strong></p>
+<pre><code>PageRank of node A: 0.2827
+PageRank of node B: 0.1451
+PageRank of node C: 0.3031
+PageRank of node D: 0.1821
+PageRank of node E: 0.0435
+PageRank of node F: 0.0435</code></pre>
+<p><img src="images/clipboard-2030635380.png" class="img-fluid" width="491"></p>
+<p><strong>Interpretation of Output:</strong></p>
+<p>The PageRank algorithm has been applied to a directed graph where nodes and edges represent relationships (e.g., links between websites, connections in a network, etc.). Below is a detailed interpretation of both the graph and the PageRank values that were calculated in the provided output.</p>
+<p><strong>PageRank Scores:</strong></p>
+<ol type="1">
+<li><strong>Node A (0.2827)</strong>:
+<ul>
+<li>Node A has the second-highest PageRank score. It is an important node in the cycle (A → B → C → A) and also has an outbound connection to D. The cycle A-B-C boosts its importance since it is connected to other central nodes.</li>
+</ul></li>
+<li><strong>Node B (0.1451)</strong>:
+<ul>
+<li>Node B has a relatively lower PageRank compared to A and C. While it is part of the cycle, it doesn’t have any additional outbound connections like node A, which might reduce its importance compared to its neighbors.</li>
+</ul></li>
+<li><strong>Node C (0.3031)</strong>:
+<ul>
+<li>Node C has the highest PageRank score, indicating it is the most central and influential node in the graph. This is likely because it not only participates in the cycle (A → B → C → A) but also receives an additional edge from node D, giving it more inbound influence.</li>
+</ul></li>
+<li><strong>Node D (0.1821)</strong>:
+<ul>
+<li>Node D has a moderately high PageRank score, primarily because it is linked to the important cycle (via A and C). Although it is not part of the cycle, its proximity to influential nodes boosts its score.</li>
+</ul></li>
+<li><strong>Node E (0.0435) and Node F (0.0435)</strong>:
+<ul>
+<li>Both E and F have the lowest PageRank scores. These nodes are peripheral in the network, with their primary connections being reciprocal links between themselves and links to node D. Since D is the only pathway for their influence, their importance is limited compared to other nodes directly involved in the central cycle.</li>
+</ul></li>
+</ol>
+<p><strong>Visual Representation:</strong></p>
+<p>In the provided graph (as visualized), node sizes are proportional to their PageRank scores:</p>
+<ul>
+<li><p><strong>Larger nodes</strong> (A, C, and D) are more important, with C being the largest node, reflecting its highest PageRank score.</p></li>
+<li><p><strong>Smaller nodes</strong> (E and F) are less influential and are positioned on the periphery, reflecting their lower PageRank.</p></li>
+</ul>
+<p><strong>Summary:</strong></p>
+<ol type="1">
+<li><strong>Centrality of Cycle Nodes</strong>: Nodes A, B, and C form a strongly connected component (cycle), making them highly influential. C is the most central because it benefits from both the cycle and its connection to D.</li>
+<li><strong>Peripheral Influence</strong>: Nodes E and F are peripheral and have limited influence because they rely on node D to connect to the rest of the network.</li>
+<li><strong>Node D’s Role</strong>: Node D plays an intermediary role between the central cycle and the peripheral nodes E and F, making it somewhat important, though not as central as nodes in the cycle itself.</li>
+</ol>
+<p>The graph and PageRank scores together show how the structure of a network determines the relative importance of each node, with highly interconnected cycles typically having the most influence.</p>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./13.NLP_toolkit.html" class="pagination-link" aria-label="Word Embedding Activities">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Word Embedding Activities</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./A.assignments.html" class="pagination-link" aria-label="Assignment #01">
+        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Assignment #01</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
