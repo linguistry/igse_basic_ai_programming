@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>14&nbsp; Assignment #01 – Basic AI Programming</title>
+<title>15&nbsp; Assignment #01 – Basic AI Programming</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,7 +31,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./references.html" rel="next">
-<link href="./13.NLP_toolkit.html" rel="prev">
+<link href="./14.Semantic_Network.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -81,7 +81,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./A.assignments.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Assignment #01</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./A.assignments.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Assignment #01</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -192,8 +192,14 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./14.Semantic_Network.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Semantic Network Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./A.assignments.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Assignment #01</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Assignment #01</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -212,26 +218,26 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#assignment-01-web-scraping-and-youtube-subtitle-extraction" id="toc-assignment-01-web-scraping-and-youtube-subtitle-extraction" class="nav-link active" data-scroll-target="#assignment-01-web-scraping-and-youtube-subtitle-extraction"><span class="header-section-number">14.1</span> <strong>Assignment 01</strong>: Web Scraping and YouTube Subtitle Extraction</a>
+  <li><a href="#assignment-01-web-scraping-and-youtube-subtitle-extraction" id="toc-assignment-01-web-scraping-and-youtube-subtitle-extraction" class="nav-link active" data-scroll-target="#assignment-01-web-scraping-and-youtube-subtitle-extraction"><span class="header-section-number">15.1</span> <strong>Assignment 01</strong>: Web Scraping and YouTube Subtitle Extraction</a>
   <ul class="collapse">
-  <li><a href="#total-marks-20" id="toc-total-marks-20" class="nav-link" data-scroll-target="#total-marks-20"><span class="header-section-number">14.1.1</span> <strong>Total Marks</strong>: 20</a></li>
-  <li><a href="#objective" id="toc-objective" class="nav-link" data-scroll-target="#objective"><span class="header-section-number">14.1.2</span> <strong>Objective:</strong></a></li>
-  <li><a href="#assignment-instructions" id="toc-assignment-instructions" class="nav-link" data-scroll-target="#assignment-instructions"><span class="header-section-number">14.1.3</span> <strong>Assignment Instructions:</strong></a></li>
+  <li><a href="#total-marks-20" id="toc-total-marks-20" class="nav-link" data-scroll-target="#total-marks-20"><span class="header-section-number">15.1.1</span> <strong>Total Marks</strong>: 20</a></li>
+  <li><a href="#objective" id="toc-objective" class="nav-link" data-scroll-target="#objective"><span class="header-section-number">15.1.2</span> <strong>Objective:</strong></a></li>
+  <li><a href="#assignment-instructions" id="toc-assignment-instructions" class="nav-link" data-scroll-target="#assignment-instructions"><span class="header-section-number">15.1.3</span> <strong>Assignment Instructions:</strong></a></li>
   </ul></li>
-  <li><a href="#task-1-web-scraping-10-marks" id="toc-task-1-web-scraping-10-marks" class="nav-link" data-scroll-target="#task-1-web-scraping-10-marks"><span class="header-section-number">14.2</span> <strong>Task 1: Web Scraping</strong> (10 Marks)</a>
+  <li><a href="#task-1-web-scraping-10-marks" id="toc-task-1-web-scraping-10-marks" class="nav-link" data-scroll-target="#task-1-web-scraping-10-marks"><span class="header-section-number">15.2</span> <strong>Task 1: Web Scraping</strong> (10 Marks)</a>
   <ul class="collapse">
-  <li><a href="#step-1-select-a-website-for-crawling" id="toc-step-1-select-a-website-for-crawling" class="nav-link" data-scroll-target="#step-1-select-a-website-for-crawling"><span class="header-section-number">14.2.1</span> <strong>Step 1: Select a Website for Crawling</strong></a></li>
-  <li><a href="#step-2-crawl-data-from-more-than-2-pages-4-marks" id="toc-step-2-crawl-data-from-more-than-2-pages-4-marks" class="nav-link" data-scroll-target="#step-2-crawl-data-from-more-than-2-pages-4-marks"><span class="header-section-number">14.2.2</span> <strong>Step 2: Crawl Data from More than 2 Pages</strong> (4 Marks)</a></li>
-  <li><a href="#step-3-preprocess-the-scraped-text-and-save-to-excel-xlsx-4-marks" id="toc-step-3-preprocess-the-scraped-text-and-save-to-excel-xlsx-4-marks" class="nav-link" data-scroll-target="#step-3-preprocess-the-scraped-text-and-save-to-excel-xlsx-4-marks"><span class="header-section-number">14.2.3</span> <strong>Step 3: Preprocess the Scraped Text and Save to Excel (xlsx)</strong> (4 Marks)</a></li>
+  <li><a href="#step-1-select-a-website-for-crawling" id="toc-step-1-select-a-website-for-crawling" class="nav-link" data-scroll-target="#step-1-select-a-website-for-crawling"><span class="header-section-number">15.2.1</span> <strong>Step 1: Select a Website for Crawling</strong></a></li>
+  <li><a href="#step-2-crawl-data-from-more-than-2-pages-4-marks" id="toc-step-2-crawl-data-from-more-than-2-pages-4-marks" class="nav-link" data-scroll-target="#step-2-crawl-data-from-more-than-2-pages-4-marks"><span class="header-section-number">15.2.2</span> <strong>Step 2: Crawl Data from More than 2 Pages</strong> (4 Marks)</a></li>
+  <li><a href="#step-3-preprocess-the-scraped-text-and-save-to-excel-xlsx-4-marks" id="toc-step-3-preprocess-the-scraped-text-and-save-to-excel-xlsx-4-marks" class="nav-link" data-scroll-target="#step-3-preprocess-the-scraped-text-and-save-to-excel-xlsx-4-marks"><span class="header-section-number">15.2.3</span> <strong>Step 3: Preprocess the Scraped Text and Save to Excel (xlsx)</strong> (4 Marks)</a></li>
   </ul></li>
-  <li><a href="#task-2-youtube-playlist-subtitle-extraction-10-marks" id="toc-task-2-youtube-playlist-subtitle-extraction-10-marks" class="nav-link" data-scroll-target="#task-2-youtube-playlist-subtitle-extraction-10-marks"><span class="header-section-number">14.3</span> <strong>Task 2: YouTube Playlist Subtitle Extraction</strong> (10 Marks)</a>
+  <li><a href="#task-2-youtube-playlist-subtitle-extraction-10-marks" id="toc-task-2-youtube-playlist-subtitle-extraction-10-marks" class="nav-link" data-scroll-target="#task-2-youtube-playlist-subtitle-extraction-10-marks"><span class="header-section-number">15.3</span> <strong>Task 2: YouTube Playlist Subtitle Extraction</strong> (10 Marks)</a>
   <ul class="collapse">
-  <li><a href="#step-1-select-a-youtube-playlist-2-marks" id="toc-step-1-select-a-youtube-playlist-2-marks" class="nav-link" data-scroll-target="#step-1-select-a-youtube-playlist-2-marks"><span class="header-section-number">14.3.1</span> <strong>Step 1: Select a YouTube Playlist</strong> (2 Marks)</a></li>
-  <li><a href="#step-2-extract-subtitles-from-more-than-2-videos-4-marks" id="toc-step-2-extract-subtitles-from-more-than-2-videos-4-marks" class="nav-link" data-scroll-target="#step-2-extract-subtitles-from-more-than-2-videos-4-marks"><span class="header-section-number">14.3.2</span> <strong>Step 2: Extract Subtitles from More than 2 Videos</strong> (4 Marks)</a></li>
-  <li><a href="#step-3-preprocess-subtitles-and-save-to-excel-xlsx-4-marks" id="toc-step-3-preprocess-subtitles-and-save-to-excel-xlsx-4-marks" class="nav-link" data-scroll-target="#step-3-preprocess-subtitles-and-save-to-excel-xlsx-4-marks"><span class="header-section-number">14.3.3</span> <strong>Step 3: Preprocess Subtitles and Save to Excel (xlsx)</strong> (4 Marks)</a></li>
-  <li><a href="#submission-guidelines" id="toc-submission-guidelines" class="nav-link" data-scroll-target="#submission-guidelines"><span class="header-section-number">14.3.4</span> <strong>Submission Guidelines:</strong></a></li>
-  <li><a href="#grading-criteria" id="toc-grading-criteria" class="nav-link" data-scroll-target="#grading-criteria"><span class="header-section-number">14.3.5</span> <strong>Grading Criteria:</strong></a></li>
-  <li><a href="#submission-deadline" id="toc-submission-deadline" class="nav-link" data-scroll-target="#submission-deadline"><span class="header-section-number">14.3.6</span> <strong>Submission Deadline:</strong></a></li>
+  <li><a href="#step-1-select-a-youtube-playlist-2-marks" id="toc-step-1-select-a-youtube-playlist-2-marks" class="nav-link" data-scroll-target="#step-1-select-a-youtube-playlist-2-marks"><span class="header-section-number">15.3.1</span> <strong>Step 1: Select a YouTube Playlist</strong> (2 Marks)</a></li>
+  <li><a href="#step-2-extract-subtitles-from-more-than-2-videos-4-marks" id="toc-step-2-extract-subtitles-from-more-than-2-videos-4-marks" class="nav-link" data-scroll-target="#step-2-extract-subtitles-from-more-than-2-videos-4-marks"><span class="header-section-number">15.3.2</span> <strong>Step 2: Extract Subtitles from More than 2 Videos</strong> (4 Marks)</a></li>
+  <li><a href="#step-3-preprocess-subtitles-and-save-to-excel-xlsx-4-marks" id="toc-step-3-preprocess-subtitles-and-save-to-excel-xlsx-4-marks" class="nav-link" data-scroll-target="#step-3-preprocess-subtitles-and-save-to-excel-xlsx-4-marks"><span class="header-section-number">15.3.3</span> <strong>Step 3: Preprocess Subtitles and Save to Excel (xlsx)</strong> (4 Marks)</a></li>
+  <li><a href="#submission-guidelines" id="toc-submission-guidelines" class="nav-link" data-scroll-target="#submission-guidelines"><span class="header-section-number">15.3.4</span> <strong>Submission Guidelines:</strong></a></li>
+  <li><a href="#grading-criteria" id="toc-grading-criteria" class="nav-link" data-scroll-target="#grading-criteria"><span class="header-section-number">15.3.5</span> <strong>Grading Criteria:</strong></a></li>
+  <li><a href="#submission-deadline" id="toc-submission-deadline" class="nav-link" data-scroll-target="#submission-deadline"><span class="header-section-number">15.3.6</span> <strong>Submission Deadline:</strong></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -241,7 +247,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Assignment #01</span></h1>
+<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Assignment #01</span></h1>
 </div>
 
 
@@ -259,32 +265,32 @@ ul.task-list li input[type="checkbox"] {
 
 
 <hr>
-<section id="assignment-01-web-scraping-and-youtube-subtitle-extraction" class="level2" data-number="14.1">
-<h2 data-number="14.1" class="anchored" data-anchor-id="assignment-01-web-scraping-and-youtube-subtitle-extraction"><span class="header-section-number">14.1</span> <strong>Assignment 01</strong>: Web Scraping and YouTube Subtitle Extraction</h2>
-<section id="total-marks-20" class="level3" data-number="14.1.1">
-<h3 data-number="14.1.1" class="anchored" data-anchor-id="total-marks-20"><span class="header-section-number">14.1.1</span> <strong>Total Marks</strong>: 20</h3>
+<section id="assignment-01-web-scraping-and-youtube-subtitle-extraction" class="level2" data-number="15.1">
+<h2 data-number="15.1" class="anchored" data-anchor-id="assignment-01-web-scraping-and-youtube-subtitle-extraction"><span class="header-section-number">15.1</span> <strong>Assignment 01</strong>: Web Scraping and YouTube Subtitle Extraction</h2>
+<section id="total-marks-20" class="level3" data-number="15.1.1">
+<h3 data-number="15.1.1" class="anchored" data-anchor-id="total-marks-20"><span class="header-section-number">15.1.1</span> <strong>Total Marks</strong>: 20</h3>
 </section>
-<section id="objective" class="level3" data-number="14.1.2">
-<h3 data-number="14.1.2" class="anchored" data-anchor-id="objective"><span class="header-section-number">14.1.2</span> <strong>Objective:</strong></h3>
+<section id="objective" class="level3" data-number="15.1.2">
+<h3 data-number="15.1.2" class="anchored" data-anchor-id="objective"><span class="header-section-number">15.1.2</span> <strong>Objective:</strong></h3>
 <p>In this assignment, you will use Python to perform web scraping and extract subtitles from YouTube playlists. You will scrape text from a website over multiple pages, process the text, and save it in an Excel file. Additionally, you will extract and process subtitles from videos in a YouTube playlist, saving the results in Excel format.</p>
 </section>
-<section id="assignment-instructions" class="level3" data-number="14.1.3">
-<h3 data-number="14.1.3" class="anchored" data-anchor-id="assignment-instructions"><span class="header-section-number">14.1.3</span> <strong>Assignment Instructions:</strong></h3>
+<section id="assignment-instructions" class="level3" data-number="15.1.3">
+<h3 data-number="15.1.3" class="anchored" data-anchor-id="assignment-instructions"><span class="header-section-number">15.1.3</span> <strong>Assignment Instructions:</strong></h3>
 </section>
 </section>
-<section id="task-1-web-scraping-10-marks" class="level2" data-number="14.2">
-<h2 data-number="14.2" class="anchored" data-anchor-id="task-1-web-scraping-10-marks"><span class="header-section-number">14.2</span> <strong>Task 1: Web Scraping</strong> (10 Marks)</h2>
-<section id="step-1-select-a-website-for-crawling" class="level3" data-number="14.2.1">
-<h3 data-number="14.2.1" class="anchored" data-anchor-id="step-1-select-a-website-for-crawling"><span class="header-section-number">14.2.1</span> <strong>Step 1: Select a Website for Crawling</strong></h3>
+<section id="task-1-web-scraping-10-marks" class="level2" data-number="15.2">
+<h2 data-number="15.2" class="anchored" data-anchor-id="task-1-web-scraping-10-marks"><span class="header-section-number">15.2</span> <strong>Task 1: Web Scraping</strong> (10 Marks)</h2>
+<section id="step-1-select-a-website-for-crawling" class="level3" data-number="15.2.1">
+<h3 data-number="15.2.1" class="anchored" data-anchor-id="step-1-select-a-website-for-crawling"><span class="header-section-number">15.2.1</span> <strong>Step 1: Select a Website for Crawling</strong></h3>
 <p><strong>Select a website</strong> from which you will scrape data. The website must have multiple pages that can be crawled.</p>
 <p><strong>Explain why you selected this website</strong> (e.g., relevance, data availability, structure).</p>
 </section>
-<section id="step-2-crawl-data-from-more-than-2-pages-4-marks" class="level3" data-number="14.2.2">
-<h3 data-number="14.2.2" class="anchored" data-anchor-id="step-2-crawl-data-from-more-than-2-pages-4-marks"><span class="header-section-number">14.2.2</span> <strong>Step 2: Crawl Data from More than 2 Pages</strong> (4 Marks)</h3>
+<section id="step-2-crawl-data-from-more-than-2-pages-4-marks" class="level3" data-number="15.2.2">
+<h3 data-number="15.2.2" class="anchored" data-anchor-id="step-2-crawl-data-from-more-than-2-pages-4-marks"><span class="header-section-number">15.2.2</span> <strong>Step 2: Crawl Data from More than 2 Pages</strong> (4 Marks)</h3>
 <p>Write a Python script using <code>requests</code>, <code>BeautifulSoup</code>, or other relevant libraries to scrape data from <strong>at least two pages</strong> of the selected website. Ensure that your script can navigate between pages (pagination).</p>
 </section>
-<section id="step-3-preprocess-the-scraped-text-and-save-to-excel-xlsx-4-marks" class="level3" data-number="14.2.3">
-<h3 data-number="14.2.3" class="anchored" data-anchor-id="step-3-preprocess-the-scraped-text-and-save-to-excel-xlsx-4-marks"><span class="header-section-number">14.2.3</span> <strong>Step 3: Preprocess the Scraped Text and Save to Excel (xlsx)</strong> (4 Marks)</h3>
+<section id="step-3-preprocess-the-scraped-text-and-save-to-excel-xlsx-4-marks" class="level3" data-number="15.2.3">
+<h3 data-number="15.2.3" class="anchored" data-anchor-id="step-3-preprocess-the-scraped-text-and-save-to-excel-xlsx-4-marks"><span class="header-section-number">15.2.3</span> <strong>Step 3: Preprocess the Scraped Text and Save to Excel (xlsx)</strong> (4 Marks)</h3>
 <ol type="1">
 <li>Preprocess the scraped text data (e.g., remove unnecessary characters, clean formatting).</li>
 <li>Save the processed text in an Excel file (<code>.xlsx</code> format) using <code>pandas</code> or <code>openpyxl</code>.</li>
@@ -292,32 +298,32 @@ ul.task-list li input[type="checkbox"] {
 <hr>
 </section>
 </section>
-<section id="task-2-youtube-playlist-subtitle-extraction-10-marks" class="level2" data-number="14.3">
-<h2 data-number="14.3" class="anchored" data-anchor-id="task-2-youtube-playlist-subtitle-extraction-10-marks"><span class="header-section-number">14.3</span> <strong>Task 2: YouTube Playlist Subtitle Extraction</strong> (10 Marks)</h2>
-<section id="step-1-select-a-youtube-playlist-2-marks" class="level3" data-number="14.3.1">
-<h3 data-number="14.3.1" class="anchored" data-anchor-id="step-1-select-a-youtube-playlist-2-marks"><span class="header-section-number">14.3.1</span> <strong>Step 1: Select a YouTube Playlist</strong> (2 Marks)</h3>
+<section id="task-2-youtube-playlist-subtitle-extraction-10-marks" class="level2" data-number="15.3">
+<h2 data-number="15.3" class="anchored" data-anchor-id="task-2-youtube-playlist-subtitle-extraction-10-marks"><span class="header-section-number">15.3</span> <strong>Task 2: YouTube Playlist Subtitle Extraction</strong> (10 Marks)</h2>
+<section id="step-1-select-a-youtube-playlist-2-marks" class="level3" data-number="15.3.1">
+<h3 data-number="15.3.1" class="anchored" data-anchor-id="step-1-select-a-youtube-playlist-2-marks"><span class="header-section-number">15.3.1</span> <strong>Step 1: Select a YouTube Playlist</strong> (2 Marks)</h3>
 <ol type="1">
 <li><strong>Select a YouTube playlist</strong> that contains videos with subtitles.</li>
 <li><strong>Explain why you chose this playlist</strong> (e.g., topic relevance, video variety).</li>
 </ol>
 </section>
-<section id="step-2-extract-subtitles-from-more-than-2-videos-4-marks" class="level3" data-number="14.3.2">
-<h3 data-number="14.3.2" class="anchored" data-anchor-id="step-2-extract-subtitles-from-more-than-2-videos-4-marks"><span class="header-section-number">14.3.2</span> <strong>Step 2: Extract Subtitles from More than 2 Videos</strong> (4 Marks)</h3>
+<section id="step-2-extract-subtitles-from-more-than-2-videos-4-marks" class="level3" data-number="15.3.2">
+<h3 data-number="15.3.2" class="anchored" data-anchor-id="step-2-extract-subtitles-from-more-than-2-videos-4-marks"><span class="header-section-number">15.3.2</span> <strong>Step 2: Extract Subtitles from More than 2 Videos</strong> (4 Marks)</h3>
 <ol type="1">
 <li>Write a Python script using <code>pytube</code>, <code>youtube-transcript-api</code>, or other relevant libraries to extract subtitles from <strong>at least two videos</strong> in the playlist.</li>
 <li>Print or log the extracted subtitles.</li>
 </ol>
 </section>
-<section id="step-3-preprocess-subtitles-and-save-to-excel-xlsx-4-marks" class="level3" data-number="14.3.3">
-<h3 data-number="14.3.3" class="anchored" data-anchor-id="step-3-preprocess-subtitles-and-save-to-excel-xlsx-4-marks"><span class="header-section-number">14.3.3</span> <strong>Step 3: Preprocess Subtitles and Save to Excel (xlsx)</strong> (4 Marks)</h3>
+<section id="step-3-preprocess-subtitles-and-save-to-excel-xlsx-4-marks" class="level3" data-number="15.3.3">
+<h3 data-number="15.3.3" class="anchored" data-anchor-id="step-3-preprocess-subtitles-and-save-to-excel-xlsx-4-marks"><span class="header-section-number">15.3.3</span> <strong>Step 3: Preprocess Subtitles and Save to Excel (xlsx)</strong> (4 Marks)</h3>
 <ol type="1">
 <li>Preprocess the extracted subtitles (e.g., remove unnecessary characters, clean formatting, timestamp adjustments).</li>
 <li>Save the cleaned subtitles in an Excel file (<code>.xlsx</code> format) using <code>pandas</code> or <code>openpyxl</code>.</li>
 </ol>
 <hr>
 </section>
-<section id="submission-guidelines" class="level3" data-number="14.3.4">
-<h3 data-number="14.3.4" class="anchored" data-anchor-id="submission-guidelines"><span class="header-section-number">14.3.4</span> <strong>Submission Guidelines:</strong></h3>
+<section id="submission-guidelines" class="level3" data-number="15.3.4">
+<h3 data-number="15.3.4" class="anchored" data-anchor-id="submission-guidelines"><span class="header-section-number">15.3.4</span> <strong>Submission Guidelines:</strong></h3>
 <ol type="1">
 <li><strong>Task 1</strong>:
 <ul>
@@ -331,8 +337,8 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 </ol>
 </section>
-<section id="grading-criteria" class="level3" data-number="14.3.5">
-<h3 data-number="14.3.5" class="anchored" data-anchor-id="grading-criteria"><span class="header-section-number">14.3.5</span> <strong>Grading Criteria:</strong></h3>
+<section id="grading-criteria" class="level3" data-number="15.3.5">
+<h3 data-number="15.3.5" class="anchored" data-anchor-id="grading-criteria"><span class="header-section-number">15.3.5</span> <strong>Grading Criteria:</strong></h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -372,8 +378,8 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 </section>
-<section id="submission-deadline" class="level3" data-number="14.3.6">
-<h3 data-number="14.3.6" class="anchored" data-anchor-id="submission-deadline"><span class="header-section-number">14.3.6</span> <strong>Submission Deadline:</strong></h3>
+<section id="submission-deadline" class="level3" data-number="15.3.6">
+<h3 data-number="15.3.6" class="anchored" data-anchor-id="submission-deadline"><span class="header-section-number">15.3.6</span> <strong>Submission Deadline:</strong></h3>
 <ul>
 <li>Please submit your assignment by <strong>Oct.&nbsp;10, 2024</strong> via the course portal.</li>
 </ul>
@@ -806,8 +812,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./13.NLP_toolkit.html" class="pagination-link" aria-label="Word Embedding Activities">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Word Embedding Activities</span></span>
+      <a href="./14.Semantic_Network.html" class="pagination-link" aria-label="Semantic Network Analysis">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Semantic Network Analysis</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

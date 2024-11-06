@@ -1,0 +1,2242 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>15&nbsp; Semantic Network Analysis (Examples) – Basic AI Programming</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./16.Topic_Modeling.html" rel="next">
+<link href="./14.Semantic_Network.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./15.SNA_Example.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Semantic Network Analysis (Examples)</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Basic AI Programming</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01.setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Setting Up Environment</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02.intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Constants and Variables in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03.control.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Control Structures in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04.function.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Functions and Packages in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05.pandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Analysis in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06.arithmetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Basic Arithmetic Operations in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07.Regular_Expression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regular Expressions (RegEx) in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08.Custom_Corpus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Building a Custom Corpus</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09.Preprocessing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Text Preprocessing</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10.Word_Cloud.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualizing Word Frequencies with Graphs and Word Clouds</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11.Text_Representation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Text Representation Based on Counts</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12.Word_Embedding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Word Embedding and Relational Similarity</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13.NLP_toolkit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Word Embedding Activities</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14.Semantic_Network.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Semantic Network Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15.SNA_Example.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Semantic Network Analysis (Examples)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16.Topic_Modeling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Topic Modeling in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A.assignment1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Assignment #01</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./B.assignment2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Assignment #02: Semantic Network Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#preparation-r" id="toc-preparation-r" class="nav-link active" data-scroll-target="#preparation-r"><span class="header-section-number">15.1</span> Preparation (R)</a>
+  <ul class="collapse">
+  <li><a href="#step-1-install-r" id="toc-step-1-install-r" class="nav-link" data-scroll-target="#step-1-install-r"><span class="header-section-number">15.1.1</span> Step 1: Install R</a></li>
+  <li><a href="#step-2-install-rstudio" id="toc-step-2-install-rstudio" class="nav-link" data-scroll-target="#step-2-install-rstudio"><span class="header-section-number">15.1.2</span> Step 2: Install RStudio</a></li>
+  <li><a href="#step-3-install-required-packages-for-semantic-network-analysis" id="toc-step-3-install-required-packages-for-semantic-network-analysis" class="nav-link" data-scroll-target="#step-3-install-required-packages-for-semantic-network-analysis"><span class="header-section-number">15.1.3</span> Step 3: Install Required Packages for Semantic Network Analysis</a></li>
+  </ul></li>
+  <li><a href="#example-r-code" id="toc-example-r-code" class="nav-link" data-scroll-target="#example-r-code"><span class="header-section-number">15.2</span> Example R Code</a>
+  <ul class="collapse">
+  <li><a href="#data-impoart" id="toc-data-impoart" class="nav-link" data-scroll-target="#data-impoart"><span class="header-section-number">15.2.1</span> Data Impoart</a></li>
+  <li><a href="#stopwords" id="toc-stopwords" class="nav-link" data-scroll-target="#stopwords"><span class="header-section-number">15.2.2</span> Stopwords</a></li>
+  <li><a href="#library-for-graphs" id="toc-library-for-graphs" class="nav-link" data-scroll-target="#library-for-graphs"><span class="header-section-number">15.2.3</span> Library for Graphs</a></li>
+  <li><a href="#custom-functions-for-creating-bar-and-line-graphs" id="toc-custom-functions-for-creating-bar-and-line-graphs" class="nav-link" data-scroll-target="#custom-functions-for-creating-bar-and-line-graphs"><span class="header-section-number">15.2.4</span> Custom Functions for Creating Bar and Line Graphs</a></li>
+  <li><a href="#custom-functions-for-creating-nlp-tasks" id="toc-custom-functions-for-creating-nlp-tasks" class="nav-link" data-scroll-target="#custom-functions-for-creating-nlp-tasks"><span class="header-section-number">15.2.5</span> Custom Functions for Creating NLP Tasks</a></li>
+  <li><a href="#articles-by-year-bar-graphs" id="toc-articles-by-year-bar-graphs" class="nav-link" data-scroll-target="#articles-by-year-bar-graphs"><span class="header-section-number">15.2.6</span> Articles by Year (Bar Graphs)</a></li>
+  <li><a href="#articles-by-year-and-journal-line-graphs" id="toc-articles-by-year-and-journal-line-graphs" class="nav-link" data-scroll-target="#articles-by-year-and-journal-line-graphs"><span class="header-section-number">15.2.7</span> Articles by Year and Journal (Line Graphs)</a></li>
+  <li><a href="#pos-tagging" id="toc-pos-tagging" class="nav-link" data-scroll-target="#pos-tagging"><span class="header-section-number">15.2.8</span> POS Tagging</a></li>
+  <li><a href="#word-count-noun-verb-adj-only" id="toc-word-count-noun-verb-adj-only" class="nav-link" data-scroll-target="#word-count-noun-verb-adj-only"><span class="header-section-number">15.2.9</span> Word Count (Noun, Verb, Adj Only)</a></li>
+  <li><a href="#word-cloud" id="toc-word-cloud" class="nav-link" data-scroll-target="#word-cloud"><span class="header-section-number">15.2.10</span> Word Cloud</a></li>
+  <li><a href="#co-occurrence-network" id="toc-co-occurrence-network" class="nav-link" data-scroll-target="#co-occurrence-network"><span class="header-section-number">15.2.11</span> Co-Occurrence Network</a></li>
+  <li><a href="#degree-centrality" id="toc-degree-centrality" class="nav-link" data-scroll-target="#degree-centrality"><span class="header-section-number">15.2.12</span> Degree Centrality</a></li>
+  <li><a href="#correlation-based-network-phi-coefficient" id="toc-correlation-based-network-phi-coefficient" class="nav-link" data-scroll-target="#correlation-based-network-phi-coefficient"><span class="header-section-number">15.2.13</span> Correlation-based Network (Phi Coefficient)</a></li>
+  <li><a href="#n-gram-network" id="toc-n-gram-network" class="nav-link" data-scroll-target="#n-gram-network"><span class="header-section-number">15.2.14</span> n-gram Network</a></li>
+  <li><a href="#modularity-analysis" id="toc-modularity-analysis" class="nav-link" data-scroll-target="#modularity-analysis"><span class="header-section-number">15.2.15</span> Modularity Analysis</a></li>
+  <li><a href="#explanation-of-modifications" id="toc-explanation-of-modifications" class="nav-link" data-scroll-target="#explanation-of-modifications"><span class="header-section-number">15.2.16</span> Explanation of Modifications</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Semantic Network Analysis (Examples)</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Here’s a step-by-step guide for installing R, RStudio, and the essential packages for semantic network analysis.</p>
+<section id="preparation-r" class="level2" data-number="15.1">
+<h2 data-number="15.1" class="anchored" data-anchor-id="preparation-r"><span class="header-section-number">15.1</span> Preparation (R)</h2>
+<section id="step-1-install-r" class="level3" data-number="15.1.1">
+<h3 data-number="15.1.1" class="anchored" data-anchor-id="step-1-install-r"><span class="header-section-number">15.1.1</span> Step 1: Install R</h3>
+<ol type="1">
+<li><strong>Go to CRAN</strong>: Visit the Comprehensive R Archive Network (CRAN) <a href="https://cran.r-project.org/">here</a>.</li>
+<li><strong>Download R</strong>:
+<ul>
+<li>Select your operating system (Windows, macOS, or Linux).</li>
+<li>Follow the download and installation instructions specific to your OS.</li>
+</ul></li>
+<li><strong>Install R</strong>:
+<ul>
+<li>Run the downloaded file and follow the on-screen instructions.</li>
+<li>Once complete, R should be ready to use.</li>
+</ul></li>
+</ol>
+</section>
+<section id="step-2-install-rstudio" class="level3" data-number="15.1.2">
+<h3 data-number="15.1.2" class="anchored" data-anchor-id="step-2-install-rstudio"><span class="header-section-number">15.1.2</span> Step 2: Install RStudio</h3>
+<ol type="1">
+<li><strong>Go to RStudio’s Website</strong>: Visit <a href="https://posit.co/download/rstudio-desktop/">RStudio’s download page</a>.</li>
+<li><strong>Download RStudio</strong>:
+<ul>
+<li>Choose the free version of RStudio Desktop.</li>
+<li>Download the version appropriate for your operating system.</li>
+</ul></li>
+<li><strong>Install RStudio</strong>:
+<ul>
+<li>Run the downloaded file and follow the installation instructions.</li>
+<li>After installation, open RStudio to confirm it’s working and connected to R.</li>
+</ul></li>
+</ol>
+</section>
+<section id="step-3-install-required-packages-for-semantic-network-analysis" class="level3" data-number="15.1.3">
+<h3 data-number="15.1.3" class="anchored" data-anchor-id="step-3-install-required-packages-for-semantic-network-analysis"><span class="header-section-number">15.1.3</span> Step 3: Install Required Packages for Semantic Network Analysis</h3>
+<p>Open RStudio and install the necessary packages for semantic network analysis. Here’s how:</p>
+<ol type="1">
+<li><strong>Open RStudio</strong>.</li>
+<li><strong>Install packages</strong> by typing the following commands in the Console and pressing Enter after each line:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("igraph")         # Network visualization and analysis</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("quanteda")       # Text analysis</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("quanteda.textstats") # Text statistics for semantic networks</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("widyr")          # Pairwise correlations for networks</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("ggraph")         # Network graphing tool with ggplot2 syntax</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("tidygraph")      # Manipulate network data in tidy format</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("ggplot2")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="3" type="1">
+<li><strong>Load packages</strong> to check if they’re correctly installed:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'igraph' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'igraph'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    decompose, spectrum</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:base':
+
+    union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'quanteda' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in .recacheSubclasses(def@className, def, env): undefined subclass
+"ndiMatrix" of class "replValueSp"; definition not updated</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Package version: 4.1.0
+Unicode version: 14.0
+ICU version: 71.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Parallel computing: disabled</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>See https://quanteda.io for tutorials and examples.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.textstats)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'quanteda.textstats' was built under R version 4.3.3
+
+Warning: undefined subclass "ndiMatrix" of class "replValueSp"; definition not
+updated</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(widyr)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggraph)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: ggplot2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidygraph)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'tidygraph'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:quanteda':
+
+    convert</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:igraph':
+
+    groups</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:stats':
+
+    filter</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="example-r-code" class="level2" data-number="15.2">
+<h2 data-number="15.2" class="anchored" data-anchor-id="example-r-code"><span class="header-section-number">15.2</span> Example R Code</h2>
+<p>This R code is designed to import, rename, and display the initial rows of a dataset. Here’s a breakdown of each step:</p>
+<section id="data-impoart" class="level3" data-number="15.2.1">
+<h3 data-number="15.2.1" class="anchored" data-anchor-id="data-impoart"><span class="header-section-number">15.2.1</span> Data Impoart</h3>
+<ol type="1">
+<li><strong>Load Required Libraries</strong>:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr); <span class="fu">library</span>(dplyr); <span class="fu">library</span>(showtext)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:igraph':
+
+    as_data_frame, groups, union</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: sysfonts</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: showtextdb</code></pre>
+</div>
+</div>
+<ul>
+<li><strong><code>library(readr)</code></strong>: Loads the <code>readr</code> package, which includes functions for reading rectangular data (like CSV files) quickly and efficiently.</li>
+<li><strong><code>library(dplyr)</code></strong>: Loads the <code>dplyr</code> package, a popular package for data manipulation.</li>
+<li><strong><code>library(showtext)</code></strong>: Loads the <code>showtext</code> package, used for handling fonts when creating plots. Although it’s loaded here, it’s not directly used in the subsequent code.</li>
+</ul>
+<ol start="2" type="1">
+<li><strong>Data Import</strong>:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>data_raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>data_raw &lt;- read_csv("data.csv")</code></strong>: Reads a CSV file named “data.csv” and stores it in a variable called <code>data_raw</code>. The <code>read_csv()</code> function from <code>readr</code> is designed for fast reading and returns a <code>tibble</code>, a more user-friendly form of the standard data frame in R.</li>
+</ul>
+<ol start="3" type="1">
+<li><strong>Rename a Column</strong>:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>data_original <span class="ot">&lt;-</span> data_raw <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="at">Journals =</span> j_short)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>data_original &lt;- data_raw %&gt;% rename(Journals = j_short)</code></strong>: Creates a new data frame <code>data_original</code> by renaming the <code>j_short</code> column to <code>Journals</code>.</li>
+<li><strong><code>%&gt;%</code></strong>: This is the pipe operator from <code>dplyr</code>, which allows you to chain functions together.</li>
+<li><strong><code>rename(Journals = j_short)</code></strong>: The <code>rename()</code> function changes the name of <code>j_short</code> to <code>Journals</code> in the data frame.</li>
+</ul>
+<ol start="4" type="1">
+<li><strong>Display the First Rows of the Dataset</strong>:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_original)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  serial id_record         Journals  year title_en_lower_cleaned                
+   &lt;dbl&gt; &lt;chr&gt;             &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;                                 
+1      1 geta_2001_6_1_5   geta      2001 a study on the teaching models of nat…
+2      2 geta_2001_6_1_33  geta      2001 a study of teaching process oriented …
+3      3 geta_2001_6_1_61  geta      2001 a study of the development and applic…
+4      4 geta_2001_6_1_83  geta      2001 an instructional model for english wr…
+5      5 geta_2001_6_1_103 geta      2001 a study on the effects of call on ele…
+6      6 geta_2001_6_1_121 geta      2001 a study on methods of enhancing focus…</code></pre>
+</div>
+</div>
+<ul>
+<li><strong><code>head(data_original)</code></strong>: Displays the first six rows of the <code>data_original</code> data frame, giving a quick view of its structure and content.</li>
+</ul>
+</section>
+<section id="stopwords" class="level3" data-number="15.2.2">
+<h3 data-number="15.2.2" class="anchored" data-anchor-id="stopwords"><span class="header-section-number">15.2.2</span> Stopwords</h3>
+<p>This R code is handling custom stopwords by reading, modifying, and filtering them as follows:</p>
+<ol type="1">
+<li><strong>Read Stopwords File</strong>:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>stopwords <span class="ot">&lt;-</span> <span class="fu">readLines</span>(<span class="st">"my_stopwords.txt"</span>, <span class="at">encoding =</span> <span class="st">"UTF-8"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>readLines("my_stopwords.txt", encoding = "UTF-8")</code></strong>: Reads the content of the file <code>"my_stopwords.txt"</code> line by line, storing each line as an individual element in the <code>stopwords</code> vector. The <code>encoding = "UTF-8"</code> ensures that any non-ASCII characters are read correctly.</li>
+<li><strong><code>stopwords</code></strong>: This variable now contains a list of words that will be treated as stopwords.</li>
+</ul>
+<ol start="2" type="1">
+<li><p><strong>Check Type of Stopwords</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(stopwords)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"</code></pre>
+</div>
+</div>
+<ul>
+<li><strong><code>typeof(stopwords)</code></strong>: Checks the data type of <code>stopwords</code>. Since <code>readLines()</code> returns a character vector, this will likely output <code>"character"</code>.</li>
+</ul></li>
+<li><p><strong>Add New Stopwords</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>stopwords_added <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"english"</span>, <span class="st">"korean"</span>)  <span class="co"># add new stopwords </span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>stopwords <span class="ot">&lt;-</span> <span class="fu">append</span>(stopwords, stopwords_added)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>stopwords[<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "‘d"  "‘ll" "‘m"  "‘re" "‘s"  "‘ve" "’d"  "’ll" "’m"  "’re"</code></pre>
+</div>
+</div>
+<ul>
+<li><strong><code>stopwords_added &lt;- c("english", "korean")</code></strong>: Creates a vector <code>stopwords_added</code> with new words (“english” and “korean”) to be added as stopwords.</li>
+<li><strong><code>append(stopwords, stopwords_added)</code></strong>: Appends the new words in <code>stopwords_added</code> to the end of the <code>stopwords</code> vector.</li>
+</ul></li>
+<li><p><strong>Remove Specific Stopwords</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>stopwords_deleted <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"korean"</span>, <span class="st">"‘ll"</span>, <span class="st">"‘d"</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> stopwords_deleted){</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  stopwords <span class="ot">&lt;-</span> <span class="fu">gsub</span>(i, <span class="st">""</span>, stopwords)</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>stopwords_deleted</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "korean" "‘ll"    "‘d"    </code></pre>
+</div>
+</div>
+<ul>
+<li><strong><code>stopwords_deleted &lt;- c("korean", "‘ll", "‘d")</code></strong>: Specifies words to be removed from the stopwords list, including “korean”, “’ll” (contraction for “will”), and “’d” (contraction for “would”).</li>
+<li><strong>Loop to Remove Words</strong>:
+<ul>
+<li><strong><code>for (i in stopwords_deleted)</code></strong>: Iterates over each word in <code>stopwords_deleted</code>.</li>
+<li><strong><code>stopwords &lt;- gsub(i, "", stopwords)</code></strong>: Uses <code>gsub()</code> to replace occurrences of each word <code>i</code> in <code>stopwords</code> with an empty string, effectively removing it. This works by searching for each specified word and replacing it with <code>""</code> wherever found.</li>
+</ul></li>
+</ul></li>
+</ol>
+</section>
+<section id="library-for-graphs" class="level3" data-number="15.2.3">
+<h3 data-number="15.2.3" class="anchored" data-anchor-id="library-for-graphs"><span class="header-section-number">15.2.3</span> Library for Graphs</h3>
+<ol type="1">
+<li><strong>Install ggplot2</strong>:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("ggplot2")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>install.packages("ggplot2")</code></strong>: Installs the <code>ggplot2</code> package, which is one of R’s most popular packages for creating high-quality graphics. It needs to be run only once per environment (or whenever <code>ggplot2</code> is missing or needs updating).</li>
+</ul>
+<ol start="2" type="1">
+<li><p><strong>Load Library</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>library(ggplot2)</code></strong>: Loads <code>ggplot2</code>, enabling you to use its functions for data visualization. <code>ggplot2</code> provides a grammar of graphics, allowing for flexible creation of graphs.</li>
+</ul></li>
+</ol>
+</section>
+<section id="custom-functions-for-creating-bar-and-line-graphs" class="level3" data-number="15.2.4">
+<h3 data-number="15.2.4" class="anchored" data-anchor-id="custom-functions-for-creating-bar-and-line-graphs"><span class="header-section-number">15.2.4</span> Custom Functions for Creating Bar and Line Graphs</h3>
+<p>These two custom functions, <code>bar_freq_f</code> and <code>line_freq_f</code>, are designed to create bar and line graphs using <code>ggplot2</code>. Each function takes an input dataset and generates a graph with specified formatting and aesthetic customizations.</p>
+<ol type="1">
+<li><p><strong>Bar Graph Function (<code>bar_freq_f</code>)</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>bar_freq_f <span class="ot">&lt;-</span> <span class="cf">function</span>(input) {</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(input, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> count)) <span class="sc">+</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">width =</span> <span class="fl">0.8</span>, <span class="at">fill =</span> <span class="st">"gray88"</span>) <span class="sc">+</span> </span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> count, <span class="at">label =</span> count),</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">hjust =</span> <span class="fl">0.4</span>,</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">"blue"</span>, </span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">panel.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">axis.line =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"black"</span>)) </span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>ggplot(input, aes(x = year, y = count))</code></strong>: Initializes a ggplot object with <code>year</code> on the x-axis and <code>count</code> on the y-axis.</li>
+<li><strong><code>geom_bar(stat = "identity", width = 0.8, fill = "gray88")</code></strong>: Adds a bar graph where each bar’s height represents the count value (<code>stat = "identity"</code> means the y-value is taken directly from the <code>count</code> variable). The bar color is set to <code>gray88</code>, and the width is set to 0.8.</li>
+<li><strong><code>geom_text(...)</code></strong>: Adds text labels displaying the <code>count</code> value on each bar, with a horizontal offset (<code>hjust = 0.4</code>), red color, and size of 3.</li>
+<li><strong><code>theme(...)</code></strong>: Customizes the graph’s appearance by:
+<ul>
+<li>Removing major and minor grid lines.</li>
+<li>Setting the background to be blank (white).</li>
+<li>Adding a black line for the axes.</li>
+</ul></li>
+</ul></li>
+<li><p><strong>Line Graph Function (<code>line_freq_f</code>)</strong>:</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>line_freq_f <span class="ot">&lt;-</span> <span class="cf">function</span>(input) {</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">ggplot</span>(input, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> count, <span class="at">group =</span> Journals)) <span class="sc">+</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> Journals)) <span class="sc">+</span> </span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> Journals, <span class="at">shape =</span> Journals)) <span class="sc">+</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'right'</span>) <span class="sc">+</span> </span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme</span>(<span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">panel.background =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">axis.line =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"black"</span>))</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>   }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>ggplot(input, aes(x = year, y = count, group = Journals))</code></strong>: Initializes a ggplot object with <code>year</code> on the x-axis, <code>count</code> on the y-axis, and each line group represented by the <code>Journals</code> variable.</li>
+<li><strong><code>geom_line(aes(color = Journals))</code></strong>: Adds lines to the plot, coloring each line according to the <code>Journals</code> variable.</li>
+<li><strong><code>geom_point(aes(color = Journals, shape = Journals))</code></strong>: Adds points to the line plot, matching the color and shape to each <code>Journals</code> group.</li>
+<li><strong><code>theme(legend.position = 'right')</code></strong>: Positions the legend on the right side of the graph.</li>
+<li><strong><code>theme(...)</code></strong>: Customizes the plot similarly to the bar graph, removing grid lines and background while adding a black axis line.</li>
+</ul>
+</section>
+<section id="custom-functions-for-creating-nlp-tasks" class="level3" data-number="15.2.5">
+<h3 data-number="15.2.5" class="anchored" data-anchor-id="custom-functions-for-creating-nlp-tasks"><span class="header-section-number">15.2.5</span> Custom Functions for Creating NLP Tasks</h3>
+<p>This code defines multiple functions to conduct natural language processing (NLP) tasks, including tokenization, stopword removal, word counting, word cloud creation, co-occurrence network analysis, and n-gram processing. Below is an explanation of each function:</p>
+<ol type="1">
+<li><p><strong>NLP Tagging Function (<code>ud_tagger_f</code>)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(udpipe)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>ud_model <span class="ot">&lt;-</span> <span class="fu">udpipe_download_model</span>(<span class="at">language =</span> <span class="st">"english"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Downloading udpipe model from https://raw.githubusercontent.com/jwijffels/udpipe.models.ud.2.5/master/inst/udpipe-ud-2.5-191206/english-ewt-ud-2.5-191206.udpipe to /Users/won/Library/CloudStorage/OneDrive-고려사이버대학교/09_Book_Writing/F2024_IGSE_Basic_AI_Programming/english-ewt-ud-2.5-191206.udpipe</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> - This model has been trained on version 2.5 of data from https://universaldependencies.org</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> - The model is distributed under the CC-BY-SA-NC license: https://creativecommons.org/licenses/by-nc-sa/4.0</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> - Visit https://github.com/jwijffels/udpipe.models.ud.2.5 for model license details.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> - For a list of all models and their licenses (most models you can download with this package have either a CC-BY-SA or a CC-BY-SA-NC license) read the documentation at ?udpipe_download_model. For building your own models: visit the documentation by typing vignette('udpipe-train', package = 'udpipe')</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Downloading finished, model stored at '/Users/won/Library/CloudStorage/OneDrive-고려사이버대학교/09_Book_Writing/F2024_IGSE_Basic_AI_Programming/english-ewt-ud-2.5-191206.udpipe'</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>ud_model <span class="ot">&lt;-</span> <span class="fu">udpipe_load_model</span>(ud_model<span class="sc">$</span>file_model)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>ud_tagger_f <span class="ot">&lt;-</span> <span class="cf">function</span>(input) {</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">udpipe_annotate</span>(ud_model, <span class="at">x =</span> input<span class="sc">$</span>title_en_lower_cleaned, <span class="at">doc_id =</span> input<span class="sc">$</span>serial) <span class="sc">%&gt;%</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span>lemma <span class="sc">%in%</span> stopwords) <span class="sc">%&gt;%</span></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">subset</span>(upos <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"VERB"</span>, <span class="st">"NOUN"</span>, <span class="st">"ADJ"</span>))</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>This function uses the <code>udpipe</code> library to tag words with parts of speech (POS) and filter out unwanted words.</li>
+<li><code>udpipe_annotate()</code> annotates the text, creating a data frame with columns like <code>lemma</code>, <code>upos</code>, etc.</li>
+<li>Filters out stopwords and keeps only verbs, nouns, and adjectives (<code>upos</code> values).</li>
+</ul></li>
+<li><p><strong>Word Count Function (<code>word_count_f</code>)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>word_count_f <span class="ot">&lt;-</span> <span class="cf">function</span>(input) {</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    input <span class="sc">%&gt;%</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(lemma) <span class="sc">%&gt;%</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>(), <span class="at">n_distinct_maker =</span> <span class="fu">n_distinct</span>(lemma)) <span class="sc">%&gt;%</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(count))</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Groups and counts occurrences of each lemma (word root), showing frequency for each unique word.</li>
+<li><code>n_distinct_maker</code> provides a count of unique lemmas.</li>
+</ul></li>
+<li><p><strong>Word Cloud Function (<code>wordcloud_f</code>)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tm); <span class="fu">library</span>(wordcloud); <span class="fu">library</span>(memoise)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tm' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: NLP</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'NLP'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:ggplot2':
+
+    annotate</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:quanteda':
+
+    meta, meta&lt;-</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'tm'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:quanteda':
+
+    stopwords</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: RColorBrewer</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>wordcloud_f <span class="ot">&lt;-</span> <span class="cf">function</span>(input, min_freq, max_words) {</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>    text <span class="ot">&lt;-</span> input<span class="sc">$</span>lemma</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>    myCorpus <span class="ot">&lt;-</span> <span class="fu">Corpus</span>(<span class="fu">VectorSource</span>(text))</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>    myDTM <span class="ot">&lt;-</span> <span class="fu">TermDocumentMatrix</span>(myCorpus, <span class="at">control =</span> <span class="fu">list</span>(<span class="at">minWordLength =</span> <span class="dv">1</span>))</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>    m <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(myDTM)</span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>    words_all <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">rowSums</span>(m), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>    df_all <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">word =</span> <span class="fu">names</span>(words_all), <span class="at">freq =</span> words_all)</span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">wordcloud</span>(<span class="at">words =</span> df_all<span class="sc">$</span>word, <span class="at">freq =</span> df_all<span class="sc">$</span>freq, <span class="at">min.freq =</span> min_freq, <span class="at">max.words =</span> max_words, <span class="at">random.order =</span> <span class="cn">FALSE</span>, <span class="at">rot.per =</span> <span class="fl">0.35</span>, <span class="at">colors =</span> <span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"Dark2"</span>))</span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Creates a word cloud based on word frequency.</li>
+<li>Uses <code>TermDocumentMatrix</code> to calculate word frequencies, then visualizes the most frequent words.</li>
+</ul></li>
+<li><p><strong>Pair Words Function (<code>pair_words_f</code>)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr); <span class="fu">library</span>(widyr)</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>pair_words_f <span class="ot">&lt;-</span> <span class="cf">function</span>(input) {</span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>    input <span class="sc">%&gt;%</span></span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pairwise_count</span>(<span class="at">item =</span> lemma, <span class="at">feature =</span> doc_id, <span class="at">sort =</span> T)</span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Computes the pairwise count of words based on document co-occurrence.</li>
+</ul></li>
+<li><p><strong>Degree Centrality Graph Function (<code>centrality_network</code>)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggraph)</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>centrality_network <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggraph</span>(x, <span class="at">layout =</span> <span class="st">"fr"</span>) <span class="sc">+</span></span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_edge_link</span>(<span class="at">color =</span> <span class="st">"gray50"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> centrality, <span class="at">color =</span> group), <span class="at">show.legend =</span> F) <span class="sc">+</span></span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_size</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">15</span>)) <span class="sc">+</span></span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_node_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> name), <span class="at">repel =</span> T, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">family =</span> <span class="st">"Arial"</span>) <span class="sc">+</span></span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_graph</span>()</span>
+<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Visualizes a network graph based on degree centrality of nodes.</li>
+<li><code>centrality</code> determines node size, and <code>group</code> determines color, with <code>ggraph</code> used for layout.</li>
+</ul></li>
+<li><p><strong>Phi Coefficient Function (<code>words_cors_f</code>)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>words_cors_f <span class="ot">&lt;-</span> <span class="cf">function</span>(input, nsize) {</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>    input <span class="sc">%&gt;%</span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_count</span>(lemma) <span class="sc">%&gt;%</span></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(n <span class="sc">&gt;=</span> nsize) <span class="sc">%&gt;%</span></span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pairwise_cor</span>(<span class="at">item =</span> lemma, <span class="at">feature =</span> doc_id, <span class="at">sort =</span> T)</span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Computes the phi correlation (similarity) between words that frequently co-occur in documents.</li>
+</ul></li>
+<li><p><strong>Correlation Graph Function (<code>graph_cors_f</code> and <code>word_network_cor_f</code>)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>graph_cors_f <span class="ot">&lt;-</span> <span class="cf">function</span>(input, cor_size) {</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>    input <span class="sc">%&gt;%</span></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(correlation <span class="sc">&gt;=</span> cor_size) <span class="sc">%&gt;%</span></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as_tbl_graph</span>(<span class="at">directed =</span> F) <span class="sc">%&gt;%</span></span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">centrality =</span> <span class="fu">centrality_degree</span>(), <span class="at">group =</span> <span class="fu">as.factor</span>(<span class="fu">group_infomap</span>()))</span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a>word_network_cor_f <span class="ot">&lt;-</span> <span class="cf">function</span>(input, cor_size) {</span>
+<span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a>    graph_cor <span class="ot">&lt;-</span> <span class="fu">graph_cors_f</span>(input, cor_size) </span>
+<span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggraph</span>(graph_cor, <span class="at">layout =</span> <span class="st">"fr"</span>) <span class="sc">+</span></span>
+<span id="cb66-11"><a href="#cb66-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_edge_link</span>(<span class="at">color =</span> <span class="st">"gray50"</span>, <span class="fu">aes</span>(<span class="at">edge_alpha =</span> correlation, <span class="at">edge_width =</span> correlation), <span class="at">show.legend =</span> F) <span class="sc">+</span></span>
+<span id="cb66-12"><a href="#cb66-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_edge_width</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>)) <span class="sc">+</span></span>
+<span id="cb66-13"><a href="#cb66-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> centrality, <span class="at">color =</span> group), <span class="at">show.legend =</span> F) <span class="sc">+</span></span>
+<span id="cb66-14"><a href="#cb66-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_size</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb66-15"><a href="#cb66-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_node_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> name), <span class="at">repel =</span> T, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">family =</span> <span class="st">"Arial"</span>) <span class="sc">+</span></span>
+<span id="cb66-16"><a href="#cb66-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_graph</span>()</span>
+<span id="cb66-17"><a href="#cb66-17" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><code>graph_cors_f</code> filters correlations above a specified threshold and creates a network graph based on word similarity.</li>
+<li><code>word_network_cor_f</code> plots the graph, with nodes sized by centrality and edges weighted by correlation.</li>
+</ul></li>
+<li><p><strong>N-Gram Processing and Graph Functions</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>data_ngram_separated_f <span class="ot">&lt;-</span> <span class="cf">function</span>(x_data_input, ngram_size) {</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>    x_data_input <span class="sc">%&gt;%</span></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(doc_id) <span class="sc">%&gt;%</span></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">sentence =</span> <span class="fu">paste</span>(lemma, <span class="at">collapse =</span> <span class="st">" "</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unnest_tokens</span>(<span class="at">input =</span> sentence, <span class="at">output =</span> bigram, <span class="at">token =</span> <span class="st">"ngrams"</span>, <span class="at">n =</span> ngram_size) <span class="sc">%&gt;%</span></span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate</span>(bigram, <span class="fu">c</span>(<span class="st">"word1"</span>, <span class="st">"word2"</span>), <span class="at">sep =</span> <span class="st">" "</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(word1, word2, <span class="at">sort =</span> T) <span class="sc">%&gt;%</span> <span class="fu">na.omit</span>()</span>
+<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a>data_ngram_graph_f <span class="ot">&lt;-</span> <span class="cf">function</span>(ngram_separated, filter_size) {</span>
+<span id="cb67-11"><a href="#cb67-11" aria-hidden="true" tabindex="-1"></a>    ngram_separated <span class="sc">%&gt;%</span></span>
+<span id="cb67-12"><a href="#cb67-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(n <span class="sc">&gt;=</span> filter_size) <span class="sc">%&gt;%</span></span>
+<span id="cb67-13"><a href="#cb67-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as_tbl_graph</span>(<span class="at">directed =</span> F) <span class="sc">%&gt;%</span></span>
+<span id="cb67-14"><a href="#cb67-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">centrality =</span> <span class="fu">centrality_degree</span>(), <span class="at">group =</span> <span class="fu">as.factor</span>(<span class="fu">group_infomap</span>()))</span>
+<span id="cb67-15"><a href="#cb67-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb67-16"><a href="#cb67-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-17"><a href="#cb67-17" aria-hidden="true" tabindex="-1"></a>word_network_ngram_f <span class="ot">&lt;-</span> <span class="cf">function</span>(data_ngram_graph) {</span>
+<span id="cb67-18"><a href="#cb67-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggraph</span>(data_ngram_graph, <span class="at">layout =</span> <span class="st">"fr"</span>) <span class="sc">+</span></span>
+<span id="cb67-19"><a href="#cb67-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_edge_link</span>(<span class="at">color =</span> <span class="st">"gray50"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb67-20"><a href="#cb67-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> centrality, <span class="at">color =</span> group), <span class="at">show.legend =</span> F) <span class="sc">+</span></span>
+<span id="cb67-21"><a href="#cb67-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_size</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb67-22"><a href="#cb67-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_node_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> name), <span class="at">repel =</span> T, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">family =</span> <span class="st">"Arial"</span>) <span class="sc">+</span></span>
+<span id="cb67-23"><a href="#cb67-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_graph</span>()</span>
+<span id="cb67-24"><a href="#cb67-24" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><code>data_ngram_separated_f</code> creates n-grams and calculates word-pair frequencies.</li>
+<li><code>data_ngram_graph_f</code> filters frequent n-grams and structures the data for graphing.</li>
+<li><code>word_network_ngram_f</code> visualizes the n-gram network with <code>ggraph</code>.</li>
+</ul></li>
+</ol>
+</section>
+<section id="articles-by-year-bar-graphs" class="level3" data-number="15.2.6">
+<h3 data-number="15.2.6" class="anchored" data-anchor-id="articles-by-year-bar-graphs"><span class="header-section-number">15.2.6</span> Articles by Year (Bar Graphs)</h3>
+<p>This code calculates the number of articles per year from the <code>data_original</code> dataset, saves the summary as a CSV file, and then creates a bar graph of article counts by year using the custom function <code>bar_freq_f</code>.</p>
+<ol type="1">
+<li><p><strong>Group and Summarize Data by Year</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>articles_by_year <span class="ot">&lt;-</span> data_original <span class="sc">%&gt;%</span> </span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span> </span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>group_by(year)</code></strong>: Groups <code>data_original</code> by the <code>year</code> column, so each year will have its own grouping.</li>
+<li><strong><code>summarise(count = n())</code></strong>: Calculates the count (number of articles) in each year and stores it in a new column called <code>count</code>.</li>
+<li>The resulting <code>articles_by_year</code> data frame has two columns: <code>year</code> and <code>count</code>.</li>
+</ul></li>
+<li><p><strong>Save Summary to CSV</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(articles_by_year, <span class="st">"articles_by_year.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Saves the <code>articles_by_year</code> data frame as a CSV file named <code>"articles_by_year.csv"</code> in the working directory.</li>
+</ul></li>
+<li><p><strong>Generate Bar Graph</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bar_freq_f</span>(articles_by_year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="15.SNA_Example_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Calls the <code>bar_freq_f</code> function to create a bar graph of article counts by year.</li>
+<li>The graph uses <code>year</code> on the x-axis and <code>count</code> on the y-axis, with additional customizations (e.g., bar color, grid settings) as defined in the <code>bar_freq_f</code> function.</li>
+</ul></li>
+</ol>
+</section>
+<section id="articles-by-year-and-journal-line-graphs" class="level3" data-number="15.2.7">
+<h3 data-number="15.2.7" class="anchored" data-anchor-id="articles-by-year-and-journal-line-graphs"><span class="header-section-number">15.2.7</span> Articles by Year and Journal (Line Graphs)</h3>
+<p>This code calculates the number of articles per year for each journal in <code>data_original</code>, then creates a line graph of these counts using the <code>line_freq_f</code> function.</p>
+<ol type="1">
+<li><p><strong>Group and Summarize Data by Journal and Year</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>articles_by_year_journal <span class="ot">&lt;-</span> data_original <span class="sc">%&gt;%</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Journals, year) <span class="sc">%&gt;%</span></span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'Journals'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+</div>
+<ul>
+<li><strong><code>group_by(Journals, year)</code></strong>: Groups <code>data_original</code> by both <code>Journals</code> and <code>year</code> so that each journal-year combination has its own grouping.</li>
+<li><strong><code>summarise(count = n())</code></strong>: Counts the number of articles for each journal-year combination, storing the count in a new column called <code>count</code>.</li>
+<li>The resulting <code>articles_by_year_journal</code> data frame has three columns: <code>Journals</code>, <code>year</code>, and <code>count</code>.</li>
+</ul></li>
+<li><p><strong>Generate Line Graph</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">line_freq_f</span>(articles_by_year_journal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="15.SNA_Example_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Calls the <code>line_freq_f</code> function to create a line graph, displaying the <code>count</code> of articles by <code>year</code> for each <code>Journals</code> group.</li>
+<li>The function plots each journal as a separate line with distinct colors and shapes for better differentiation, and positions the legend on the right side.</li>
+</ul></li>
+</ol>
+</section>
+<section id="pos-tagging" class="level3" data-number="15.2.8">
+<h3 data-number="15.2.8" class="anchored" data-anchor-id="pos-tagging"><span class="header-section-number">15.2.8</span> POS Tagging</h3>
+<p>This code installs and loads the <code>udpipe</code> package, and then applies the custom <code>ud_tagger_f</code> function on <code>data_original</code> to perform POS tagging and filtering. Here’s a breakdown of each part:</p>
+<ol type="1">
+<li><strong>Install and Load <code>udpipe</code></strong>:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("udpipe")</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="co">#library(udpipe)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>install.packages("udpipe")</code></strong>: Installs the <code>udpipe</code> package, which provides tools for natural language processing, including tokenization, POS tagging, lemmatization, and dependency parsing.</li>
+<li><strong><code>library(udpipe)</code></strong>: Loads the <code>udpipe</code> library to use its functions.</li>
+</ul>
+<ol start="2" type="1">
+<li><strong>Apply <code>ud_tagger_f</code> Function</strong>:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>x_data_english <span class="ot">&lt;-</span> <span class="fu">ud_tagger_f</span>(data_original)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>ud_tagger_f(data_original)</code></strong>: Calls the <code>ud_tagger_f</code> function (defined previously) on the <code>data_original</code> dataset. Here’s what <code>ud_tagger_f</code> does:
+<ul>
+<li>It uses <code>udpipe_annotate()</code> to annotate the text in <code>data_original$title_en_lower_cleaned</code> (assumed to be a column with cleaned English titles).</li>
+<li>Filters out stopwords using the <code>stopwords</code> list.</li>
+<li>Keeps only specific POS tags: verbs, nouns, and adjectives.</li>
+</ul></li>
+<li>The resulting data frame, <code>x_data_english</code>, contains the annotated and filtered data, including information like <code>lemma</code>, <code>upos</code>, and <code>doc_id</code>.</li>
+</ul>
+</section>
+<section id="word-count-noun-verb-adj-only" class="level3" data-number="15.2.9">
+<h3 data-number="15.2.9" class="anchored" data-anchor-id="word-count-noun-verb-adj-only"><span class="header-section-number">15.2.9</span> Word Count (Noun, Verb, Adj Only)</h3>
+<p>This code performs two main tasks using <code>x_data_english</code>, which contains POS-tagged and filtered data (nouns, verbs, and adjectives only) from a previous step. The tasks include word counting and identifying the top 20 most frequent words along with their distribution across articles.</p>
+<ol type="1">
+<li><strong>POS Tagging Count with <code>word_count_f</code></strong></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>x_data_cnt <span class="ot">&lt;-</span> <span class="fu">word_count_f</span>(x_data_english) </span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(x_data_cnt, <span class="st">'x_data_cnt.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>x_data_cnt &lt;- word_count_f(x_data_english)</code></strong>: Applies the <code>word_count_f</code> function to <code>x_data_english</code>. This function:
+<ul>
+<li>Groups by each unique word (<code>lemma</code>).</li>
+<li>Counts the occurrences of each word.</li>
+<li>Returns a data frame (<code>x_data_cnt</code>) with columns for each word (<code>lemma</code>) and its count.</li>
+</ul></li>
+<li><strong><code>write.csv(x_data_cnt, 'x_data_cnt.csv')</code></strong>: Exports the word count data to a CSV file named <code>x_data_cnt.csv</code>.</li>
+</ul>
+<ol start="2" type="1">
+<li><strong>Counting Articles by Top Words</strong></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr); <span class="fu">library</span>(lattice); <span class="fu">library</span>(udpipe)</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>data_english_freq <span class="ot">&lt;-</span> <span class="fu">txt_freq</span>(x_data_english<span class="sc">$</span>lemma)</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>top20_words_english <span class="ot">&lt;-</span> <span class="fu">head</span>(data_english_freq, <span class="dv">20</span>)</span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>articles_by_top20_words_english <span class="ot">&lt;-</span> <span class="fu">subset</span>(x_data_english, lemma <span class="sc">%in%</span> top20_words_english<span class="sc">$</span>key) <span class="sc">%&gt;%</span></span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a> <span class="fu">group_by</span>(lemma) <span class="sc">%&gt;%</span></span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a> <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>(), <span class="at">n_distinct_maker =</span> <span class="fu">n_distinct</span>(doc_id)) <span class="sc">%&gt;%</span></span>
+<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a> <span class="fu">arrange</span>(<span class="fu">desc</span>(n_distinct_maker))</span>
+<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(articles_by_top20_words_english, <span class="st">'articles_by_top20_words_english.csv'</span>)</span>
+<span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a>articles_by_top20_words_english</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 20 × 3
+   lemma       count n_distinct_maker
+   &lt;chr&gt;       &lt;int&gt;            &lt;int&gt;
+ 1 student       238              234
+ 2 learn         200              184
+ 3 effect        178              178
+ 4 use           171              170
+ 5 school        165              159
+ 6 korean        149              149
+ 7 learner       125              125
+ 8 efl           117              117
+ 9 language      119              113
+10 elementary     96               96
+11 write         109               96
+12 teacher       108               95
+13 vocabulary     83               72
+14 perception     69               69
+15 teaching       70               69
+16 college        69               67
+17 education      64               59
+18 university     60               59
+19 development    58               58
+20 class          58               57</code></pre>
+</div>
+</div>
+<ul>
+<li><strong><code>data_english_freq &lt;- txt_freq(x_data_english$lemma)</code></strong>: Uses the <code>txt_freq</code> function from <code>udpipe</code> to compute the frequency of each lemma (word) in <code>x_data_english</code>.</li>
+<li><strong><code>top20_words_english &lt;- head(data_english_freq, 20)</code></strong>: Extracts the top 20 most frequent words based on the <code>txt_freq</code> output.</li>
+<li><strong><code>articles_by_top20_words_english</code></strong>:
+<ul>
+<li><strong><code>subset(x_data_english, lemma %in% top20_words_english$key)</code></strong>: Filters <code>x_data_english</code> to include only the top 20 frequent words.</li>
+<li><strong><code>group_by(lemma)</code></strong>: Groups by each of the top 20 words.</li>
+<li><strong><code>summarise(count = n(), n_distinct_maker = n_distinct(doc_id))</code></strong>: Counts the total occurrences of each word and the number of distinct documents (<code>doc_id</code>) where each word appears.</li>
+<li><strong><code>arrange(desc(n_distinct_maker))</code></strong>: Orders the words by the number of unique documents in descending order.</li>
+</ul></li>
+<li><strong><code>write.csv(articles_by_top20_words_english, 'articles_by_top20_words_english.csv')</code></strong>: Saves the summary data of articles containing the top 20 words to a CSV file.</li>
+</ul>
+</section>
+<section id="word-cloud" class="level3" data-number="15.2.10">
+<h3 data-number="15.2.10" class="anchored" data-anchor-id="word-cloud"><span class="header-section-number">15.2.10</span> Word Cloud</h3>
+<p>This code creates a word cloud using the <code>wordcloud_f</code> function, which visualizes the most frequent words in <code>x_data_english</code>. Here’s a breakdown:</p>
+<ol type="1">
+<li><p><strong>Load Required Libraries</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr); <span class="fu">library</span>(stringr); <span class="fu">library</span>(wordcloud); <span class="fu">library</span>(RColorBrewer); <span class="fu">library</span>(wordcloud2); <span class="fu">library</span>(tm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>library(dplyr)</code></strong>: For data manipulation.</li>
+<li><strong><code>library(stringr)</code></strong>: For string manipulation functions.</li>
+<li><strong><code>library(wordcloud)</code> and <code>library(wordcloud2)</code></strong>: For creating word clouds.</li>
+<li><strong><code>library(RColorBrewer)</code></strong>: For color palettes.</li>
+<li><strong><code>library(tm)</code></strong>: For text mining, used to create a text corpus and term-document matrix.</li>
+</ul></li>
+<li><p><strong>Set Seed for Reproducibility</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>set.seed(1234)</code></strong>: Sets a seed for random number generation, ensuring that the word cloud has the same layout each time it is generated.</li>
+</ul></li>
+<li><p><strong>Generate Word Cloud</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wordcloud_f</span>(x_data_english, <span class="dv">30</span>, <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="15.SNA_Example_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><strong><code>wordcloud_f(x_data_english, 30, 100)</code></strong>: Calls the <code>wordcloud_f</code> function with the following parameters:
+<ul>
+<li><strong><code>x_data_english</code></strong>: The input data containing the annotated and filtered lemmas.</li>
+<li><strong><code>min_freq = 30</code></strong>: Only words with a minimum frequency of 30 will be included.</li>
+<li><strong><code>max_words = 100</code></strong>: Limits the word cloud to the top 100 words.</li>
+</ul></li>
+</ul></li>
+</ol>
+</section>
+<section id="co-occurrence-network" class="level3" data-number="15.2.11">
+<h3 data-number="15.2.11" class="anchored" data-anchor-id="co-occurrence-network"><span class="header-section-number">15.2.11</span> Co-Occurrence Network</h3>
+<p>This code is preparing to create a co-occurrence network by defining a function that computes pairwise word counts based on shared document occurrences. Here’s an explanation:</p>
+<ol type="1">
+<li><p><strong>Load Required Libraries</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("widyr")</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr); <span class="fu">library</span>(widyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>library(dplyr)</code></strong>: For data manipulation.</li>
+<li><strong><code>library(widyr)</code></strong>: For pairwise operations, including pairwise counts and correlations, often used for co-occurrence analysis.</li>
+</ul></li>
+<li><p><strong>Define <code>pair_words_f</code> Function</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>pair_words_f <span class="ot">&lt;-</span> <span class="cf">function</span>(input) {</span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>  input <span class="sc">%&gt;%</span></span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pairwise_count</span>(<span class="at">item =</span> lemma, <span class="at">feature =</span> doc_id, <span class="at">sort =</span> T)</span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>pair_words_f</code></strong>: This function calculates the pairwise counts of words (lemmas) that appear together in the same document.</li>
+<li><strong>Parameters</strong>:
+<ul>
+<li><strong><code>input</code></strong>: The input dataset, which should include at least two columns: <code>lemma</code> (word) and <code>doc_id</code> (document identifier).</li>
+<li><strong><code>item = lemma</code></strong>: Specifies the word or lemma for which pairwise co-occurrence counts will be calculated.</li>
+<li><strong><code>feature = doc_id</code></strong>: Groups lemmas by their document ID, allowing the function to identify pairs of words appearing together in the same document.</li>
+<li><strong><code>sort = T</code></strong>: Sorts the results in descending order by count, so the most frequently co-occurring word pairs appear at the top.</li>
+</ul></li>
+<li><strong>Returns</strong>: A data frame with columns <code>item1</code>, <code>item2</code>, and <code>n</code>, where <code>n</code> is the count of documents in which each word pair (item1 and item2) co-occurs.</li>
+</ul></li>
+<li><p><strong>Output <code>pair_words_f</code></strong>: To generate a co-occurrence network, you would call this function on a dataset:</p>
+<p>::: {.cell}</p>
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>pairwise_data <span class="ot">&lt;-</span> <span class="fu">pair_words_f</span>(x_data_english)</span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>pairwise_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>::: {.cell-output .cell-output-stdout}</p>
+<pre><code># A tibble: 36,128 × 3
+   item1      item2          n
+   &lt;chr&gt;      &lt;chr&gt;      &lt;dbl&gt;
+ 1 student    school        74
+ 2 school     student       74
+ 3 korean     student       73
+ 4 student    korean        73
+ 5 effect     student       63
+ 6 student    effect        63
+ 7 elementary school        61
+ 8 school     elementary    61
+ 9 learn      student       58
+10 student    learn         58
+# ℹ 36,118 more rows</code></pre>
+<p>::: :::</p></li>
+</ol>
+<p>This output (<code>pairwise_data</code>) could then be used to visualize the co-occurrence network.</p>
+</section>
+<section id="degree-centrality" class="level3" data-number="15.2.12">
+<h3 data-number="15.2.12" class="anchored" data-anchor-id="degree-centrality"><span class="header-section-number">15.2.12</span> Degree Centrality</h3>
+<p>This code calculates the degree centrality of a co-occurrence network and identifies communities within the network. It filters out infrequent word pairs and saves the network data with centrality metrics. Here’s an explanation:</p>
+<ol type="1">
+<li><p><strong>Load Required Library</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidygraph)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>library(tidygraph)</code></strong>: Used to work with graph structures in a tidy data format, enabling manipulation and analysis of network data.</li>
+</ul></li>
+<li><p><strong>Define <code>degreecentrality_f</code> Function</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>degreecentrality_f <span class="ot">&lt;-</span> <span class="cf">function</span>(input, nsize) {</span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>  input <span class="sc">%&gt;%</span></span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;=</span> nsize) <span class="sc">%&gt;%</span></span>
+<span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tbl_graph</span>(<span class="at">directed =</span> F) <span class="sc">%&gt;%</span></span>
+<span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">centrality =</span> <span class="fu">centrality_degree</span>(),        <span class="co"># Calculate degree centrality</span></span>
+<span id="cb87-6"><a href="#cb87-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">group =</span> <span class="fu">as.factor</span>(<span class="fu">group_infomap</span>()))      <span class="co"># Identify community groups</span></span>
+<span id="cb87-7"><a href="#cb87-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>input</code></strong>: The input dataset, expected to contain word pair data (from <code>pair_words_f</code>) with columns <code>item1</code>, <code>item2</code>, and <code>n</code>, where <code>n</code> is the co-occurrence count.</li>
+<li><strong><code>filter(n &gt;= nsize)</code></strong>: Filters the data to keep only word pairs that occur in at least <code>nsize</code> documents.</li>
+<li><strong><code>as_tbl_graph(directed = F)</code></strong>: Converts the filtered data into an undirected graph object. Each unique word is a node, and edges represent co-occurrences.</li>
+<li><strong><code>mutate(...)</code></strong>: Adds calculated metrics to the graph:
+<ul>
+<li><strong><code>centrality = centrality_degree()</code></strong>: Calculates degree centrality for each node, measuring the number of direct connections a word has.</li>
+<li><strong><code>group = as.factor(group_infomap())</code></strong>: Uses the Infomap algorithm to detect community structures, assigning each node to a group.</li>
+</ul></li>
+</ul></li>
+<li><p><strong>Apply <code>degreecentrality_f</code> and Save Output</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>degreecentrality_english <span class="ot">&lt;-</span> <span class="fu">degreecentrality_f</span>(pairwise_data, <span class="dv">50</span>)</span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(degreecentrality_english, <span class="st">'degreecentrality_english.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>degreecentrality_english &lt;- degreecentrality_f(pairwise_data, 50)</code></strong>: Calls the function with <code>x_data_english_pairwords</code> (output from <code>pair_words_f</code>) and <code>nsize = 50</code>, retaining only word pairs appearing in at least 50 documents.</li>
+<li><strong><code>write.csv(degreecentrality_english, 'degreecentrality_english.csv')</code></strong>: Exports the resulting graph with centrality and community data to a CSV file.</li>
+</ul></li>
+</ol>
+<p><strong>Network Graph</strong></p>
+<p>This code defines a function to create a network graph based on degree centrality and then applies this function to visualize the centrality network of <code>degreecentrality_english</code>. Here’s a breakdown of how it works:</p>
+<ol type="1">
+<li><p><strong>Load Required Library</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggraph)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>library(ggraph)</code></strong>: Provides tools for visualizing network data using <code>ggplot2</code>-like syntax, which is helpful for customizing network layouts and styling.</li>
+</ul></li>
+<li><p><strong>Define <code>centrality_network</code> Function</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>centrality_network <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggraph</span>(x, <span class="at">layout =</span> <span class="st">"fr"</span>) <span class="sc">+</span>      <span class="co"># Layout set to 'fr' (Fruchterman-Reingold)</span></span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_edge_link</span>(<span class="at">color =</span> <span class="st">"gray50"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span>             <span class="co"># Gray edges with transparency</span></span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> centrality, <span class="at">color =</span> group), <span class="at">show.legend =</span> F) <span class="sc">+</span> <span class="co"># Node size by centrality, color by group</span></span>
+<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_size</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">15</span>)) <span class="sc">+</span>            <span class="co"># Node size range</span></span>
+<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_node_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> name), <span class="at">repel =</span> T, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">family =</span> <span class="st">"Arial"</span>) <span class="sc">+</span> <span class="co"># Labels repelled from nodes, set font</span></span>
+<span id="cb90-7"><a href="#cb90-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_graph</span>()                             <span class="co"># Simplified theme without gridlines</span></span>
+<span id="cb90-8"><a href="#cb90-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>ggraph(x, layout = "fr")</code></strong>: Creates a graph using the <code>fr</code> (Fruchterman-Reingold) layout, which positions nodes based on their connections.</li>
+<li><strong><code>geom_edge_link(color = "gray50", alpha = 0.5)</code></strong>: Adds edges (links) between nodes, styled with a gray color and slight transparency.</li>
+<li><strong><code>geom_node_point(aes(size = centrality, color = group), show.legend = F)</code></strong>: Adds nodes (words), where:
+<ul>
+<li><code>size = centrality</code>: Sizes nodes by their degree centrality (number of direct connections).</li>
+<li><code>color = group</code>: Colors nodes by their community group (detected via <code>group_infomap()</code> in previous code).</li>
+<li><code>show.legend = F</code>: Hides the legend for a cleaner look.</li>
+</ul></li>
+<li><strong><code>scale_size(range = c(5, 15))</code></strong>: Sets the size range for nodes to make central nodes larger.</li>
+<li><strong><code>geom_node_text(aes(label = name), repel = T, size = 3, family = "Arial")</code></strong>: Adds labels to nodes (words) with a repelling effect to keep text outside node points.</li>
+<li><strong><code>theme_graph()</code></strong>: Applies a minimalistic theme, removing gridlines and backgrounds.</li>
+</ul></li>
+<li><p><strong>Generate and Display the Graph</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a><span class="fu">centrality_network</span>(degreecentrality_english)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="15.SNA_Example_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><strong><code>set.seed(1234)</code></strong>: Sets a seed to ensure the network layout is reproducible.</li>
+<li><strong><code>centrality_network(degreecentrality_english)</code></strong>: Calls the <code>centrality_network</code> function on <code>degreecentrality_english</code>, displaying the degree centrality graph.</li>
+</ul></li>
+</ol>
+<p>This code generates a degree centrality network graph of co-occurring words, where:</p>
+<ul>
+<li>Node size represents the degree centrality (higher degree nodes are larger).</li>
+<li>Node color represents community grouping. This visualization provides insight into the most connected and central words and how they cluster into different communities within the co-occurrence network.</li>
+</ul>
+</section>
+<section id="correlation-based-network-phi-coefficient" class="level3" data-number="15.2.13">
+<h3 data-number="15.2.13" class="anchored" data-anchor-id="correlation-based-network-phi-coefficient"><span class="header-section-number">15.2.13</span> Correlation-based Network (Phi Coefficient)</h3>
+<p>This code defines functions for creating a correlation-based network using the phi coefficient and then visualizes this network based on word correlations in <code>x_data_english</code>. Here’s an explanation of each section:</p>
+<ol type="1">
+<li><p><strong>Load Required Libraries</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr); <span class="fu">library</span>(widyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>library(dplyr)</code></strong>: For data manipulation.</li>
+<li><strong><code>library(widyr)</code></strong>: For calculating pairwise correlations, useful for identifying word relationships.</li>
+</ul></li>
+<li><p><strong>Define <code>words_cors_f</code> Function</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>words_cors_f <span class="ot">&lt;-</span> <span class="cf">function</span>(input, nsize) {</span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>  input <span class="sc">%&gt;%</span></span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_count</span>(lemma) <span class="sc">%&gt;%</span></span>
+<span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;=</span> nsize) <span class="sc">%&gt;%</span></span>
+<span id="cb93-5"><a href="#cb93-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pairwise_cor</span>(<span class="at">item =</span> lemma, <span class="at">feature =</span> doc_id, <span class="at">sort =</span> T)</span>
+<span id="cb93-6"><a href="#cb93-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>words_cors_f</code></strong> calculates pairwise correlations between words that frequently co-occur in documents.</li>
+<li><strong>Parameters</strong>:
+<ul>
+<li><strong><code>input</code></strong>: The input dataset with columns <code>lemma</code> (words) and <code>doc_id</code> (document identifier).</li>
+<li><strong><code>nsize</code></strong>: The minimum occurrence threshold for a word to be included.</li>
+</ul></li>
+<li><strong>Function Details</strong>:
+<ul>
+<li><strong><code>add_count(lemma)</code></strong>: Counts occurrences of each word (<code>lemma</code>) across documents.</li>
+<li><strong><code>filter(n &gt;= nsize)</code></strong>: Retains words that appear in at least <code>nsize</code> documents.</li>
+<li><strong><code>pairwise_cor(item = lemma, feature = doc_id, sort = T)</code></strong>: Calculates pairwise correlations between words based on their document co-occurrence, with higher correlations indicating stronger associations.</li>
+</ul></li>
+</ul></li>
+<li><p><strong>Define <code>graph_cors_f</code> Function</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>graph_cors_f <span class="ot">&lt;-</span> <span class="cf">function</span>(input, cor_size) {</span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>  input <span class="sc">%&gt;%</span></span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(correlation <span class="sc">&gt;=</span> cor_size) <span class="sc">%&gt;%</span></span>
+<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tbl_graph</span>(<span class="at">directed =</span> F) <span class="sc">%&gt;%</span></span>
+<span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">centrality =</span> <span class="fu">centrality_degree</span>(),</span>
+<span id="cb94-6"><a href="#cb94-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">group =</span> <span class="fu">as.factor</span>(<span class="fu">group_infomap</span>()))</span>
+<span id="cb94-7"><a href="#cb94-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>graph_cors_f</code></strong> filters correlations and creates a network graph object with centrality and community information.</li>
+<li><strong>Parameters</strong>:
+<ul>
+<li><strong><code>input</code></strong>: The correlation data (output of <code>words_cors_f</code>).</li>
+<li><strong><code>cor_size</code></strong>: Minimum correlation threshold for including word pairs.</li>
+</ul></li>
+<li><strong>Function Details</strong>:
+<ul>
+<li><strong><code>filter(correlation &gt;= cor_size)</code></strong>: Keeps only word pairs with correlations above the specified threshold.</li>
+<li><strong><code>as_tbl_graph(directed = F)</code></strong>: Converts the data into an undirected graph.</li>
+<li><strong><code>centrality = centrality_degree()</code></strong>: Calculates degree centrality for each word node.</li>
+<li><strong><code>group = as.factor(group_infomap())</code></strong>: Identifies community groups within the network.</li>
+</ul></li>
+</ul></li>
+<li><p><strong>Define <code>word_network_cor_f</code> Function for Visualization</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>word_network_cor_f <span class="ot">&lt;-</span> <span class="cf">function</span>(input, cor_size) {</span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>  graph_cor <span class="ot">&lt;-</span> <span class="fu">graph_cors_f</span>(input, cor_size) </span>
+<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggraph</span>(graph_cor, <span class="at">layout =</span> <span class="st">"fr"</span>) <span class="sc">+</span></span>
+<span id="cb95-4"><a href="#cb95-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_edge_link</span>(<span class="at">color =</span> <span class="st">"gray50"</span>, <span class="fu">aes</span>(<span class="at">edge_alpha =</span> correlation, <span class="at">edge_width =</span> correlation), <span class="at">show.legend =</span> F) <span class="sc">+</span></span>
+<span id="cb95-5"><a href="#cb95-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_edge_width</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>)) <span class="sc">+</span></span>
+<span id="cb95-6"><a href="#cb95-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> centrality, <span class="at">color =</span> group), <span class="at">show.legend =</span> F) <span class="sc">+</span></span>
+<span id="cb95-7"><a href="#cb95-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_size</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb95-8"><a href="#cb95-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_node_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> name), <span class="at">repel =</span> T, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">family =</span> <span class="st">"Arial"</span>) <span class="sc">+</span></span>
+<span id="cb95-9"><a href="#cb95-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_graph</span>()</span>
+<span id="cb95-10"><a href="#cb95-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>word_network_cor_f</code></strong> visualizes the correlation network.</li>
+<li><strong>Parameters</strong>:
+<ul>
+<li><strong><code>input</code></strong>: Correlation data.</li>
+<li><strong><code>cor_size</code></strong>: Minimum correlation threshold for displaying connections.</li>
+</ul></li>
+<li><strong>Function Details</strong>:
+<ul>
+<li><strong><code>graph_cor &lt;- graph_cors_f(input, cor_size)</code></strong>: Generates the graph with nodes and edges based on the specified correlation size.</li>
+<li><strong><code>ggraph(..., layout = "fr")</code></strong>: Sets up a Fruchterman-Reingold layout.</li>
+<li><strong>Edges and Nodes</strong>:
+<ul>
+<li><strong><code>geom_edge_link(...)</code></strong>: Adds edges between nodes, with transparency and width proportional to correlation strength.</li>
+<li><strong><code>geom_node_point(...)</code></strong>: Sizes nodes by centrality and colors them by group.</li>
+<li><strong><code>geom_node_text(...)</code></strong>: Labels each node with the word, using a repelling effect to avoid overlap.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p><strong>Generate Correlation Data and Visualize</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>words_cors_english <span class="ot">&lt;-</span> <span class="fu">words_cors_f</span>(x_data_english, <span class="dv">50</span>)</span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>words_cors_english</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 552 × 3
+   item1      item2      correlation
+   &lt;chr&gt;      &lt;chr&gt;            &lt;dbl&gt;
+ 1 elementary school           0.412
+ 2 school     elementary       0.412
+ 3 efl        learner          0.280
+ 4 learner    efl              0.280
+ 5 university student          0.269
+ 6 student    university       0.269
+ 7 college    student          0.252
+ 8 student    college          0.252
+ 9 vocabulary learn            0.233
+10 learn      vocabulary       0.233
+# ℹ 542 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="co"># write.csv(words_cors_english, 'word_cors_all.csv')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong>Generate Correlation Data</strong>:
+<ul>
+<li><strong><code>words_cors_f(x_data_english, 50)</code></strong>: Calculates correlations between words that appear in at least 50 documents.</li>
+<li><strong><code>write.csv(...)</code></strong>: Saves the full correlation data if needed.</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a><span class="fu">word_network_cor_f</span>(words_cors_english, <span class="fl">0.15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="15.SNA_Example_files/figure-html/unnamed-chunk-49-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><strong><code>word_network_cor_f(words_cors_english, 0.15)</code></strong>: Visualizes words with correlations of at least 0.15.</li>
+</ul></li>
+</ol>
+</section>
+<section id="n-gram-network" class="level3" data-number="15.2.14">
+<h3 data-number="15.2.14" class="anchored" data-anchor-id="n-gram-network"><span class="header-section-number">15.2.14</span> n-gram Network</h3>
+<p>This code creates and visualizes an n-gram network, specifically focusing on bigrams (two-word sequences). It defines functions to generate and process n-grams, build a network graph based on the frequency of n-grams, and visualize the network with centrality information. Here’s a breakdown:</p>
+<ol type="1">
+<li><p><strong>Load Required Libraries</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr); <span class="fu">library</span>(dplyr); <span class="fu">library</span>(tidyr); <span class="fu">library</span>(tidytext); <span class="fu">library</span>(igraph)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'tidyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:igraph':
+
+    crossing</code></pre>
+</div>
+</div>
+<ul>
+<li><strong><code>library(tidytext)</code></strong>: Provides text tokenization tools, including functions to create n-grams.</li>
+<li><strong><code>library(igraph)</code></strong>: Offers functions for calculating graph properties like closeness centrality.</li>
+</ul></li>
+<li><p><strong>Define <code>data_ngram_separated_f</code> Function</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>data_ngram_separated_f <span class="ot">&lt;-</span> <span class="cf">function</span>(x_data_input, ngram_size) {</span>
+<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a>  x_data_input <span class="sc">%&gt;%</span></span>
+<span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(doc_id) <span class="sc">%&gt;%</span></span>
+<span id="cb103-4"><a href="#cb103-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">sentence =</span> <span class="fu">paste</span>(lemma, <span class="at">collapse =</span> <span class="st">" "</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb103-5"><a href="#cb103-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(<span class="at">input =</span> sentence, <span class="at">output =</span> bigram, <span class="at">token =</span> <span class="st">"ngrams"</span>, <span class="at">n =</span> ngram_size) <span class="sc">%&gt;%</span></span>
+<span id="cb103-6"><a href="#cb103-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(bigram, <span class="fu">c</span>(<span class="st">"word1"</span>, <span class="st">"word2"</span>), <span class="at">sep =</span> <span class="st">" "</span>) <span class="sc">%&gt;%</span> <span class="co"># Separate bigram into individual words</span></span>
+<span id="cb103-7"><a href="#cb103-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word1, word2, <span class="at">sort =</span> T) <span class="sc">%&gt;%</span> <span class="fu">na.omit</span>() <span class="co"># Count n-gram frequencies</span></span>
+<span id="cb103-8"><a href="#cb103-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong>Parameters</strong>:
+<ul>
+<li><strong><code>x_data_input</code></strong>: The input dataset with columns <code>lemma</code> (words) and <code>doc_id</code> (document identifier).</li>
+<li><strong><code>ngram_size</code></strong>: Specifies the size of the n-gram (e.g., 2 for bigrams).</li>
+</ul></li>
+<li><strong>Function Details</strong>:
+<ul>
+<li><strong><code>group_by(doc_id)</code></strong> and <strong><code>summarise(...)</code></strong>: Combines each document’s lemmas into a single sentence.</li>
+<li><strong><code>unnest_tokens(...)</code></strong>: Extracts n-grams from the combined sentence, storing them in the <code>bigram</code> column.</li>
+<li><strong><code>separate(bigram, c("word1", "word2"), sep = " ")</code></strong>: Splits the bigram into two columns, <code>word1</code> and <code>word2</code>.</li>
+<li><strong><code>count(word1, word2, sort = T) %&gt;% na.omit()</code></strong>: Counts each word pair’s frequency and removes any missing values.</li>
+</ul></li>
+</ul></li>
+<li><p><strong>Define <code>data_ngram_graph_f</code> Function</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>data_ngram_graph_f <span class="ot">&lt;-</span> <span class="cf">function</span>(ngram_separated, filter_size) {</span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>  ngram_separated <span class="sc">%&gt;%</span></span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;=</span> filter_size) <span class="sc">%&gt;%</span></span>
+<span id="cb104-4"><a href="#cb104-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tbl_graph</span>(<span class="at">directed =</span> F) <span class="sc">%&gt;%</span></span>
+<span id="cb104-5"><a href="#cb104-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">centrality =</span> <span class="fu">centrality_degree</span>(), <span class="at">group =</span> <span class="fu">as.factor</span>(<span class="fu">group_infomap</span>()))</span>
+<span id="cb104-6"><a href="#cb104-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong>Parameters</strong>:
+<ul>
+<li><strong><code>ngram_separated</code></strong>: Output from <code>data_ngram_separated_f</code>, containing n-gram frequencies.</li>
+<li><strong><code>filter_size</code></strong>: Minimum frequency threshold to include n-grams in the network.</li>
+</ul></li>
+<li><strong>Function Details</strong>:
+<ul>
+<li><strong><code>filter(n &gt;= filter_size)</code></strong>: Filters word pairs by frequency.</li>
+<li><strong><code>as_tbl_graph(directed = F)</code></strong>: Converts the filtered data to an undirected graph.</li>
+<li><strong><code>mutate(...)</code></strong>:
+<ul>
+<li><strong><code>centrality = centrality_degree()</code></strong>: Calculates the degree centrality of each word.</li>
+<li><strong><code>group = as.factor(group_infomap())</code></strong>: Uses the Infomap algorithm to detect communities within the graph.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p><strong>Define <code>word_network_ngram_f</code> Function</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>word_network_ngram_f <span class="ot">&lt;-</span> <span class="cf">function</span>(data_ngram_graph) {</span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggraph</span>(data_ngram_graph, <span class="at">layout =</span> <span class="st">"fr"</span>) <span class="sc">+</span></span>
+<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_edge_link</span>(<span class="at">color =</span> <span class="st">"gray50"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb105-4"><a href="#cb105-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> centrality, <span class="at">color =</span> group), <span class="at">show.legend =</span> F) <span class="sc">+</span></span>
+<span id="cb105-5"><a href="#cb105-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_size</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb105-6"><a href="#cb105-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_node_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> name), <span class="at">repel =</span> T, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">family =</span> <span class="st">"Arial"</span>) <span class="sc">+</span></span>
+<span id="cb105-7"><a href="#cb105-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_graph</span>()</span>
+<span id="cb105-8"><a href="#cb105-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong>Parameters</strong>:
+<ul>
+<li><strong><code>data_ngram_graph</code></strong>: Graph object created by <code>data_ngram_graph_f</code>.</li>
+</ul></li>
+<li><strong>Function Details</strong>:
+<ul>
+<li><strong><code>geom_edge_link(...)</code></strong>: Draws edges with gray color and transparency.</li>
+<li><strong><code>geom_node_point(...)</code></strong>: Sizes nodes by degree centrality and colors them by community.</li>
+<li><strong><code>geom_node_text(...)</code></strong>: Labels nodes with word names.</li>
+<li><strong><code>theme_graph()</code></strong>: Simplifies the plot appearance by removing background elements.</li>
+</ul></li>
+</ul></li>
+<li><p><strong>Generate and Visualize N-Gram Data</strong>: <strong>Bigram</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>data_english_bigram <span class="ot">&lt;-</span> <span class="fu">data_ngram_separated_f</span>(x_data_english, <span class="dv">2</span>)</span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="co"># write.csv(data_english_bigram, 'data_english_bigram.csv')</span></span>
+<span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a>data_ngram_graph_english <span class="ot">&lt;-</span> <span class="fu">data_ngram_graph_f</span>(data_english_bigram, <span class="dv">5</span>)</span>
+<span id="cb106-4"><a href="#cb106-4" aria-hidden="true" tabindex="-1"></a><span class="fu">word_network_ngram_f</span>(data_ngram_graph_english)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="15.SNA_Example_files/figure-html/unnamed-chunk-54-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Trigram</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>data_english_trigram <span class="ot">&lt;-</span> <span class="fu">data_ngram_separated_f</span>(x_data_english, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Expected 2 pieces. Additional pieces discarded in 5728 rows [1, 2, 3, 4, 5, 6,
+7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...].</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>data_3gram_graph_english <span class="ot">&lt;-</span> <span class="fu">data_ngram_graph_f</span>(data_english_trigram, <span class="dv">4</span>)</span>
+<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="fu">word_network_ngram_f</span>(data_3gram_graph_english)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="15.SNA_Example_files/figure-html/unnamed-chunk-55-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><strong>Generate N-Gram Data</strong>:
+<ul>
+<li><strong><code>data_ngram_separated_f(x_data_english, 2)</code></strong>: Creates bigrams from <code>x_data_english</code> and counts their occurrences.</li>
+<li><strong><code>write.csv(data_english_bigram, 'data_english_bigram.csv')</code></strong>: Exports bigram frequency data.</li>
+</ul></li>
+<li><strong>Create N-Gram Graph</strong>:
+<ul>
+<li><strong><code>data_ngram_graph_f(data_english_bigram, 5)</code></strong>: Builds a graph including bigrams with a minimum frequency of 5.</li>
+</ul></li>
+<li><strong>Visualize N-Gram Network</strong>:
+<ul>
+<li><strong><code>word_network_ngram_f(data_ngram_graph_english)</code></strong>: Visualizes the n-gram network, with nodes sized by centrality and colored by community.</li>
+</ul></li>
+</ul></li>
+</ol>
+</section>
+<section id="modularity-analysis" class="level3" data-number="15.2.15">
+<h3 data-number="15.2.15" class="anchored" data-anchor-id="modularity-analysis"><span class="header-section-number">15.2.15</span> Modularity Analysis</h3>
+<p>Modularity is a measure used in network analysis to identify the strength of division of a network into communities or modules. A higher modularity score suggests stronger community structure, with more connections within communities and fewer between them. In R, we can use the <strong>Infomap</strong>, <strong>Louvain</strong>, or <strong>Walktrap</strong> algorithms to detect communities and then calculate modularity.</p>
+<section id="infomap-algorithm" class="level4" data-number="15.2.15.1">
+<h4 data-number="15.2.15.1" class="anchored" data-anchor-id="infomap-algorithm"><span class="header-section-number">15.2.15.1</span> Infomap Algorithm</h4>
+<ul>
+<li><strong>Principle</strong>: Infomap is based on information theory. It uses a random walk approach to detect communities by minimizing the expected description length of a random walk on the network.</li>
+<li><strong>Process</strong>:
+<ul>
+<li>The algorithm simulates a random walk over the network and assigns nodes to communities by tracking how information flows between them.</li>
+<li>It minimizes a map equation, which represents the amount of information needed to describe the path of the random walk.</li>
+<li>By assigning nodes to communities where information flow is dense, it reduces the total map description length.</li>
+</ul></li>
+<li><strong>Characteristics</strong>:
+<ul>
+<li>Effective for detecting communities in networks with hierarchical or nested structures.</li>
+<li>Sensitive to the direction of information flow, making it useful for directed networks.</li>
+</ul></li>
+<li><strong>Usage</strong>: Often used in large, complex networks, such as social and biological networks.</li>
+</ul>
+</section>
+<section id="louvain-algorithm" class="level4" data-number="15.2.15.2">
+<h4 data-number="15.2.15.2" class="anchored" data-anchor-id="louvain-algorithm"><span class="header-section-number">15.2.15.2</span> Louvain Algorithm</h4>
+<ul>
+<li><strong>Principle</strong>: Louvain is based on modularity optimization, where modularity is a measure of the density of links within communities compared to links between communities.</li>
+<li><strong>Process</strong>:
+<ul>
+<li>The algorithm begins by assigning each node to its own community.</li>
+<li>It then iteratively merges nodes into communities to maximize modularity gain.</li>
+<li>Once no further modularity improvements are possible, each community is collapsed into a “super-node,” and the process repeats until a maximum modularity is reached.</li>
+</ul></li>
+<li><strong>Characteristics</strong>:
+<ul>
+<li>Fast and scalable, making it suitable for large networks.</li>
+<li>Tends to produce communities of varying sizes, which can sometimes split large communities into smaller ones.</li>
+</ul></li>
+<li><strong>Usage</strong>: Commonly used for undirected networks, such as social networks, biological networks, and citation networks.</li>
+</ul>
+</section>
+<section id="walktrap-algorithm" class="level4" data-number="15.2.15.3">
+<h4 data-number="15.2.15.3" class="anchored" data-anchor-id="walktrap-algorithm"><span class="header-section-number">15.2.15.3</span> Walktrap Algorithm</h4>
+<ul>
+<li><strong>Principle</strong>: Walktrap is also based on random walks, but unlike Infomap, it uses short random walks to detect communities.</li>
+<li><strong>Process</strong>:
+<ul>
+<li>The algorithm performs short random walks starting from each node to gather information about the structure of the network.</li>
+<li>The assumption is that nodes within the same community are more likely to be reached by short random walks than nodes in different communities.</li>
+<li>It merges communities iteratively by calculating the similarity between nodes based on these random walks and minimizing the distance between communities.</li>
+</ul></li>
+<li><strong>Characteristics</strong>:
+<ul>
+<li>Produces more balanced community sizes compared to Louvain.</li>
+<li>More computationally intensive than Louvain, so it is less suited for extremely large networks.</li>
+</ul></li>
+<li><strong>Usage</strong>: Suitable for smaller to medium-sized networks where the structure is not overly hierarchical.</li>
+</ul>
+<hr>
+</section>
+<section id="comparison-of-the-algorithms" class="level4" data-number="15.2.15.4">
+<h4 data-number="15.2.15.4" class="anchored" data-anchor-id="comparison-of-the-algorithms"><span class="header-section-number">15.2.15.4</span> Comparison of the Algorithms</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 23%">
+<col style="width: 22%">
+<col style="width: 42%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Algorithm</th>
+<th>Key Concept</th>
+<th>Best for</th>
+<th>Limitations</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Infomap</strong></td>
+<td>Information theory and random walk optimization</td>
+<td>Large, complex networks; directed networks</td>
+<td>Sensitive to direction, may be less interpretable in undirected networks</td>
+</tr>
+<tr class="even">
+<td><strong>Louvain</strong></td>
+<td>Modularity optimization</td>
+<td>Large networks; undirected networks</td>
+<td>Tends to split large communities; hierarchical structure not well captured</td>
+</tr>
+<tr class="odd">
+<td><strong>Walktrap</strong></td>
+<td>Short random walks to find closely connected nodes</td>
+<td>Small to medium-sized networks; balanced community sizes</td>
+<td>Computationally intensive for large networks</td>
+</tr>
+</tbody>
+</table>
+<p>Each algorithm is tailored to different types of networks, structures, and analysis goals. Generally:</p>
+<ul>
+<li><strong>Infomap</strong> is well-suited for networks with hierarchical community structures or directed edges.</li>
+<li><strong>Louvain</strong> is a fast, general-purpose method for large, undirected networks.</li>
+<li><strong>Walktrap</strong> is useful when balanced community sizes are preferred, but it’s more computationally demanding.</li>
+</ul>
+<p>Here’s how to perform modularity analysis on an n-gram co-occurrence network.</p>
+</section>
+<section id="step-by-step-modularity-analysis-with-network-data-in-r-part-1" class="level4" data-number="15.2.15.5">
+<h4 data-number="15.2.15.5" class="anchored" data-anchor-id="step-by-step-modularity-analysis-with-network-data-in-r-part-1"><span class="header-section-number">15.2.15.5</span> Step-by-Step Modularity Analysis with Network Data in R: Part 1</h4>
+<p>This code assumes you have an n-gram network graph, such as the one generated in the previous example with bigram data.</p>
+<ol type="1">
+<li><p><strong>Load Required Libraries</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidygraph)</span>
+<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggraph)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><p><strong>Community Detection and Modularity Calculation Function</strong> We can use different algorithms to detect communities and then calculate the modularity for each detected community structure. Here, we’ll use the <strong>Louvain</strong> and <strong>Infomap</strong> methods.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>modularity_analysis <span class="ot">&lt;-</span> <span class="cf">function</span>(graph) {</span>
+<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Louvain community detection</span></span>
+<span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a>  louvain_comm <span class="ot">&lt;-</span> <span class="fu">cluster_louvain</span>(graph)</span>
+<span id="cb111-4"><a href="#cb111-4" aria-hidden="true" tabindex="-1"></a>  modularity_louvain <span class="ot">&lt;-</span> <span class="fu">modularity</span>(louvain_comm)</span>
+<span id="cb111-5"><a href="#cb111-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-6"><a href="#cb111-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Infomap community detection</span></span>
+<span id="cb111-7"><a href="#cb111-7" aria-hidden="true" tabindex="-1"></a>  infomap_comm <span class="ot">&lt;-</span> <span class="fu">cluster_infomap</span>(graph)</span>
+<span id="cb111-8"><a href="#cb111-8" aria-hidden="true" tabindex="-1"></a>  modularity_infomap <span class="ot">&lt;-</span> <span class="fu">modularity</span>(infomap_comm)</span>
+<span id="cb111-9"><a href="#cb111-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-10"><a href="#cb111-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Summary output</span></span>
+<span id="cb111-11"><a href="#cb111-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb111-12"><a href="#cb111-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">Louvain_Modularity =</span> modularity_louvain,</span>
+<span id="cb111-13"><a href="#cb111-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Infomap_Modularity =</span> modularity_infomap,</span>
+<span id="cb111-14"><a href="#cb111-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">Louvain_Communities =</span> louvain_comm,</span>
+<span id="cb111-15"><a href="#cb111-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">Infomap_Communities =</span> infomap_comm</span>
+<span id="cb111-16"><a href="#cb111-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb111-17"><a href="#cb111-17" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><p><strong>Prepare and Analyze the Network Graph</strong></p>
+<p>Assuming you have already created a graph with <code>as_tbl_graph()</code> from your n-gram data, you can now calculate modularity:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare your graph object</span></span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: data_ngram_graph_english &lt;- data_ngram_graph_f(data_english_bigram, 5)</span></span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to igraph for modularity analysis</span></span>
+<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a>igraph_graph <span class="ot">&lt;-</span> <span class="fu">as.igraph</span>(data_ngram_graph_english)</span>
+<span id="cb112-6"><a href="#cb112-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-7"><a href="#cb112-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform modularity analysis</span></span>
+<span id="cb112-8"><a href="#cb112-8" aria-hidden="true" tabindex="-1"></a>modularity_results <span class="ot">&lt;-</span> <span class="fu">modularity_analysis</span>(igraph_graph)</span>
+<span id="cb112-9"><a href="#cb112-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-10"><a href="#cb112-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Display modularity scores</span></span>
+<span id="cb112-11"><a href="#cb112-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(modularity_results<span class="sc">$</span>Louvain_Modularity)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6131639</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(modularity_results<span class="sc">$</span>Infomap_Modularity)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.587661</code></pre>
+</div>
+</div></li>
+<li><p><strong>Visualize Communities with Modularity</strong></p>
+<p>To see the detected communities in a network plot, we can map community labels from the Louvain or Infomap methods as node colors.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Choose Louvain communities for visualization</span></span>
+<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(igraph_graph)<span class="sc">$</span>community <span class="ot">&lt;-</span> <span class="fu">membership</span>(modularity_results<span class="sc">$</span>Louvain_Communities)</span>
+<span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb116-4"><a href="#cb116-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot with communities as colors</span></span>
+<span id="cb116-5"><a href="#cb116-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggraph</span>(igraph_graph, <span class="at">layout =</span> <span class="st">"fr"</span>) <span class="sc">+</span></span>
+<span id="cb116-6"><a href="#cb116-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="at">color =</span> <span class="st">"gray80"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb116-7"><a href="#cb116-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="fu">as.factor</span>(community)), <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb116-8"><a href="#cb116-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> name), <span class="at">repel =</span> <span class="cn">TRUE</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">family =</span> <span class="st">"Arial"</span>) <span class="sc">+</span></span>
+<span id="cb116-9"><a href="#cb116-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_graph</span>() <span class="sc">+</span></span>
+<span id="cb116-10"><a href="#cb116-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"N-Gram Network with Louvain Community Detection"</span>,</span>
+<span id="cb116-11"><a href="#cb116-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="fu">paste</span>(<span class="st">"Modularity:"</span>, <span class="fu">round</span>(modularity_results<span class="sc">$</span>Louvain_Modularity, <span class="dv">3</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="15.SNA_Example_files/figure-html/unnamed-chunk-59-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div></li>
+</ol>
+<p>This approach helps identify well-defined clusters within a network, where higher modularity values indicate strong community structures, which is essential in understanding patterns within complex networks.</p>
+</section>
+<section id="step-by-step-modularity-analysis-with-network-data-in-r-part-2" class="level4" data-number="15.2.15.6">
+<h4 data-number="15.2.15.6" class="anchored" data-anchor-id="step-by-step-modularity-analysis-with-network-data-in-r-part-2"><span class="header-section-number">15.2.15.6</span> Step-by-Step Modularity Analysis with Network Data in R: Part 2</h4>
+<p>To enhance the modularity visualization with community grouping circles, we can modify the code to add a convex hull around each community group, creating visual boundaries for each detected community. Here’s the revised code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("ggforce")  </span></span>
+<span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("concaveman")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary libraries</span></span>
+<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidygraph)</span>
+<span id="cb118-4"><a href="#cb118-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggraph)</span>
+<span id="cb118-5"><a href="#cb118-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggforce)</span>
+<span id="cb118-6"><a href="#cb118-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(concaveman)</span>
+<span id="cb118-7"><a href="#cb118-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb118-8"><a href="#cb118-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Define function for community detection and modularity analysis</span></span>
+<span id="cb118-9"><a href="#cb118-9" aria-hidden="true" tabindex="-1"></a>modularity_analysis <span class="ot">&lt;-</span> <span class="cf">function</span>(graph) {</span>
+<span id="cb118-10"><a href="#cb118-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Louvain community detection</span></span>
+<span id="cb118-11"><a href="#cb118-11" aria-hidden="true" tabindex="-1"></a>  louvain_comm <span class="ot">&lt;-</span> <span class="fu">cluster_louvain</span>(graph)</span>
+<span id="cb118-12"><a href="#cb118-12" aria-hidden="true" tabindex="-1"></a>  modularity_louvain <span class="ot">&lt;-</span> <span class="fu">modularity</span>(louvain_comm)</span>
+<span id="cb118-13"><a href="#cb118-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb118-14"><a href="#cb118-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Infomap community detection</span></span>
+<span id="cb118-15"><a href="#cb118-15" aria-hidden="true" tabindex="-1"></a>  infomap_comm <span class="ot">&lt;-</span> <span class="fu">cluster_infomap</span>(graph)</span>
+<span id="cb118-16"><a href="#cb118-16" aria-hidden="true" tabindex="-1"></a>  modularity_infomap <span class="ot">&lt;-</span> <span class="fu">modularity</span>(infomap_comm)</span>
+<span id="cb118-17"><a href="#cb118-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb118-18"><a href="#cb118-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Return a list of results</span></span>
+<span id="cb118-19"><a href="#cb118-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb118-20"><a href="#cb118-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">Louvain_Modularity =</span> modularity_louvain,</span>
+<span id="cb118-21"><a href="#cb118-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">Infomap_Modularity =</span> modularity_infomap,</span>
+<span id="cb118-22"><a href="#cb118-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">Louvain_Communities =</span> louvain_comm,</span>
+<span id="cb118-23"><a href="#cb118-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">Infomap_Communities =</span> infomap_comm</span>
+<span id="cb118-24"><a href="#cb118-24" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb118-25"><a href="#cb118-25" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb118-26"><a href="#cb118-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb118-27"><a href="#cb118-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Convert graph to igraph object if needed and perform modularity analysis</span></span>
+<span id="cb118-28"><a href="#cb118-28" aria-hidden="true" tabindex="-1"></a>igraph_graph <span class="ot">&lt;-</span> <span class="fu">as.igraph</span>(data_ngram_graph_english)</span>
+<span id="cb118-29"><a href="#cb118-29" aria-hidden="true" tabindex="-1"></a>modularity_results <span class="ot">&lt;-</span> <span class="fu">modularity_analysis</span>(igraph_graph)</span>
+<span id="cb118-30"><a href="#cb118-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb118-31"><a href="#cb118-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Louvain communities to graph for visualization</span></span>
+<span id="cb118-32"><a href="#cb118-32" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(igraph_graph)<span class="sc">$</span>community <span class="ot">&lt;-</span> <span class="fu">membership</span>(modularity_results<span class="sc">$</span>Louvain_Communities)</span>
+<span id="cb118-33"><a href="#cb118-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb118-34"><a href="#cb118-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Define function to visualize the network with grouping circles</span></span>
+<span id="cb118-35"><a href="#cb118-35" aria-hidden="true" tabindex="-1"></a>word_network_with_community_circles <span class="ot">&lt;-</span> <span class="cf">function</span>(graph) {</span>
+<span id="cb118-36"><a href="#cb118-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggraph</span>(graph, <span class="at">layout =</span> <span class="st">"fr"</span>) <span class="sc">+</span></span>
+<span id="cb118-37"><a href="#cb118-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add community boundaries using convex hulls</span></span>
+<span id="cb118-38"><a href="#cb118-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_mark_hull</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">group =</span> <span class="fu">as.factor</span>(community), <span class="at">fill =</span> <span class="fu">as.factor</span>(community)),</span>
+<span id="cb118-39"><a href="#cb118-39" aria-hidden="true" tabindex="-1"></a>                   <span class="at">concavity =</span> <span class="dv">4</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb118-40"><a href="#cb118-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add edges</span></span>
+<span id="cb118-41"><a href="#cb118-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_edge_link</span>(<span class="at">color =</span> <span class="st">"gray80"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb118-42"><a href="#cb118-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add nodes, coloring by community</span></span>
+<span id="cb118-43"><a href="#cb118-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="fu">as.factor</span>(community)), <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb118-44"><a href="#cb118-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add node labels</span></span>
+<span id="cb118-45"><a href="#cb118-45" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_node_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> name), <span class="at">repel =</span> <span class="cn">TRUE</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">family =</span> <span class="st">"Arial"</span>) <span class="sc">+</span></span>
+<span id="cb118-46"><a href="#cb118-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Apply theme and labels</span></span>
+<span id="cb118-47"><a href="#cb118-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_graph</span>() <span class="sc">+</span></span>
+<span id="cb118-48"><a href="#cb118-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"N-Gram Network with Community Detection"</span>,</span>
+<span id="cb118-49"><a href="#cb118-49" aria-hidden="true" tabindex="-1"></a>         <span class="at">subtitle =</span> <span class="fu">paste</span>(<span class="st">"Louvain Modularity:"</span>, <span class="fu">round</span>(modularity_results<span class="sc">$</span>Louvain_Modularity, <span class="dv">3</span>)))</span>
+<span id="cb118-50"><a href="#cb118-50" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb118-51"><a href="#cb118-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb118-52"><a href="#cb118-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the network with community grouping circles</span></span>
+<span id="cb118-53"><a href="#cb118-53" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb118-54"><a href="#cb118-54" aria-hidden="true" tabindex="-1"></a><span class="fu">word_network_with_community_circles</span>(igraph_graph)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="15.SNA_Example_files/figure-html/unnamed-chunk-61-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="explanation-of-modifications" class="level3" data-number="15.2.16">
+<h3 data-number="15.2.16" class="anchored" data-anchor-id="explanation-of-modifications"><span class="header-section-number">15.2.16</span> Explanation of Modifications</h3>
+<ol type="1">
+<li><strong>Community Detection and Modularity Calculation</strong>:
+<ul>
+<li>The <code>modularity_analysis</code> function detects communities using both the Louvain and Infomap algorithms and calculates modularity scores.</li>
+<li>We add the Louvain community membership to the graph as a <code>community</code> attribute for each node.</li>
+</ul></li>
+<li><strong>Adding Community Grouping Circles</strong>:
+<ul>
+<li>In the <code>word_network_with_community_circles</code> function:
+<ul>
+<li><strong><code>geom_mark_hull(...)</code></strong>: Draws convex hulls around nodes in the same community, creating a boundary or grouping circle around each community.
+<ul>
+<li><strong><code>aes(group = as.factor(community))</code></strong>: Groups nodes by community.</li>
+<li><strong><code>fill = as.factor(community)</code></strong>: Assigns a fill color to each community group for better visual separation.</li>
+<li><strong><code>concavity = 4</code></strong>: Adjusts the shape of the boundary. Smaller values make the hull tighter.</li>
+<li><strong><code>alpha = 0.2</code></strong>: Adds transparency to the hulls for a softer visual effect.</li>
+</ul></li>
+<li>Other <code>ggraph</code> elements (edges, nodes, labels) are customized to show community structure more clearly.</li>
+</ul></li>
+</ul></li>
+<li><strong>Visualize with Community Circles</strong>:
+<ul>
+<li>Call the <code>word_network_with_community_circles</code> function with <code>igraph_graph</code> to generate a plot that includes community boundaries as circles around groups of nodes.</li>
+</ul></li>
+</ol>
+<p>This code produces a network visualization with visible community clusters, highlighted by color-filled grouping circles, enhancing the modularity-based community structure analysis.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./14.Semantic_Network.html" class="pagination-link" aria-label="Semantic Network Analysis">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Semantic Network Analysis</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./16.Topic_Modeling.html" class="pagination-link" aria-label="Topic Modeling in Python">
+        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Topic Modeling in Python</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
