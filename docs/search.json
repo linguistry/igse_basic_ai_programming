@@ -1278,5 +1278,35 @@
     "crumbs": [
       "<span class='chapter-number'>17</span>  <span class='chapter-title'>Topic Modeling with R (Example)</span>"
     ]
+  },
+  {
+    "objectID": "C.assignment3_topic.html",
+    "href": "C.assignment3_topic.html",
+    "title": "20  Assignment #03:Topic Modeling",
+    "section": "",
+    "text": "20.1 Instructions:\nIn this assignment, you’ll perform a topic modeling analysis on a selected corpus to explore and interpret themes. Follow the steps below to complete your work, and submit your results as instructed. Provide clear explanations and visualizations to support your analysis.",
+    "crumbs": [
+      "<span class='chapter-number'>20</span>  <span class='chapter-title'>Assignment #03:Topic Modeling</span>"
+    ]
+  },
+  {
+    "objectID": "C.assignment3_topic.html#steps-for-the-assignment",
+    "href": "C.assignment3_topic.html#steps-for-the-assignment",
+    "title": "20  Assignment #03:Topic Modeling",
+    "section": "20.2 Steps for the Assignment",
+    "text": "20.2 Steps for the Assignment\nStep 1. Select Your Corpus (5 points)\nCorpus Selection:\n\nChoose a text corpus that interests you. Potential sources include:\n\nProject Gutenberg: a collection of public domain books.\nKaggle Datasets: various datasets that may include text.\nOther text-based datasets are also acceptable.\n\n\nCorpus Details:\n\nProvide a brief description of your chosen corpus (1-2 sentences).\nMention the source and why you selected this corpus (1-2 sentences).\n\n\nStep 2. Conduct Topic Modeling Analysis (15 points)\nPreprocessing (5 points):\n\nPrepare the text for analysis by following standard preprocessing steps:\n\nTokenization (splitting text into words or phrases).\nStop word removal.\nLemmatization or stemming.\nVectorization (transforming text into numerical form, if needed).\n\nDescribe these preprocessing steps in your final submission.\n\nTopic Modeling (5 points):\n\nImplement a topic modeling technique, such as Latent Dirichlet Allocation (LDA) to identify topics within your corpus.\nProvide a summary of each identified topic, including representative keywords or phrases.\nInclude a visualization\n\nTopic Interpretation and Analysis (5 points):\n\nInterpret the themes or patterns within the identified topics. Explain any notable or recurring themes and how they relate to the overall structure of your corpus.",
+    "crumbs": [
+      "<span class='chapter-number'>20</span>  <span class='chapter-title'>Assignment #03:Topic Modeling</span>"
+    ]
+  },
+  {
+    "objectID": "C.assignment3_topic.html#submission-guidelines",
+    "href": "C.assignment3_topic.html#submission-guidelines",
+    "title": "20  Assignment #03:Topic Modeling",
+    "section": "20.3 Submission Guidelines",
+    "text": "20.3 Submission Guidelines\n\nReport Format: Submit a PDF (or MS-Word) report (2 pages, approximately 500 words), including screenshots of visualizations.\nPython or R Code\n\nDue Date: Submit by November 28, 2024, via the course portal.\nTotal: 20 points",
+    "crumbs": [
+      "<span class='chapter-number'>20</span>  <span class='chapter-title'>Assignment #03:Topic Modeling</span>"
+    ]
   }
 ]
