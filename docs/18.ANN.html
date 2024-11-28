@@ -1,0 +1,2182 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>17&nbsp; Artificial Neural Network – Basic AI Programming</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./A.assignment1.html" rel="next">
+<link href="./16.Topic_Modeling.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./18.ANN.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Artificial Neural Network</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Basic AI Programming</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01.setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Setting Up Environment</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02.intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Constants and Variables in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03.control.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Control Structures in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04.function.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Functions and Packages in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05.pandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Analysis in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06.arithmetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Basic Arithmetic Operations in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07.Regular_Expression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regular Expressions (RegEx) in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08.Custom_Corpus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Building a Custom Corpus</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09.Preprocessing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Text Preprocessing</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10.Word_Cloud.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualizing Word Frequencies with Graphs and Word Clouds</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11.Text_Representation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Text Representation Based on Counts</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12.Word_Embedding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Word Embedding and Relational Similarity</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13.NLP_toolkit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Word Embedding Activities</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14.Semantic_Network.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Semantic Network Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15.SNA_Example.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Semantic Network Analysis (Examples)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16.Topic_Modeling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Topic Modeling in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18.ANN.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Artificial Neural Network</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A.assignment1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Assignment #01</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./B.assignment2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Assignment #02: Semantic Network Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./C.assignment3_topic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Assignment #03:Topic Modeling</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#understanding-perceptron" id="toc-understanding-perceptron" class="nav-link active" data-scroll-target="#understanding-perceptron"><span class="header-section-number">17.1</span> Understanding Perceptron</a>
+  <ul class="collapse">
+  <li><a href="#components-of-a-perceptron" id="toc-components-of-a-perceptron" class="nav-link" data-scroll-target="#components-of-a-perceptron"><span class="header-section-number">17.1.1</span> Components of a Perceptron</a></li>
+  <li><a href="#python-implementation-of-a-perceptron" id="toc-python-implementation-of-a-perceptron" class="nav-link" data-scroll-target="#python-implementation-of-a-perceptron"><span class="header-section-number">17.1.2</span> Python Implementation of a Perceptron</a></li>
+  <li><a href="#how-it-works" id="toc-how-it-works" class="nav-link" data-scroll-target="#how-it-works"><span class="header-section-number">17.1.3</span> How It Works</a></li>
+  <li><a href="#example-and-gate" id="toc-example-and-gate" class="nav-link" data-scroll-target="#example-and-gate"><span class="header-section-number">17.1.4</span> Example: AND Gate</a></li>
+  <li><a href="#example-visualization" id="toc-example-visualization" class="nav-link" data-scroll-target="#example-visualization"><span class="header-section-number">17.1.5</span> Example: Visualization</a></li>
+  <li><a href="#limitations-of-a-single-neuron-perceptron" id="toc-limitations-of-a-single-neuron-perceptron" class="nav-link" data-scroll-target="#limitations-of-a-single-neuron-perceptron"><span class="header-section-number">17.1.6</span> Limitations of a Single Neuron Perceptron</a></li>
+  </ul></li>
+  <li><a href="#multilayer-perceptron-mlp" id="toc-multilayer-perceptron-mlp" class="nav-link" data-scroll-target="#multilayer-perceptron-mlp"><span class="header-section-number">17.2</span> Multilayer Perceptron (MLP)</a>
+  <ul class="collapse">
+  <li><a href="#key-features-of-an-mlp" id="toc-key-features-of-an-mlp" class="nav-link" data-scroll-target="#key-features-of-an-mlp"><span class="header-section-number">17.2.1</span> Key Features of an MLP:</a></li>
+  <li><a href="#python-implementation-of-a-multilayer-perceptron-mlp" id="toc-python-implementation-of-a-multilayer-perceptron-mlp" class="nav-link" data-scroll-target="#python-implementation-of-a-multilayer-perceptron-mlp"><span class="header-section-number">17.2.2</span> Python Implementation of a Multilayer Perceptron (MLP)</a></li>
+  <li><a href="#explanation-of-the-code" id="toc-explanation-of-the-code" class="nav-link" data-scroll-target="#explanation-of-the-code"><span class="header-section-number">17.2.3</span> Explanation of the Code</a></li>
+  <li><a href="#example-output" id="toc-example-output" class="nav-link" data-scroll-target="#example-output"><span class="header-section-number">17.2.4</span> Example Output</a></li>
+  <li><a href="#key-advantages-of-mlp" id="toc-key-advantages-of-mlp" class="nav-link" data-scroll-target="#key-advantages-of-mlp"><span class="header-section-number">17.2.5</span> Key Advantages of MLP</a></li>
+  </ul></li>
+  <li><a href="#activation-function" id="toc-activation-function" class="nav-link" data-scroll-target="#activation-function"><span class="header-section-number">17.3</span> Activation Function</a>
+  <ul class="collapse">
+  <li><a href="#why-do-we-need-activation-functions" id="toc-why-do-we-need-activation-functions" class="nav-link" data-scroll-target="#why-do-we-need-activation-functions"><span class="header-section-number">17.3.1</span> Why Do We Need Activation Functions?</a></li>
+  <li><a href="#types-of-activation-functions" id="toc-types-of-activation-functions" class="nav-link" data-scroll-target="#types-of-activation-functions"><span class="header-section-number">17.3.2</span> Types of Activation Functions</a></li>
+  <li><a href="#choosing-an-activation-function" id="toc-choosing-an-activation-function" class="nav-link" data-scroll-target="#choosing-an-activation-function"><span class="header-section-number">17.3.3</span> Choosing an Activation Function</a></li>
+  <li><a href="#visualization-of-common-activation-functions" id="toc-visualization-of-common-activation-functions" class="nav-link" data-scroll-target="#visualization-of-common-activation-functions"><span class="header-section-number">17.3.4</span> Visualization of Common Activation Functions</a></li>
+  </ul></li>
+  <li><a href="#matrix-calculations" id="toc-matrix-calculations" class="nav-link" data-scroll-target="#matrix-calculations"><span class="header-section-number">17.4</span> Matrix Calculations</a>
+  <ul class="collapse">
+  <li><a href="#common-matrix-calculations" id="toc-common-matrix-calculations" class="nav-link" data-scroll-target="#common-matrix-calculations"><span class="header-section-number">17.4.1</span> Common Matrix Calculations</a></li>
+  <li><a href="#example-matrix-calculations-in-python" id="toc-example-matrix-calculations-in-python" class="nav-link" data-scroll-target="#example-matrix-calculations-in-python"><span class="header-section-number">17.4.2</span> Example Matrix Calculations in Python</a></li>
+  <li><a href="#sample-output" id="toc-sample-output" class="nav-link" data-scroll-target="#sample-output"><span class="header-section-number">17.4.3</span> Sample Output</a></li>
+  <li><a href="#applications-of-matrix-calculations" id="toc-applications-of-matrix-calculations" class="nav-link" data-scroll-target="#applications-of-matrix-calculations"><span class="header-section-number">17.4.4</span> Applications of Matrix Calculations</a></li>
+  </ul></li>
+  <li><a href="#probability-vector" id="toc-probability-vector" class="nav-link" data-scroll-target="#probability-vector"><span class="header-section-number">17.5</span> Probability Vector</a>
+  <ul class="collapse">
+  <li><a href="#softmax-function" id="toc-softmax-function" class="nav-link" data-scroll-target="#softmax-function"><span class="header-section-number">17.5.1</span> <strong>Softmax Function</strong></a></li>
+  <li><a href="#properties-of-softmax" id="toc-properties-of-softmax" class="nav-link" data-scroll-target="#properties-of-softmax"><span class="header-section-number">17.5.4</span> Properties of Softmax</a></li>
+  <li><a href="#applications-of-softmax" id="toc-applications-of-softmax" class="nav-link" data-scroll-target="#applications-of-softmax"><span class="header-section-number">17.5.5</span> Applications of Softmax</a></li>
+  </ul></li>
+  <li><a href="#neural-network-learning" id="toc-neural-network-learning" class="nav-link" data-scroll-target="#neural-network-learning"><span class="header-section-number">17.6</span> Neural Network Learning</a>
+  <ul class="collapse">
+  <li><a href="#definition-of-neural-network-learning" id="toc-definition-of-neural-network-learning" class="nav-link" data-scroll-target="#definition-of-neural-network-learning"><span class="header-section-number">17.6.1</span> <strong>Definition of Neural Network Learning</strong></a></li>
+  <li><a href="#example-of-neural-network-learning" id="toc-example-of-neural-network-learning" class="nav-link" data-scroll-target="#example-of-neural-network-learning"><span class="header-section-number">17.6.2</span> <strong>Example of Neural Network Learning</strong></a></li>
+  <li><a href="#example-output-1" id="toc-example-output-1" class="nav-link" data-scroll-target="#example-output-1"><span class="header-section-number">17.6.3</span> Example Output</a></li>
+  <li><a href="#key-points" id="toc-key-points" class="nav-link" data-scroll-target="#key-points"><span class="header-section-number">17.6.4</span> Key Points</a></li>
+  </ul></li>
+  <li><a href="#optimizer" id="toc-optimizer" class="nav-link" data-scroll-target="#optimizer"><span class="header-section-number">17.7</span> Optimizer</a>
+  <ul class="collapse">
+  <li><a href="#what-is-an-optimizer" id="toc-what-is-an-optimizer" class="nav-link" data-scroll-target="#what-is-an-optimizer"><span class="header-section-number">17.7.1</span> <strong>What is an Optimizer?</strong></a></li>
+  <li><a href="#how-optimizers-work" id="toc-how-optimizers-work" class="nav-link" data-scroll-target="#how-optimizers-work"><span class="header-section-number">17.7.2</span> <strong>How Optimizers Work</strong></a></li>
+  <li><a href="#types-of-optimizers" id="toc-types-of-optimizers" class="nav-link" data-scroll-target="#types-of-optimizers"><span class="header-section-number">17.7.3</span> <strong>Types of Optimizers</strong></a></li>
+  <li><a href="#example-in-python" id="toc-example-in-python" class="nav-link" data-scroll-target="#example-in-python"><span class="header-section-number">17.7.4</span> Example in Python</a></li>
+  <li><a href="#summary-table" id="toc-summary-table" class="nav-link" data-scroll-target="#summary-table"><span class="header-section-number">17.7.5</span> Summary Table</a></li>
+  </ul></li>
+  <li><a href="#convolutional-neural-networks" id="toc-convolutional-neural-networks" class="nav-link" data-scroll-target="#convolutional-neural-networks"><span class="header-section-number">17.8</span> Convolutional Neural Networks</a>
+  <ul class="collapse">
+  <li><a href="#steps-to-apply-cnn-to-text-classification" id="toc-steps-to-apply-cnn-to-text-classification" class="nav-link" data-scroll-target="#steps-to-apply-cnn-to-text-classification"><span class="header-section-number">17.8.1</span> <strong>Steps to Apply CNN to Text Classification</strong></a></li>
+  <li><a href="#architecture-for-text-classification-with-cnn" id="toc-architecture-for-text-classification-with-cnn" class="nav-link" data-scroll-target="#architecture-for-text-classification-with-cnn"><span class="header-section-number">17.8.2</span> <strong>Architecture for Text Classification with CNN</strong></a></li>
+  <li><a href="#implementation-example-in-python-keras" id="toc-implementation-example-in-python-keras" class="nav-link" data-scroll-target="#implementation-example-in-python-keras"><span class="header-section-number">17.8.3</span> <strong>Implementation Example in Python (Keras)</strong></a></li>
+  <li><a href="#explanation-of-the-code-1" id="toc-explanation-of-the-code-1" class="nav-link" data-scroll-target="#explanation-of-the-code-1"><span class="header-section-number">17.8.4</span> <strong>Explanation of the Code</strong></a></li>
+  <li><a href="#sample-output-1" id="toc-sample-output-1" class="nav-link" data-scroll-target="#sample-output-1"><span class="header-section-number">17.8.5</span> <strong>Sample Output</strong></a></li>
+  <li><a href="#extending-to-multi-class-classification" id="toc-extending-to-multi-class-classification" class="nav-link" data-scroll-target="#extending-to-multi-class-classification"><span class="header-section-number">17.8.6</span> <strong>Extending to Multi-Class Classification</strong></a></li>
+  <li><a href="#advantages-of-cnns-for-text-classification" id="toc-advantages-of-cnns-for-text-classification" class="nav-link" data-scroll-target="#advantages-of-cnns-for-text-classification"><span class="header-section-number">17.8.7</span> <strong>Advantages of CNNs for Text Classification</strong></a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations"><span class="header-section-number">17.8.8</span> <strong>Limitations</strong></a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Artificial Neural Network</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="understanding-perceptron" class="level2" data-number="17.1">
+<h2 data-number="17.1" class="anchored" data-anchor-id="understanding-perceptron"><span class="header-section-number">17.1</span> Understanding Perceptron</h2>
+<p>The <strong>Perceptron algorithm</strong> was introduced by <strong>Frank Rosenblatt in 1957</strong>. It is a foundational algorithm in the field of artificial neural networks, forming the basis for understanding more complex architectures like deep neural networks.</p>
+<p>A perceptron is a type of artificial neuron that uses a linear activation function to decide whether or not to activate. Below is an explanation and implementation of a <strong>single neuron perceptron model</strong> in Python.</p>
+<hr>
+<section id="components-of-a-perceptron" class="level3" data-number="17.1.1">
+<h3 data-number="17.1.1" class="anchored" data-anchor-id="components-of-a-perceptron"><span class="header-section-number">17.1.1</span> Components of a Perceptron</h3>
+<ol type="1">
+<li><p><strong>Inputs</strong>: A vector of input features <span class="math inline">\((x_1, x_2, \dots, x_n)\)</span>.</p></li>
+<li><p><strong>Weights</strong>: A set of weights <span class="math inline">\((w_1, w_2, \dots, w_n)\)</span> associated with each input.</p></li>
+<li><p><strong>Bias</strong>: A constant added to the weighted sum to adjust the decision boundary.</p></li>
+<li><p><strong>Weighted Sum</strong>: The weighted sum of the inputs, calculated as: <span class="math display">\[z = \sum_{i=1}^n w_i \cdot x_i + b\]</span></p></li>
+<li><p><strong>Activation Function</strong>: A step function that outputs:</p></li>
+</ol>
+<p><span class="math display">\[\text{output} = \begin{cases} 1 &amp; \text{if } z &gt; 0
+\\0 &amp; \text{otherwise} \end{cases}\]</span></p>
+<hr>
+</section>
+<section id="python-implementation-of-a-perceptron" class="level3" data-number="17.1.2">
+<h3 data-number="17.1.2" class="anchored" data-anchor-id="python-implementation-of-a-perceptron"><span class="header-section-number">17.1.2</span> Python Implementation of a Perceptron</h3>
+<p>Below is an implementation of a perceptron that performs binary classification.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Perceptron:</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, input_size, learning_rate<span class="op">=</span><span class="fl">0.01</span>, epochs<span class="op">=</span><span class="dv">1000</span>):</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">        Initialize the perceptron with random weights and a bias.</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.weights <span class="op">=</span> np.random.randn(input_size)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.bias <span class="op">=</span> np.random.randn()</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.learning_rate <span class="op">=</span> learning_rate</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.epochs <span class="op">=</span> epochs</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> activation_function(<span class="va">self</span>, z):</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">        Step activation function.</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span> <span class="cf">if</span> z <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="dv">0</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, x):</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">        Make a prediction for a single data point.</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        z <span class="op">=</span> np.dot(<span class="va">self</span>.weights, x) <span class="op">+</span> <span class="va">self</span>.bias</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.activation_function(z)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> train(<span class="va">self</span>, X, y):</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">        Train the perceptron using the Perceptron Learning Algorithm.</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="va">self</span>.epochs):</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(X)):</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Calculate prediction</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>                prediction <span class="op">=</span> <span class="va">self</span>.predict(X[i])</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Update weights and bias if prediction is incorrect</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>                error <span class="op">=</span> y[i] <span class="op">-</span> prediction</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.weights <span class="op">+=</span> <span class="va">self</span>.learning_rate <span class="op">*</span> error <span class="op">*</span> X[i]</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.bias <span class="op">+=</span> <span class="va">self</span>.learning_rate <span class="op">*</span> error</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> evaluate(<span class="va">self</span>, X, y):</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co">        Evaluate the perceptron on a dataset.</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>        predictions <span class="op">=</span> [<span class="va">self</span>.predict(x) <span class="cf">for</span> x <span class="kw">in</span> X]</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>        accuracy <span class="op">=</span> np.mean(predictions <span class="op">==</span> y)</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> accuracy</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Example Usage</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Dataset: AND gate</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> np.array([</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">0</span>, <span class="dv">0</span>],</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">0</span>, <span class="dv">1</span>],</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">1</span>, <span class="dv">0</span>],</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>    ])</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>])  <span class="co"># AND gate output</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize perceptron</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>    perceptron <span class="op">=</span> Perceptron(input_size<span class="op">=</span><span class="dv">2</span>, learning_rate<span class="op">=</span><span class="fl">0.1</span>, epochs<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Train the perceptron</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>    perceptron.train(X, y)</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Evaluate the perceptron</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Trained Weights:"</span>, perceptron.weights)</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Trained Bias:"</span>, perceptron.bias)</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>    accuracy <span class="op">=</span> perceptron.evaluate(X, y)</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Accuracy on Training Data:"</span>, accuracy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="how-it-works" class="level3" data-number="17.1.3">
+<h3 data-number="17.1.3" class="anchored" data-anchor-id="how-it-works"><span class="header-section-number">17.1.3</span> How It Works</h3>
+<ol type="1">
+<li><strong>Initialization</strong>:
+<ul>
+<li>The weights and bias are initialized randomly.</li>
+<li>Learning rate <span class="math inline">\((\eta)\)</span> controls how much the weights are adjusted during training.</li>
+<li>Number of epochs specifies how many times the training data is passed through.</li>
+</ul></li>
+<li><strong>Training</strong>:
+<ul>
+<li>For each data point:
+<ul>
+<li>Compute the perceptron’s output using the <code>predict</code> method.</li>
+<li>Calculate the error as the difference between the actual and predicted outputs.</li>
+<li>Adjust the weights and bias using the Perceptron Learning Rule: <span class="math display">\[w_i = w_i + \eta \cdot \text{error} \cdot x_i \\
+b = b + \eta \cdot \text{error}\]</span></li>
+</ul></li>
+</ul></li>
+<li><strong>Evaluation</strong>:
+<ul>
+<li>The perceptron predicts the outputs for the dataset and calculates the accuracy.</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+<section id="example-and-gate" class="level3" data-number="17.1.4">
+<h3 data-number="17.1.4" class="anchored" data-anchor-id="example-and-gate"><span class="header-section-number">17.1.4</span> Example: AND Gate</h3>
+<ul>
+<li>Input: ([0, 0], [0, 1], [1, 0], [1, 1])</li>
+<li>Output: ([0, 0, 0, 1])</li>
+<li>After training, the perceptron should correctly classify all inputs, achieving 100% accuracy.</li>
+</ul>
+</section>
+<section id="example-visualization" class="level3" data-number="17.1.5">
+<h3 data-number="17.1.5" class="anchored" data-anchor-id="example-visualization"><span class="header-section-number">17.1.5</span> Example: Visualization</h3>
+<ul>
+<li><a href="https://vinizinho.net/projects/perceptron-viz/" class="uri">https://vinizinho.net/projects/perceptron-viz/</a></li>
+</ul>
+</section>
+<section id="limitations-of-a-single-neuron-perceptron" class="level3" data-number="17.1.6">
+<h3 data-number="17.1.6" class="anchored" data-anchor-id="limitations-of-a-single-neuron-perceptron"><span class="header-section-number">17.1.6</span> Limitations of a Single Neuron Perceptron</h3>
+<ul>
+<li><strong>Linear Separability</strong>:
+<ul>
+<li>A single perceptron can only solve problems that are linearly separable (e.g., AND, OR gates).</li>
+<li>It cannot solve problems like XOR, which require nonlinear decision boundaries.</li>
+</ul></li>
+<li><strong>Activation Function</strong>:
+<ul>
+<li>The perceptron uses a step activation function, which limits its ability to handle complex patterns.</li>
+</ul></li>
+</ul>
+<p>To handle more complex problems, multi-layer perceptrons (MLPs) with non-linear activation functions are used, which are part of modern neural networks.</p>
+</section>
+</section>
+<section id="multilayer-perceptron-mlp" class="level2" data-number="17.2">
+<h2 data-number="17.2" class="anchored" data-anchor-id="multilayer-perceptron-mlp"><span class="header-section-number">17.2</span> Multilayer Perceptron (MLP)</h2>
+<p>A <strong>Multilayer Perceptron (MLP)</strong> is an extension of the single-layer perceptron. It consists of an input layer, one or more hidden layers, and an output layer. Unlike a single-layer perceptron, MLPs can solve problems that are not linearly separable (e.g., XOR problem) because of their ability to model nonlinear relationships.</p>
+<section id="key-features-of-an-mlp" class="level3" data-number="17.2.1">
+<h3 data-number="17.2.1" class="anchored" data-anchor-id="key-features-of-an-mlp"><span class="header-section-number">17.2.1</span> Key Features of an MLP:</h3>
+<ol type="1">
+<li><strong>Layers</strong>:
+<ul>
+<li><strong>Input Layer</strong>: Takes the input features.</li>
+<li><strong>Hidden Layer(s)</strong>: Performs intermediate computations using weights, biases, and activation functions.</li>
+<li><strong>Output Layer</strong>: Produces the final prediction.</li>
+</ul></li>
+<li><strong>Activation Functions</strong>:
+<ul>
+<li>Common functions: Sigmoid, ReLU, Tanh, Softmax.</li>
+<li>Introduce nonlinearity into the model.</li>
+</ul></li>
+<li><strong>Training</strong>:
+<ul>
+<li>MLPs are trained using <strong>backpropagation</strong> and <strong>gradient descent</strong>.</li>
+<li>Backpropagation computes gradients of the loss function with respect to weights and biases.</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+<section id="python-implementation-of-a-multilayer-perceptron-mlp" class="level3" data-number="17.2.2">
+<h3 data-number="17.2.2" class="anchored" data-anchor-id="python-implementation-of-a-multilayer-perceptron-mlp"><span class="header-section-number">17.2.2</span> Python Implementation of a Multilayer Perceptron (MLP)</h3>
+<p>Below is an example of a simple MLP implemented from scratch using NumPy to classify the XOR dataset:</p>
+<section id="implementation" class="level4" data-number="17.2.2.1">
+<h4 data-number="17.2.2.1" class="anchored" data-anchor-id="implementation"><span class="header-section-number">17.2.2.1</span> Implementation</h4>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MultilayerPerceptron:</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, input_size, hidden_size, output_size, learning_rate<span class="op">=</span><span class="fl">0.1</span>, epochs<span class="op">=</span><span class="dv">10000</span>):</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">        Initialize weights and biases for the MLP.</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.input_size <span class="op">=</span> input_size</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.hidden_size <span class="op">=</span> hidden_size</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.output_size <span class="op">=</span> output_size</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.learning_rate <span class="op">=</span> learning_rate</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.epochs <span class="op">=</span> epochs</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Initialize weights and biases randomly</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.weights_input_hidden <span class="op">=</span> np.random.randn(<span class="va">self</span>.input_size, <span class="va">self</span>.hidden_size)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.bias_hidden <span class="op">=</span> np.random.randn(<span class="va">self</span>.hidden_size)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.weights_hidden_output <span class="op">=</span> np.random.randn(<span class="va">self</span>.hidden_size, <span class="va">self</span>.output_size)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.bias_output <span class="op">=</span> np.random.randn(<span class="va">self</span>.output_size)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> sigmoid(<span class="va">self</span>, z):</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co">        Sigmoid activation function.</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>z))</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> sigmoid_derivative(<span class="va">self</span>, z):</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co">        Derivative of sigmoid function.</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> z <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> z)</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, X):</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="co">        Forward pass through the network.</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Input to hidden layer</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.hidden_input <span class="op">=</span> np.dot(X, <span class="va">self</span>.weights_input_hidden) <span class="op">+</span> <span class="va">self</span>.bias_hidden</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.hidden_output <span class="op">=</span> <span class="va">self</span>.sigmoid(<span class="va">self</span>.hidden_input)</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Hidden to output layer</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.output_input <span class="op">=</span> np.dot(<span class="va">self</span>.hidden_output, <span class="va">self</span>.weights_hidden_output) <span class="op">+</span> <span class="va">self</span>.bias_output</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.output <span class="op">=</span> <span class="va">self</span>.sigmoid(<span class="va">self</span>.output_input)</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.output</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> backward(<span class="va">self</span>, X, y, output):</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a><span class="co">        Backward pass and update weights/biases.</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calculate output layer error</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>        output_error <span class="op">=</span> y <span class="op">-</span> output  <span class="co"># Error at output layer</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>        output_delta <span class="op">=</span> output_error <span class="op">*</span> <span class="va">self</span>.sigmoid_derivative(output)</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calculate hidden layer error</span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>        hidden_error <span class="op">=</span> np.dot(output_delta, <span class="va">self</span>.weights_hidden_output.T)</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>        hidden_delta <span class="op">=</span> hidden_error <span class="op">*</span> <span class="va">self</span>.sigmoid_derivative(<span class="va">self</span>.hidden_output)</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Update weights and biases</span></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.weights_hidden_output <span class="op">+=</span> <span class="va">self</span>.learning_rate <span class="op">*</span> np.dot(<span class="va">self</span>.hidden_output.T, output_delta)</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.bias_output <span class="op">+=</span> <span class="va">self</span>.learning_rate <span class="op">*</span> np.<span class="bu">sum</span>(output_delta, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.weights_input_hidden <span class="op">+=</span> <span class="va">self</span>.learning_rate <span class="op">*</span> np.dot(X.T, hidden_delta)</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.bias_hidden <span class="op">+=</span> <span class="va">self</span>.learning_rate <span class="op">*</span> np.<span class="bu">sum</span>(hidden_delta, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> train(<span class="va">self</span>, X, y):</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a><span class="co">        Train the MLP.</span></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="va">self</span>.epochs):</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Forward pass</span></span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>            output <span class="op">=</span> <span class="va">self</span>.forward(X)</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Backward pass</span></span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.backward(X, y, output)</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Optional: print loss at intervals</span></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> epoch <span class="op">%</span> <span class="dv">1000</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>                loss <span class="op">=</span> np.mean((y <span class="op">-</span> output) <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>                <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>epoch<span class="sc">}</span><span class="ss">, Loss: </span><span class="sc">{</span>loss<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a><span class="co">        Predict output for given input.</span></span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>        output <span class="op">=</span> <span class="va">self</span>.forward(X)</span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (output <span class="op">&gt;</span> <span class="fl">0.5</span>).astype(<span class="bu">int</span>)  <span class="co"># Convert probabilities to binary output</span></span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a><span class="co"># Example Usage</span></span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>    <span class="co"># XOR dataset</span></span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> np.array([</span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">0</span>, <span class="dv">0</span>],</span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">0</span>, <span class="dv">1</span>],</span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">1</span>, <span class="dv">0</span>],</span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a>    ])</span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> np.array([</span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">0</span>],</span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">1</span>],</span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">1</span>],</span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">0</span>]</span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>    ])</span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create and train the MLP</span></span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>    mlp <span class="op">=</span> MultilayerPerceptron(input_size<span class="op">=</span><span class="dv">2</span>, hidden_size<span class="op">=</span><span class="dv">2</span>, output_size<span class="op">=</span><span class="dv">1</span>, learning_rate<span class="op">=</span><span class="fl">0.1</span>, epochs<span class="op">=</span><span class="dv">10000</span>)</span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>    mlp.train(X, y)</span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Test the MLP</span></span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a>    predictions <span class="op">=</span> mlp.predict(X)</span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Predictions:"</span>)</span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, pred <span class="kw">in</span> <span class="bu">enumerate</span>(predictions):</span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Input: </span><span class="sc">{</span>X[i]<span class="sc">}</span><span class="ss">, Predicted: </span><span class="sc">{</span>pred[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">, Target: </span><span class="sc">{</span>y[i][<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+</section>
+<section id="explanation-of-the-code" class="level3" data-number="17.2.3">
+<h3 data-number="17.2.3" class="anchored" data-anchor-id="explanation-of-the-code"><span class="header-section-number">17.2.3</span> Explanation of the Code</h3>
+<ol type="1">
+<li><strong>Network Architecture</strong>:
+<ul>
+<li><strong>Input Layer</strong>: (2) neurons (for two input features).</li>
+<li><strong>Hidden Layer</strong>: (2) neurons.</li>
+<li><strong>Output Layer</strong>: (1) neuron (for binary classification).</li>
+</ul></li>
+<li><strong>Training</strong>:
+<ul>
+<li>Forward pass calculates the outputs of the hidden and output layers.</li>
+<li>Backward pass adjusts weights and biases using the derivatives of the sigmoid function and the error.</li>
+</ul></li>
+<li><strong>Activation Function</strong>:
+<ul>
+<li>The sigmoid activation function introduces nonlinearity, allowing the MLP to learn complex relationships.</li>
+</ul></li>
+<li><strong>Prediction</strong>:
+<ul>
+<li>After training, the model predicts the class by thresholding the sigmoid output (values &gt; 0.5 are classified as (1), otherwise (0)).</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+<section id="example-output" class="level3" data-number="17.2.4">
+<h3 data-number="17.2.4" class="anchored" data-anchor-id="example-output"><span class="header-section-number">17.2.4</span> Example Output</h3>
+<p>For the XOR dataset:</p>
+<pre class="plaintext"><code>Epoch 0, Loss: 0.2635
+Epoch 1000, Loss: 0.0354
+Epoch 2000, Loss: 0.0145
+...
+Epoch 9000, Loss: 0.0025
+
+Predictions:
+Input: [0 0], Predicted: 0, Target: 0
+Input: [0 1], Predicted: 1, Target: 1
+Input: [1 0], Predicted: 1, Target: 1
+Input: [1 1], Predicted: 0, Target: 0</code></pre>
+<p>The MLP successfully learns to classify the XOR dataset, which is not linearly separable.</p>
+<hr>
+</section>
+<section id="key-advantages-of-mlp" class="level3" data-number="17.2.5">
+<h3 data-number="17.2.5" class="anchored" data-anchor-id="key-advantages-of-mlp"><span class="header-section-number">17.2.5</span> Key Advantages of MLP</h3>
+<ol type="1">
+<li><strong>Nonlinear Modeling</strong>:
+<ul>
+<li>Hidden layers with nonlinear activation functions (e.g., sigmoid, ReLU) allow MLPs to model complex patterns.</li>
+</ul></li>
+<li><strong>Universal Approximation</strong>:
+<ul>
+<li>MLPs with sufficient hidden neurons can approximate any function.</li>
+</ul></li>
+<li><strong>Flexibility</strong>:
+<ul>
+<li>MLPs can handle multi-class classification, regression, and time-series prediction tasks.</li>
+</ul></li>
+</ol>
+</section>
+</section>
+<section id="activation-function" class="level2" data-number="17.3">
+<h2 data-number="17.3" class="anchored" data-anchor-id="activation-function"><span class="header-section-number">17.3</span> Activation Function</h2>
+<p>An <strong>activation function</strong> is a mathematical function used in neural networks to determine the output of a neuron. It transforms the input signal of a neuron into an output signal, often introducing non-linearity, which is essential for the network to learn complex patterns.</p>
+<hr>
+<section id="why-do-we-need-activation-functions" class="level3" data-number="17.3.1">
+<h3 data-number="17.3.1" class="anchored" data-anchor-id="why-do-we-need-activation-functions"><span class="header-section-number">17.3.1</span> Why Do We Need Activation Functions?</h3>
+<ol type="1">
+<li><strong>Non-Linearity</strong>:
+<ul>
+<li>Without an activation function, a neural network would only be able to perform linear mappings, regardless of the number of layers. Activation functions introduce non-linearity, enabling the network to learn and model complex, non-linear relationships.</li>
+</ul></li>
+<li><strong>Decision Boundaries</strong>:
+<ul>
+<li>By introducing non-linearity, activation functions allow neural networks to create decision boundaries that are not straight lines, which is crucial for solving problems like XOR.</li>
+</ul></li>
+<li><strong>Feature Learning</strong>:
+<ul>
+<li>Activation functions help extract and learn hierarchical features in data by transforming inputs through multiple layers.</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+<section id="types-of-activation-functions" class="level3" data-number="17.3.2">
+<h3 data-number="17.3.2" class="anchored" data-anchor-id="types-of-activation-functions"><span class="header-section-number">17.3.2</span> Types of Activation Functions</h3>
+<section id="linear-activation-function" class="level4" data-number="17.3.2.1">
+<h4 data-number="17.3.2.1" class="anchored" data-anchor-id="linear-activation-function"><span class="header-section-number">17.3.2.1</span> <strong>Linear Activation Function</strong></h4>
+<p><span class="math display">\[
+   f(x) = x
+   \]</span></p>
+<ul>
+<li><p><strong>Description</strong>: The output is directly proportional to the input.</p></li>
+<li><p><strong>Problem</strong>: No non-linearity is introduced, so multiple layers collapse into a single-layer network.</p></li>
+<li><p><strong>Usage</strong>: Rarely used in practice; sometimes in regression tasks for the output layer.</p>
+<hr>
+<h4 id="step-function" data-number="17.3.2.2" class="anchored"><span class="header-section-number">17.3.2.2</span> <strong>Step Function</strong></h4></li>
+</ul>
+<p><span class="math display">\[
+   f(x) =
+   \begin{cases}
+   1, &amp; \text{if } x &gt; 0 \\
+   0, &amp; \text{otherwise}
+   \end{cases}
+   \]</span></p>
+<ul>
+<li><strong>Description</strong>: Outputs a binary value (0 or 1) based on whether the input exceeds a threshold.</li>
+<li><strong>Problem</strong>: Non-differentiable, making it unsuitable for gradient-based optimization (e.g., backpropagation).</li>
+<li><strong>Usage</strong>: Early neural networks; largely replaced in modern applications.</li>
+</ul>
+<hr>
+</section>
+<section id="sigmoid-activation-function" class="level4" data-number="17.3.2.3">
+<h4 data-number="17.3.2.3" class="anchored" data-anchor-id="sigmoid-activation-function"><span class="header-section-number">17.3.2.3</span> <strong>Sigmoid Activation Function</strong></h4>
+<p><span class="math display">\[
+   f(x) = \frac{1}{1 + e^{-x}}
+   \]</span></p>
+<ul>
+<li><p><strong>Description</strong>: Maps input to a range between 0 and 1.</p></li>
+<li><p><strong>Advantages</strong>:</p>
+<ul>
+<li><p>Useful for probabilities.</p></li>
+<li><p>Smooth and differentiable.</p></li>
+</ul></li>
+<li><p><strong>Disadvantages</strong>:</p>
+<ul>
+<li><p>Vanishing gradient problem for large or small inputs.</p></li>
+<li><p>Computationally expensive.</p></li>
+</ul></li>
+<li><p><strong>Usage</strong>: Output layer for binary classification.</p>
+<hr>
+<h4 id="tanh-hyperbolic-tangent" data-number="17.3.2.4" class="anchored"><span class="header-section-number">17.3.2.4</span> <strong>Tanh (Hyperbolic Tangent)</strong></h4></li>
+</ul>
+<p><span class="math display">\[
+   f(x) = \tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}
+   \]</span></p>
+<ul>
+<li><p><strong>Description</strong>: Maps input to a range between (-1) and (1).</p></li>
+<li><p><strong>Advantages</strong>:</p>
+<ul>
+<li><p>Zero-centered output (better for optimization than sigmoid).</p></li>
+<li><p>Smooth and differentiable.</p></li>
+</ul></li>
+<li><p><strong>Disadvantages</strong>:</p>
+<ul>
+<li>Vanishing gradient problem for large or small inputs.</li>
+</ul></li>
+<li><p><strong>Usage</strong>: Hidden layers in older neural networks.</p></li>
+</ul>
+<hr>
+</section>
+<section id="relu-rectified-linear-unit" class="level4" data-number="17.3.2.5">
+<h4 data-number="17.3.2.5" class="anchored" data-anchor-id="relu-rectified-linear-unit"><span class="header-section-number">17.3.2.5</span> <strong>ReLU (Rectified Linear Unit)</strong></h4>
+<p><span class="math display">\[
+   f(x) =
+   \begin{cases}
+   x, &amp; \text{if } x &gt; 0 \\
+   0, &amp; \text{if } x \leq 0
+   \end{cases}
+   \]</span></p>
+<ul>
+<li><p><strong>Description</strong>: Outputs the input directly if it’s positive, otherwise outputs 0.</p></li>
+<li><p><strong>Advantages</strong>:</p>
+<ul>
+<li><p>Computationally efficient.</p></li>
+<li><p>Reduces vanishing gradient problem.</p></li>
+</ul></li>
+<li><p><strong>Disadvantages</strong>:</p>
+<ul>
+<li>“Dying ReLU” problem: Neurons can get stuck during training (output always 0).</li>
+</ul></li>
+<li><p><strong>Usage</strong>: Widely used in hidden layers of deep neural networks.</p></li>
+</ul>
+<hr>
+</section>
+<section id="leaky-relu" class="level4" data-number="17.3.2.6">
+<h4 data-number="17.3.2.6" class="anchored" data-anchor-id="leaky-relu"><span class="header-section-number">17.3.2.6</span> <strong>Leaky ReLU</strong></h4>
+<p><span class="math display">\[
+   f(x) =
+   \begin{cases}
+   x, &amp; \text{if } x &gt; 0 \\
+   \alpha x, &amp; \text{if } x \leq 0
+   \end{cases}
+   \]</span></p>
+<ul>
+<li><p><strong>Description</strong>: Similar to ReLU, but allows a small, non-zero gradient for negative inputs (() is a small constant, e.g., 0.01).</p></li>
+<li><p><strong>Advantages</strong>: Solves the “dying ReLU” problem.</p></li>
+<li><p><strong>Usage</strong>: Hidden layers in deep networks.</p>
+<hr>
+<h4 id="softmax" data-number="17.3.2.7" class="anchored"><span class="header-section-number">17.3.2.7</span> <strong>Softmax</strong></h4></li>
+</ul>
+<p><span class="math display">\[f(x_i) = \frac{e^{x_i}}{\sum_{j} e^{x_j}}
+   \]</span></p>
+<ul>
+<li><p><strong>Description</strong>: Outputs a probability distribution over classes.</p></li>
+<li><p><strong>Advantages</strong>: Useful for multi-class classification.</p></li>
+<li><p><strong>Usage</strong>: Output layer in multi-class classification problems.</p></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="choosing-an-activation-function" class="level3" data-number="17.3.3">
+<h3 data-number="17.3.3" class="anchored" data-anchor-id="choosing-an-activation-function"><span class="header-section-number">17.3.3</span> Choosing an Activation Function</h3>
+<ol type="1">
+<li><strong>Hidden Layers</strong>:
+<ul>
+<li>Use <strong>ReLU</strong> or <strong>Leaky ReLU</strong> for most tasks.</li>
+<li>For more complex tasks or gradient issues, consider <strong>Tanh</strong>.</li>
+</ul></li>
+<li><strong>Output Layer</strong>:
+<ul>
+<li><strong>Sigmoid</strong>: For binary classification.</li>
+<li><strong>Softmax</strong>: For multi-class classification.</li>
+<li><strong>Linear</strong>: For regression tasks.</li>
+</ul></li>
+<li><strong>Practical Tips</strong>:
+<ul>
+<li>Experiment with different activation functions to see which works best for your specific problem.</li>
+<li>ReLU is a good default choice for hidden layers.</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+<section id="visualization-of-common-activation-functions" class="level3" data-number="17.3.4">
+<h3 data-number="17.3.4" class="anchored" data-anchor-id="visualization-of-common-activation-functions"><span class="header-section-number">17.3.4</span> Visualization of Common Activation Functions</h3>
+<p>Here’s a Python script to plot the most commonly used activation functions:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_activation_functions():</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">100</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Activation functions</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    sigmoid <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>x))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    tanh <span class="op">=</span> np.tanh(x)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    relu <span class="op">=</span> np.maximum(<span class="dv">0</span>, x)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    leaky_relu <span class="op">=</span> np.where(x <span class="op">&gt;</span> <span class="dv">0</span>, x, <span class="fl">0.01</span> <span class="op">*</span> x)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    softmax <span class="op">=</span> np.exp(x) <span class="op">/</span> np.<span class="bu">sum</span>(np.exp(x))</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plot each function</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    plt.plot(x, sigmoid, label<span class="op">=</span><span class="st">'Sigmoid'</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    plt.plot(x, tanh, label<span class="op">=</span><span class="st">'Tanh'</span>, color<span class="op">=</span><span class="st">'green'</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    plt.plot(x, relu, label<span class="op">=</span><span class="st">'ReLU'</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    plt.plot(x, leaky_relu, label<span class="op">=</span><span class="st">'Leaky ReLU'</span>, color<span class="op">=</span><span class="st">'purple'</span>)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    plt.legend()</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">"Activation Functions"</span>)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">"Input"</span>)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">"Output"</span>)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    plt.grid()</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Call the function</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>plot_activation_functions()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will generate a graph showing the behavior of different activation functions, helping to understand their outputs for a range of inputs.</p>
+</section>
+</section>
+<section id="matrix-calculations" class="level2" data-number="17.4">
+<h2 data-number="17.4" class="anchored" data-anchor-id="matrix-calculations"><span class="header-section-number">17.4</span> Matrix Calculations</h2>
+<p>Matrix calculations are a fundamental part of linear algebra and are widely used in machine learning, neural networks, and many computational fields. Here’s an overview of matrix operations and some examples in Python.</p>
+<hr>
+<section id="common-matrix-calculations" class="level3" data-number="17.4.1">
+<h3 data-number="17.4.1" class="anchored" data-anchor-id="common-matrix-calculations"><span class="header-section-number">17.4.1</span> Common Matrix Calculations</h3>
+<ol type="1">
+<li><strong>Addition and Subtraction</strong>:
+<ul>
+<li>Two matrices can be added or subtracted element-wise if they have the same dimensions. <span class="math display">\[ C = A + B, \quad C_{ij} = A_{ij} + B_{ij} \]</span></li>
+</ul></li>
+<li><strong>Matrix Multiplication</strong>:
+<ul>
+<li>The dot product of two matrices is defined as: <span class="math display">\[ C = A \cdot B, \quad C_{ij} = \sum*{k} A*{ik} \cdot B_{kj} \]</span></li>
+<li>This operation requires the number of columns in (A) to equal the number of rows in (B).</li>
+</ul></li>
+<li><strong>Element-Wise Multiplication</strong>:
+<ul>
+<li>Also known as the Hadamard product: <span class="math display">\[ C_{ij} = A_{ij} \cdot B_{ij} \]</span></li>
+<li>Requires both matrices to have the same dimensions.</li>
+</ul></li>
+<li><strong>Transpose</strong>:
+<ul>
+<li>The transpose of a matrix (A) is denoted as (A^T) and involves flipping rows into columns: <span class="math display">\[ A^T_{ij} = A_{ji} \]</span></li>
+</ul></li>
+<li><strong>Determinant</strong>:
+<ul>
+<li>The determinant is a scalar value that can be computed for square matrices and has applications in linear systems and matrix inversions.</li>
+</ul></li>
+<li><strong>Inverse</strong>:
+<ul>
+<li>The inverse of a square matrix (A), denoted as (A^{-1}), satisfies: <span class="math display">\[ A \cdot A^{-1} = I \]</span></li>
+<li>Not all matrices are invertible.</li>
+</ul></li>
+<li><strong>Trace</strong>:
+<ul>
+<li>The trace of a square matrix is the sum of its diagonal elements: <span class="math display">\[ \text{Trace}(A) = \sum*{i} A*{ii} \]</span></li>
+</ul></li>
+<li><strong>Eigenvalues and Eigenvectors</strong>:
+<ul>
+<li>For a square matrix (A), the eigenvalues () and eigenvectors (v) satisfy: <span class="math display">\[A \cdot v = \lambda \cdot v\]</span></li>
+</ul></li>
+</ol>
+<hr>
+</section>
+<section id="example-matrix-calculations-in-python" class="level3" data-number="17.4.2">
+<h3 data-number="17.4.2" class="anchored" data-anchor-id="example-matrix-calculations-in-python"><span class="header-section-number">17.4.2</span> Example Matrix Calculations in Python</h3>
+<section id="using-numpy" class="level4" data-number="17.4.2.1">
+<h4 data-number="17.4.2.1" class="anchored" data-anchor-id="using-numpy"><span class="header-section-number">17.4.2.1</span> Using NumPy</h4>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define matrices</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">4</span>]])</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> np.array([[<span class="dv">2</span>, <span class="dv">0</span>], [<span class="dv">1</span>, <span class="dv">3</span>]])</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Addition</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>C_add <span class="op">=</span> A <span class="op">+</span> B</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Matrix Addition:</span><span class="ch">\n</span><span class="st">"</span>, C_add)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Subtraction</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>C_sub <span class="op">=</span> A <span class="op">-</span> B</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Matrix Subtraction:</span><span class="ch">\n</span><span class="st">"</span>, C_sub)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Matrix Multiplication</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>C_dot <span class="op">=</span> np.dot(A, B)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Matrix Multiplication (Dot Product):</span><span class="ch">\n</span><span class="st">"</span>, C_dot)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Element-wise Multiplication</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>C_elem <span class="op">=</span> A <span class="op">*</span> B</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Element-wise Multiplication:</span><span class="ch">\n</span><span class="st">"</span>, C_elem)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Transpose</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>A_T <span class="op">=</span> A.T</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Transpose of A:</span><span class="ch">\n</span><span class="st">"</span>, A_T)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Determinant</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>det_A <span class="op">=</span> np.linalg.det(A)</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Determinant of A:"</span>, det_A)</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Inverse</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>A_inv <span class="op">=</span> np.linalg.inv(A)</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Inverse of A:</span><span class="ch">\n</span><span class="st">"</span>, A_inv)</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Trace</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>trace_A <span class="op">=</span> np.trace(A)</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Trace of A:"</span>, trace_A)</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Eigenvalues and Eigenvectors</span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>eig_vals, eig_vecs <span class="op">=</span> np.linalg.eig(A)</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Eigenvalues of A:"</span>, eig_vals)</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Eigenvectors of A:</span><span class="ch">\n</span><span class="st">"</span>, eig_vecs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+</section>
+<section id="sample-output" class="level3" data-number="17.4.3">
+<h3 data-number="17.4.3" class="anchored" data-anchor-id="sample-output"><span class="header-section-number">17.4.3</span> Sample Output</h3>
+<p>For the above matrices:</p>
+<p><span class="math display">\[ A = \begin{bmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{bmatrix}, \quad B = \begin{bmatrix} 2 &amp; 0 \\ 1 &amp; 3 \end{bmatrix} \]</span></p>
+<pre class="plaintext"><code>Matrix Addition:
+ [[3 2]
+ [4 7]]
+
+Matrix Subtraction:
+ [[-1  2]
+ [ 2  1]]
+
+Matrix Multiplication (Dot Product):
+ [[ 4  6]
+ [10 12]]
+
+Element-wise Multiplication:
+ [[2 0]
+ [3 12]]
+
+Transpose of A:
+ [[1 3]
+ [2 4]]
+
+Determinant of A: -2.0
+
+Inverse of A:
+ [[-2.   1. ]
+ [ 1.5 -0.5]]
+
+Trace of A: 5
+
+Eigenvalues of A: [-0.37228132  5.37228132]
+Eigenvectors of A:
+ [[-0.82456484 -0.41597356]
+ [ 0.56576746 -0.90937671]]</code></pre>
+<hr>
+</section>
+<section id="applications-of-matrix-calculations" class="level3" data-number="17.4.4">
+<h3 data-number="17.4.4" class="anchored" data-anchor-id="applications-of-matrix-calculations"><span class="header-section-number">17.4.4</span> Applications of Matrix Calculations</h3>
+<ol type="1">
+<li><strong>Linear Transformations</strong>:
+<ul>
+<li>Matrices represent transformations such as rotations, scaling, and translations in space.</li>
+</ul></li>
+<li><strong>Neural Networks</strong>:
+<ul>
+<li>Forward and backward propagation involve heavy matrix multiplication.</li>
+</ul></li>
+<li><strong>Computer Graphics</strong>:
+<ul>
+<li>Transformations in 2D and 3D graphics.</li>
+</ul></li>
+<li><strong>Solving Systems of Linear Equations</strong>:
+<ul>
+<li>Matrices are used to solve equations like (Ax = b) using methods like Gaussian elimination or matrix inversion.</li>
+</ul></li>
+<li><strong>Data Science</strong>:
+<ul>
+<li>Covariance matrices, correlation matrices, and Principal Component Analysis (PCA).</li>
+</ul></li>
+</ol>
+</section>
+</section>
+<section id="probability-vector" class="level2" data-number="17.5">
+<h2 data-number="17.5" class="anchored" data-anchor-id="probability-vector"><span class="header-section-number">17.5</span> Probability Vector</h2>
+<p>In machine learning, a <strong>probability vector</strong> is a vector where each element represents the probability of a certain outcome. For example, in classification tasks, a probability vector represents the likelihood of each class being the correct label for a given input.</p>
+<p>The <strong>Softmax function</strong> is commonly used to transform raw scores (logits) into a probability vector, where the probabilities sum to (1).</p>
+<hr>
+<section id="softmax-function" class="level3" data-number="17.5.1">
+<h3 data-number="17.5.1" class="anchored" data-anchor-id="softmax-function"><span class="header-section-number">17.5.1</span> <strong>Softmax Function</strong></h3>
+<p>The Softmax function converts a vector of raw scores <span class="math inline">\((z = [z_1, z_2, \dots, z_n])\)</span> into a probability vector <span class="math inline">\((p = [p_1, p_2, \dots, p_n])\)</span>, such that: <span class="math display">\[ p_i = \frac{e^{z_i}}{\sum_{j=1}^n e^{z_j}}\]</span> where:</p>
+<ul>
+<li><p><span class="math inline">\(z_i\)</span> is the raw score (logit) for class <span class="math inline">\(i\)</span>,</p></li>
+<li><p><span class="math inline">\(p_i\)</span> is the probability of class <span class="math inline">\(i\)</span>,</p></li>
+<li><p><span class="math inline">\(\sum_{i=1}^n p_i = 1\)</span>.</p>
+<hr>
+<h3 id="example-softmax-computation" data-number="17.5.2" class="anchored"><span class="header-section-number">17.5.2</span> Example: Softmax Computation</h3></li>
+</ul>
+<p>Let’s compute the Softmax probabilities for the vector of logits <span class="math inline">\(z = [2.0, 1.0, 0.1]\)</span>.</p>
+<section id="step-1-exponentiate-each-logit" class="level4" data-number="17.5.2.1">
+<h4 data-number="17.5.2.1" class="anchored" data-anchor-id="step-1-exponentiate-each-logit"><span class="header-section-number">17.5.2.1</span> Step 1: Exponentiate Each Logit</h4>
+<p>Compute <span class="math inline">\(e^{z_i}\)</span> for each <span class="math inline">\(z_i\)</span>: <span class="math display">\[e^{z} = [e^{2.0}, e^{1.0}, e^{0.1}] = [7.389, 2.718, 1.105]\]</span></p>
+</section>
+<section id="step-2-compute-the-sum-of-exponentials" class="level4" data-number="17.5.2.2">
+<h4 data-number="17.5.2.2" class="anchored" data-anchor-id="step-2-compute-the-sum-of-exponentials"><span class="header-section-number">17.5.2.2</span> Step 2: Compute the Sum of Exponentials</h4>
+<p><span class="math display">\[\text{Sum} = e^{2.0} + e^{1.0} + e^{0.1} = 7.389 + 2.718 + 1.105 = 11.212 \]</span></p>
+</section>
+<section id="step-3-normalize-each-exponential" class="level4" data-number="17.5.2.3">
+<h4 data-number="17.5.2.3" class="anchored" data-anchor-id="step-3-normalize-each-exponential"><span class="header-section-number">17.5.2.3</span> Step 3: Normalize Each Exponential</h4>
+<p>Divide each exponentiated logit by the sum of exponentials: <span class="math display">\[p_1 = \frac{e^{2.0}}{11.212} = \frac{7.389}{11.212} \approx 0.659\]</span> <span class="math display">\[ p_2 = \frac{e^{1.0}}{11.212} = \frac{2.718}{11.212} \approx 0.242 \]</span> <span class="math display">\[ p_3 = \frac{e^{0.1}}{11.212} = \frac{1.105}{11.212} \approx 0.099 \]</span></p>
+</section>
+<section id="probability-vector-1" class="level4" data-number="17.5.2.4">
+<h4 data-number="17.5.2.4" class="anchored"><span class="header-section-number">17.5.2.4</span> Probability Vector</h4>
+<p>The resulting probability vector is: <span class="math display">\[p = [0.659, 0.242, 0.099]\]</span></p>
+<p>This means:</p>
+<ul>
+<li><p>Class 1 has a 65.9% chance of being correct,</p></li>
+<li><p>Class 2 has a 24.2% chance,</p></li>
+<li><p>Class 3 has a 9.9% chance.</p>
+<hr>
+<h3 id="softmax-in-python" data-number="17.5.3" class="anchored" data-anchor-id="probability-vector-1"><span class="header-section-number">17.5.3</span> Softmax in Python</h3></li>
+</ul>
+<p>Here’s how you can compute the Softmax in Python:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> softmax(logits):</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 1: Exponentiate each logit</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    exp_logits <span class="op">=</span> np.exp(logits)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 2: Compute the sum of exponentials</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    sum_exp_logits <span class="op">=</span> np.<span class="bu">sum</span>(exp_logits)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Step 3: Normalize each exponential</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    probabilities <span class="op">=</span> exp_logits <span class="op">/</span> sum_exp_logits</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> probabilities</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Logits</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>logits <span class="op">=</span> np.array([<span class="fl">2.0</span>, <span class="fl">1.0</span>, <span class="fl">0.1</span>])</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute Softmax</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>probabilities <span class="op">=</span> softmax(logits)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Softmax Probabilities:"</span>, probabilities)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Output</strong>:</p>
+<pre class="plaintext"><code>Softmax Probabilities: [0.65900114 0.24243297 0.09856589]</code></pre>
+<hr>
+</section>
+</section>
+<section id="properties-of-softmax" class="level3" data-number="17.5.4">
+<h3 data-number="17.5.4" class="anchored" data-anchor-id="properties-of-softmax"><span class="header-section-number">17.5.4</span> Properties of Softmax</h3>
+<ol type="1">
+<li><p><strong>Probabilities Sum to 1</strong>: <span class="math display">\[\sum_{i=1}^n p_i = 1\]</span></p></li>
+<li><p><strong>Emphasizes Larger Values</strong>:</p>
+<ul>
+<li>Larger logits produce higher probabilities, making Softmax suitable for classification tasks.</li>
+</ul></li>
+<li><p><strong>Exponentiation Increases Separability</strong>:</p>
+<ul>
+<li>Differences between logits are magnified, making probabilities for larger logits dominate.</li>
+</ul></li>
+<li><p><strong>Numerical Stability</strong>:</p>
+<ul>
+<li>To avoid overflow/underflow during exponentiation, subtract the maximum logit from all logits before applying Softmax:</li>
+</ul></li>
+</ol>
+<p><span class="math display">\[ p_i = \frac{e^{z_i - \max(z)}}{\sum_{j=1}^n e^{z_j - \max(z)}} \]</span></p>
+<hr>
+</section>
+<section id="applications-of-softmax" class="level3" data-number="17.5.5">
+<h3 data-number="17.5.5" class="anchored" data-anchor-id="applications-of-softmax"><span class="header-section-number">17.5.5</span> Applications of Softmax</h3>
+<ol type="1">
+<li><strong>Classification Tasks</strong>:
+<ul>
+<li>Used in the output layer of neural networks for multi-class classification problems.</li>
+</ul></li>
+<li><strong>Attention Mechanisms</strong>:
+<ul>
+<li>Used to compute attention weights in models like Transformers.</li>
+</ul></li>
+<li><strong>Game Theory</strong>:
+<ul>
+<li>Used in strategies involving probabilistic decisions.</li>
+</ul></li>
+</ol>
+</section>
+</section>
+<section id="neural-network-learning" class="level2" data-number="17.6">
+<h2 data-number="17.6" class="anchored" data-anchor-id="neural-network-learning"><span class="header-section-number">17.6</span> Neural Network Learning</h2>
+<section id="definition-of-neural-network-learning" class="level3" data-number="17.6.1">
+<h3 data-number="17.6.1" class="anchored" data-anchor-id="definition-of-neural-network-learning"><span class="header-section-number">17.6.1</span> <strong>Definition of Neural Network Learning</strong></h3>
+<p><strong>Neural Network Learning</strong> is the process through which a neural network adjusts its parameters (weights and biases) to minimize the error between its predicted outputs and the actual target outputs. This process is achieved using a <strong>training dataset</strong> and a specified learning algorithm, such as <strong>gradient descent</strong> with backpropagation.</p>
+<p>Neural networks learn by iteratively updating their weights and biases to improve performance on a given task (e.g., classification, regression). The learning process consists of:</p>
+<ol type="1">
+<li><strong>Forward Propagation</strong>:
+<ul>
+<li>Input data is passed through the network, and the output is computed layer by layer using <strong>affine transformations</strong> <span class="math inline">\((Wx + b)\)</span> followed by an <strong>activation function</strong> (e.g., ReLU, sigmoid).</li>
+</ul></li>
+<li><strong>Loss Calculation</strong>:
+<ul>
+<li>The difference between the predicted output and the true label is computed using a loss function (e.g., Mean Squared Error, Cross-Entropy Loss).</li>
+</ul></li>
+<li><strong>Backward Propagation</strong>:
+<ul>
+<li>The gradient of the loss with respect to each parameter is computed using the <strong>chain rule</strong>. These gradients indicate how much each parameter contributes to the error.</li>
+</ul></li>
+<li><strong>Parameter Update</strong>:
+<ul>
+<li><p>The weights and biases are updated using the gradients and a specified <strong>learning rate</strong>:</p>
+<p><span class="math display">\[
+\text{new weight} = \text{old weight} - \eta \cdot \nabla \text{Loss}
+\]</span></p>
+<p>where <span class="math inline">\(\eta\)</span> is the learning rate, and <span class="math inline">\(\nabla \text{Loss}\)</span> is the gradient of the loss.</p></li>
+</ul></li>
+</ol>
+<hr>
+</section>
+<section id="example-of-neural-network-learning" class="level3" data-number="17.6.2">
+<h3 data-number="17.6.2" class="anchored" data-anchor-id="example-of-neural-network-learning"><span class="header-section-number">17.6.2</span> <strong>Example of Neural Network Learning</strong></h3>
+<p>Let’s consider a simple example where we train a neural network to approximate the XOR function.</p>
+<section id="xor-problem" class="level4" data-number="17.6.2.1">
+<h4 data-number="17.6.2.1" class="anchored" data-anchor-id="xor-problem"><span class="header-section-number">17.6.2.1</span> XOR Problem</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Input (<span class="math inline">\(x_1, x_2\)</span>)</th>
+<th>Target Output (<span class="math inline">\(y\)</span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\([0, 0]\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\([0, 1]\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\([1, 0]\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\([1, 1]\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>A neural network with one hidden layer and nonlinear activation functions can learn the XOR function.</p>
+<hr>
+</section>
+<section id="step-by-step-learning-process" class="level4" data-number="17.6.2.2">
+<h4 data-number="17.6.2.2" class="anchored" data-anchor-id="step-by-step-learning-process"><span class="header-section-number">17.6.2.2</span> Step-by-Step Learning Process</h4>
+<ol type="1">
+<li><strong>Network Architecture</strong>:
+<ul>
+<li>Input layer: 2 neurons (<span class="math inline">\(x_1, x_2\)</span>).</li>
+<li>Hidden layer: 2 neurons (with ReLU or sigmoid activation).</li>
+<li>Output layer: 1 neuron (with sigmoid activation).</li>
+</ul></li>
+<li><strong>Forward Propagation</strong>:
+<ul>
+<li>For each input, compute the activations of the hidden layer and then the output layer.</li>
+</ul></li>
+<li><strong>Loss Function</strong>:
+<ul>
+<li>Use the Binary Cross-Entropy loss to compute the error: <span class="math display">\[
+\text{Loss} = - \frac{1}{N} \sum_{i=1}^N \left[ y_i \log(\hat{y}_i) + (1 - y_i) \log(1 - \hat{y}_i) \right]
+\]</span> where <span class="math inline">\(\hat{y}_i\)</span> is the predicted output and <span class="math inline">\(y_i\)</span> is the true label.</li>
+</ul></li>
+<li><strong>Backward Propagation</strong>:
+<ul>
+<li>Compute gradients of the loss with respect to weights and biases using the chain rule.</li>
+</ul></li>
+<li><strong>Update Weights and Biases</strong>:
+<ul>
+<li>Adjust the parameters using the gradients and a learning rate.</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+<section id="python-example-xor-neural-network" class="level4" data-number="17.6.2.3">
+<h4 data-number="17.6.2.3" class="anchored" data-anchor-id="python-example-xor-neural-network"><span class="header-section-number">17.6.2.3</span> Python Example: XOR Neural Network</h4>
+<p>Here’s an example implemented using Python and NumPy:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Sigmoid activation function and its derivative</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sigmoid(x):</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>x))</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sigmoid_derivative(x):</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> x)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Input data (XOR inputs)</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.array([</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">0</span>, <span class="dv">0</span>],</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">0</span>, <span class="dv">1</span>],</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">1</span>, <span class="dv">0</span>],</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Target outputs</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.array([[<span class="dv">0</span>], [<span class="dv">1</span>], [<span class="dv">1</span>], [<span class="dv">0</span>]])</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize weights and biases</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>weights_input_hidden <span class="op">=</span> np.random.rand(<span class="dv">2</span>, <span class="dv">2</span>)  <span class="co"># 2 inputs, 2 hidden neurons</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>weights_hidden_output <span class="op">=</span> np.random.rand(<span class="dv">2</span>, <span class="dv">1</span>)  <span class="co"># 2 hidden neurons, 1 output neuron</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>bias_hidden <span class="op">=</span> np.random.rand(<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>bias_output <span class="op">=</span> np.random.rand(<span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Learning rate</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>learning_rate <span class="op">=</span> <span class="fl">0.1</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Training the neural network</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10000</span>):</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Forward propagation</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>    hidden_input <span class="op">=</span> np.dot(X, weights_input_hidden) <span class="op">+</span> bias_hidden</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>    hidden_output <span class="op">=</span> sigmoid(hidden_input)</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    output_input <span class="op">=</span> np.dot(hidden_output, weights_hidden_output) <span class="op">+</span> bias_output</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> sigmoid(output_input)</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute the loss (Mean Squared Error)</span></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> np.mean((y <span class="op">-</span> output) <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Backward propagation</span></span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>    output_error <span class="op">=</span> y <span class="op">-</span> output</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>    output_delta <span class="op">=</span> output_error <span class="op">*</span> sigmoid_derivative(output)</span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>    hidden_error <span class="op">=</span> output_delta.dot(weights_hidden_output.T)</span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>    hidden_delta <span class="op">=</span> hidden_error <span class="op">*</span> sigmoid_derivative(hidden_output)</span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Update weights and biases</span></span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>    weights_hidden_output <span class="op">+=</span> hidden_output.T.dot(output_delta) <span class="op">*</span> learning_rate</span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>    bias_output <span class="op">+=</span> np.<span class="bu">sum</span>(output_delta, axis<span class="op">=</span><span class="dv">0</span>, keepdims<span class="op">=</span><span class="va">True</span>) <span class="op">*</span> learning_rate</span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>    weights_input_hidden <span class="op">+=</span> X.T.dot(hidden_delta) <span class="op">*</span> learning_rate</span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>    bias_hidden <span class="op">+=</span> np.<span class="bu">sum</span>(hidden_delta, axis<span class="op">=</span><span class="dv">0</span>, keepdims<span class="op">=</span><span class="va">True</span>) <span class="op">*</span> learning_rate</span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Print loss at intervals</span></span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> epoch <span class="op">%</span> <span class="dv">1000</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>epoch<span class="sc">}</span><span class="ss">, Loss: </span><span class="sc">{</span>loss<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a><span class="co"># Test the neural network</span></span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Testing Neural Network:"</span>)</span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(X)):</span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a>    hidden_output <span class="op">=</span> sigmoid(np.dot(X[i], weights_input_hidden) <span class="op">+</span> bias_hidden)</span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> sigmoid(np.dot(hidden_output, weights_hidden_output) <span class="op">+</span> bias_output)</span>
+<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Input: </span><span class="sc">{</span>X[i]<span class="sc">}</span><span class="ss">, Predicted: </span><span class="sc">{</span>output[<span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">, Target: </span><span class="sc">{</span>y[i][<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+</section>
+<section id="example-output-1" class="level3" data-number="17.6.3">
+<h3 data-number="17.6.3" class="anchored" data-anchor-id="example-output-1"><span class="header-section-number">17.6.3</span> Example Output</h3>
+<pre class="plaintext"><code>Epoch 0, Loss: 0.3594
+Epoch 1000, Loss: 0.0242
+Epoch 2000, Loss: 0.0123
+Epoch 3000, Loss: 0.0085
+...
+Epoch 9000, Loss: 0.0053
+
+Testing Neural Network:
+Input: [0 0], Predicted: 0.0103, Target: 0
+Input: [0 1], Predicted: 0.9813, Target: 1
+Input: [1 0], Predicted: 0.9789, Target: 1
+Input: [1 1], Predicted: 0.0204, Target: 0</code></pre>
+<hr>
+</section>
+<section id="key-points" class="level3" data-number="17.6.4">
+<h3 data-number="17.6.4" class="anchored" data-anchor-id="key-points"><span class="header-section-number">17.6.4</span> Key Points</h3>
+<ol type="1">
+<li><strong>Input-Output Mapping</strong>:
+<ul>
+<li>The neural network learns to map inputs to outputs using weights, biases, and activation functions.</li>
+</ul></li>
+<li><strong>Loss Minimization</strong>:
+<ul>
+<li>The training process minimizes the loss function, improving predictions over time.</li>
+</ul></li>
+<li><strong>Generalization</strong>:
+<ul>
+<li>After training, the network can generalize to unseen inputs (if it was trained on sufficient and diverse data).</li>
+</ul></li>
+</ol>
+</section>
+</section>
+<section id="optimizer" class="level2" data-number="17.7">
+<h2 data-number="17.7" class="anchored" data-anchor-id="optimizer"><span class="header-section-number">17.7</span> Optimizer</h2>
+<section id="what-is-an-optimizer" class="level3" data-number="17.7.1">
+<h3 data-number="17.7.1" class="anchored" data-anchor-id="what-is-an-optimizer"><span class="header-section-number">17.7.1</span> <strong>What is an Optimizer?</strong></h3>
+<p>In machine learning, an <strong>optimizer</strong> is an algorithm or method used to adjust the parameters (weights and biases) of a neural network to minimize the loss function during training. It plays a crucial role in helping the model learn efficiently and converge to an optimal solution.</p>
+<hr>
+</section>
+<section id="how-optimizers-work" class="level3" data-number="17.7.2">
+<h3 data-number="17.7.2" class="anchored" data-anchor-id="how-optimizers-work"><span class="header-section-number">17.7.2</span> <strong>How Optimizers Work</strong></h3>
+<p>The optimization process adjusts the model’s parameters based on the gradients computed during backpropagation. The most common optimization problem in neural networks is:</p>
+<p><span class="math display">\[
+\min_\theta L(\theta)
+\]</span> where: - <span class="math inline">\(\theta\)</span> are the parameters (weights and biases), - <span class="math inline">\(L(\theta)\)</span> is the loss function (e.g., Mean Squared Error, Cross-Entropy Loss).</p>
+<p>An optimizer updates <span class="math inline">\(\theta\)</span> iteratively to minimize <span class="math inline">\(L(\theta)\)</span>.</p>
+<p>The general update rule is: <span class="math display">\[
+\theta = \theta - \eta \cdot \nabla L(\theta)
+\]</span> where: - <span class="math inline">\(\eta\)</span>: Learning rate (step size), - <span class="math inline">\(\nabla L(\theta)\)</span>: Gradient of the loss with respect to <span class="math inline">\(\theta\)</span>.</p>
+<hr>
+</section>
+<section id="types-of-optimizers" class="level3" data-number="17.7.3">
+<h3 data-number="17.7.3" class="anchored" data-anchor-id="types-of-optimizers"><span class="header-section-number">17.7.3</span> <strong>Types of Optimizers</strong></h3>
+<ol type="1">
+<li><strong>SGD</strong>:
+<ul>
+<li>Good for convex problems and small datasets.</li>
+<li>Use with momentum for better performance.</li>
+</ul></li>
+<li><strong>Adagrad</strong>:
+<ul>
+<li>Best for sparse data (e.g., text, images).</li>
+</ul></li>
+<li><strong>RMSProp</strong>:
+<ul>
+<li>Useful for non-stationary objectives (e.g., RNNs).</li>
+</ul></li>
+<li><strong>Adam</strong>:
+<ul>
+<li>General-purpose optimizer.</li>
+<li>Performs well in most tasks (default choice).</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+<section id="example-in-python" class="level3" data-number="17.7.4">
+<h3 data-number="17.7.4" class="anchored" data-anchor-id="example-in-python"><span class="header-section-number">17.7.4</span> Example in Python</h3>
+<p>Here’s an example of how to use the <strong>Adam optimizer</strong> in Python (using PyTorch):</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.optim <span class="im">as</span> optim</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a simple model</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> nn.Sequential(</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    nn.Linear(<span class="dv">2</span>, <span class="dv">10</span>),</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    nn.ReLU(),</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    nn.Linear(<span class="dv">10</span>, <span class="dv">1</span>),</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    nn.Sigmoid()</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a loss function</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>loss_function <span class="op">=</span> nn.BCELoss()  <span class="co"># Binary Cross-Entropy Loss</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Define an optimizer (Adam)</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> optim.Adam(model.parameters(), lr<span class="op">=</span><span class="fl">0.01</span>)</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Dummy data</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> torch.tensor([[<span class="fl">0.0</span>, <span class="fl">0.0</span>], [<span class="fl">0.0</span>, <span class="fl">1.0</span>], [<span class="fl">1.0</span>, <span class="fl">0.0</span>], [<span class="fl">1.0</span>, <span class="fl">1.0</span>]])</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> torch.tensor([[<span class="fl">0.0</span>], [<span class="fl">1.0</span>], [<span class="fl">1.0</span>], [<span class="fl">0.0</span>]])</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Training loop</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1000</span>):</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Forward pass</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>    predictions <span class="op">=</span> model(X)</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> loss_function(predictions, y)</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Backward pass</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>    optimizer.zero_grad()</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>    loss.backward()</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Update weights</span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>    optimizer.step()</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Print loss every 100 epochs</span></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> epoch <span class="op">%</span> <span class="dv">100</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>epoch<span class="sc">}</span><span class="ss">, Loss: </span><span class="sc">{</span>loss<span class="sc">.</span>item()<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="summary-table" class="level3" data-number="17.7.5">
+<h3 data-number="17.7.5" class="anchored" data-anchor-id="summary-table"><span class="header-section-number">17.7.5</span> Summary Table</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 49%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Optimizer</th>
+<th>Key Features</th>
+<th>Use Cases</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>SGD</strong></td>
+<td>Simple and efficient</td>
+<td>Convex problems, small datasets</td>
+</tr>
+<tr class="even">
+<td><strong>Momentum</strong></td>
+<td>Accelerates convergence</td>
+<td>Escaping local minima</td>
+</tr>
+<tr class="odd">
+<td><strong>Adagrad</strong></td>
+<td>Adaptive learning rate for each parameter</td>
+<td>Sparse data</td>
+</tr>
+<tr class="even">
+<td><strong>RMSProp</strong></td>
+<td>Handles non-stationary objectives</td>
+<td>RNNs, time-series data</td>
+</tr>
+<tr class="odd">
+<td><strong>Adam</strong></td>
+<td>Combines Momentum and RMSProp</td>
+<td>General-purpose optimizer</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="convolutional-neural-networks" class="level2" data-number="17.8">
+<h2 data-number="17.8" class="anchored" data-anchor-id="convolutional-neural-networks"><span class="header-section-number">17.8</span> Convolutional Neural Networks</h2>
+<p>Applying <strong>Convolutional Neural Networks (CNNs)</strong> to text classification involves adapting the CNN architecture, traditionally used for image data, to work with textual data. CNNs are highly effective for text classification tasks such as sentiment analysis, spam detection, or topic classification because they can capture local patterns in sequences (e.g., word n-grams) and their hierarchical relationships.</p>
+<hr>
+<section id="steps-to-apply-cnn-to-text-classification" class="level3" data-number="17.8.1">
+<h3 data-number="17.8.1" class="anchored" data-anchor-id="steps-to-apply-cnn-to-text-classification"><span class="header-section-number">17.8.1</span> <strong>Steps to Apply CNN to Text Classification</strong></h3>
+<ol type="1">
+<li><strong>Text Preprocessing</strong>:
+<ul>
+<li>Tokenize the text (split into words or subwords).</li>
+<li>Convert tokens into numerical representations (e.g., word embeddings or integer indices).</li>
+</ul></li>
+<li><strong>Embedding Layer</strong>:
+<ul>
+<li>Use pretrained embeddings (e.g., GloVe, Word2Vec) or train embeddings from scratch.</li>
+<li>Represent the input text as a matrix, where rows correspond to word embeddings.</li>
+</ul></li>
+<li><strong>Convolutional Layers</strong>:
+<ul>
+<li>Apply 1D convolutional filters over the input text matrix to capture local patterns (e.g., bi-grams or tri-grams).</li>
+</ul></li>
+<li><strong>Pooling Layer</strong>:
+<ul>
+<li>Use max pooling or average pooling to reduce the dimensionality and retain the most important features.</li>
+</ul></li>
+<li><strong>Fully Connected Layers</strong>:
+<ul>
+<li>Flatten the pooled output and pass it through fully connected (dense) layers to make predictions.</li>
+</ul></li>
+<li><strong>Output Layer</strong>:
+<ul>
+<li>Use a final dense layer with a softmax activation for multi-class classification or a sigmoid activation for binary classification.</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+<section id="architecture-for-text-classification-with-cnn" class="level3" data-number="17.8.2">
+<h3 data-number="17.8.2" class="anchored" data-anchor-id="architecture-for-text-classification-with-cnn"><span class="header-section-number">17.8.2</span> <strong>Architecture for Text Classification with CNN</strong></h3>
+<p>Here’s a simple architecture:</p>
+<ol type="1">
+<li><strong>Input</strong>: Text data of varying lengths.</li>
+<li><strong>Embedding Layer</strong>: Maps tokens to embeddings of fixed size.</li>
+<li><strong>Convolutional Layer</strong>: Applies multiple filters of different sizes to extract local features.</li>
+<li><strong>Pooling Layer</strong>: Reduces dimensions while keeping important features.</li>
+<li><strong>Dense Layers</strong>: Adds fully connected layers for classification.</li>
+<li><strong>Output</strong>: Generates the final probability distribution.</li>
+</ol>
+<hr>
+</section>
+<section id="implementation-example-in-python-keras" class="level3" data-number="17.8.3">
+<h3 data-number="17.8.3" class="anchored" data-anchor-id="implementation-example-in-python-keras"><span class="header-section-number">17.8.3</span> <strong>Implementation Example in Python (Keras)</strong></h3>
+<p>Let’s implement a CNN for binary text classification using <strong>Keras</strong> and TensorFlow.</p>
+<section id="example-sentiment-analysis-positivenegative" class="level4" data-number="17.8.3.1">
+<h4 data-number="17.8.3.1" class="anchored" data-anchor-id="example-sentiment-analysis-positivenegative"><span class="header-section-number">17.8.3.1</span> Example: Sentiment Analysis (Positive/Negative)</h4>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.models <span class="im">import</span> Sequential</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.layers <span class="im">import</span> Embedding, Conv1D, GlobalMaxPooling1D, Dense, Dropout</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.preprocessing.text <span class="im">import</span> Tokenizer</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.preprocessing.sequence <span class="im">import</span> pad_sequences</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Example Dataset (toy example for binary classification)</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>texts <span class="op">=</span> [</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"I love this movie"</span>,  <span class="co"># Positive</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"This film is terrible"</span>,  <span class="co"># Negative</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Amazing performance by the cast"</span>,  <span class="co"># Positive</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Worst movie I have ever seen"</span>,  <span class="co"># Negative</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>]  <span class="co"># 1 = Positive, 0 = Negative</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Text Preprocessing</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Tokenize the text</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> Tokenizer(num_words<span class="op">=</span><span class="dv">10000</span>)  <span class="co"># Use the top 10,000 words</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>tokenizer.fit_on_texts(texts)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>sequences <span class="op">=</span> tokenizer.texts_to_sequences(texts)</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Pad sequences to ensure equal length</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>max_length <span class="op">=</span> <span class="dv">10</span>  <span class="co"># Maximum sentence length</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> pad_sequences(sequences, maxlen<span class="op">=</span>max_length)</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert labels to numpy array</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.array(labels)</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Build the CNN Model</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Sequential([</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Embedding layer: maps words to dense vectors</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>    Embedding(input_dim<span class="op">=</span><span class="dv">10000</span>, output_dim<span class="op">=</span><span class="dv">50</span>, input_length<span class="op">=</span>max_length),  <span class="co"># 50-dimensional embeddings</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1D Convolutional layer</span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>    Conv1D(filters<span class="op">=</span><span class="dv">128</span>, kernel_size<span class="op">=</span><span class="dv">3</span>, activation<span class="op">=</span><span class="st">'relu'</span>),</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Global Max Pooling</span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>    GlobalMaxPooling1D(),</span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Fully Connected Layer</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>    Dense(<span class="dv">128</span>, activation<span class="op">=</span><span class="st">'relu'</span>),</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>    Dropout(<span class="fl">0.5</span>),  <span class="co"># Regularization</span></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Output Layer (Binary Classification)</span></span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>    Dense(<span class="dv">1</span>, activation<span class="op">=</span><span class="st">'sigmoid'</span>)  <span class="co"># Sigmoid for binary classification</span></span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 3: Compile the Model</span></span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(optimizer<span class="op">=</span><span class="st">'adam'</span>, loss<span class="op">=</span><span class="st">'binary_crossentropy'</span>, metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 4: Train the Model</span></span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>model.fit(X, y, epochs<span class="op">=</span><span class="dv">10</span>, batch_size<span class="op">=</span><span class="dv">2</span>, verbose<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 5: Evaluate the Model</span></span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>predictions <span class="op">=</span> model.predict(X)</span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, prediction <span class="kw">in</span> <span class="bu">enumerate</span>(predictions):</span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Text: </span><span class="sc">{</span>texts[i]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Predicted Sentiment: </span><span class="sc">{</span><span class="st">'Positive'</span> <span class="cf">if</span> prediction <span class="op">&gt;</span> <span class="fl">0.5</span> <span class="cf">else</span> <span class="st">'Negative'</span><span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+</section>
+<section id="explanation-of-the-code-1" class="level3" data-number="17.8.4">
+<h3 data-number="17.8.4" class="anchored" data-anchor-id="explanation-of-the-code-1"><span class="header-section-number">17.8.4</span> <strong>Explanation of the Code</strong></h3>
+<ol type="1">
+<li><strong>Embedding Layer</strong>:
+<ul>
+<li>Converts words into dense numerical vectors of fixed size (50 in this case).</li>
+<li>If using pretrained embeddings like GloVe, you can load them here.</li>
+</ul></li>
+<li><strong>1D Convolutional Layer</strong>:
+<ul>
+<li>Uses multiple filters (e.g., size 3) to detect local patterns (e.g., trigrams).</li>
+<li>Filters slide over the embedding matrix, capturing relationships between words.</li>
+</ul></li>
+<li><strong>Global Max Pooling</strong>:
+<ul>
+<li>Reduces the dimensionality by selecting the most important features from the convolutional output.</li>
+</ul></li>
+<li><strong>Dense Layers</strong>:
+<ul>
+<li>Fully connected layers process the extracted features to make a final prediction.</li>
+</ul></li>
+<li><strong>Sigmoid Output</strong>:
+<ul>
+<li>Outputs probabilities for binary classification.</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+<section id="sample-output-1" class="level3" data-number="17.8.5">
+<h3 data-number="17.8.5" class="anchored" data-anchor-id="sample-output-1"><span class="header-section-number">17.8.5</span> <strong>Sample Output</strong></h3>
+<p>After training, the model might output something like:</p>
+<pre class="plaintext"><code>Text: I love this movie
+Predicted Sentiment: Positive
+
+Text: This film is terrible
+Predicted Sentiment: Negative
+
+Text: Amazing performance by the cast
+Predicted Sentiment: Positive
+
+Text: Worst movie I have ever seen
+Predicted Sentiment: Negative</code></pre>
+<hr>
+</section>
+<section id="extending-to-multi-class-classification" class="level3" data-number="17.8.6">
+<h3 data-number="17.8.6" class="anchored" data-anchor-id="extending-to-multi-class-classification"><span class="header-section-number">17.8.6</span> <strong>Extending to Multi-Class Classification</strong></h3>
+<p>For multi-class classification:</p>
+<ol type="1">
+<li><p>Change the output layer:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>Dense(num_classes, activation<span class="op">=</span><span class="st">'softmax'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Use categorical cross-entropy as the loss function:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(optimizer<span class="op">=</span><span class="st">'adam'</span>, loss<span class="op">=</span><span class="st">'categorical_crossentropy'</span>, metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+<hr>
+</section>
+<section id="advantages-of-cnns-for-text-classification" class="level3" data-number="17.8.7">
+<h3 data-number="17.8.7" class="anchored" data-anchor-id="advantages-of-cnns-for-text-classification"><span class="header-section-number">17.8.7</span> <strong>Advantages of CNNs for Text Classification</strong></h3>
+<ol type="1">
+<li><strong>Local Feature Detection</strong>:
+<ul>
+<li>CNNs capture patterns like n-grams without requiring manual feature extraction.</li>
+</ul></li>
+<li><strong>Parallelism</strong>:
+<ul>
+<li>Efficient training due to parallelizable convolution operations.</li>
+</ul></li>
+<li><strong>Hierarchical Feature Learning</strong>:
+<ul>
+<li>Can learn complex and abstract features in deeper layers.</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+<section id="limitations" class="level3" data-number="17.8.8">
+<h3 data-number="17.8.8" class="anchored" data-anchor-id="limitations"><span class="header-section-number">17.8.8</span> <strong>Limitations</strong></h3>
+<ol type="1">
+<li><strong>Sequence Sensitivity</strong>:
+<ul>
+<li>CNNs are less sensitive to sequential order compared to RNNs or Transformers.</li>
+</ul></li>
+<li><strong>Predefined Filters</strong>:
+<ul>
+<li>Requires careful selection of filter sizes to capture useful patterns.</li>
+</ul></li>
+</ol>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./16.Topic_Modeling.html" class="pagination-link" aria-label="Topic Modeling in Python">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Topic Modeling in Python</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./A.assignment1.html" class="pagination-link" aria-label="Assignment #01">
+        <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Assignment #01</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
